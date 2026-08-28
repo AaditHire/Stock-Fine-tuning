@@ -1,7 +1,6 @@
 import importlib.util
 from pathlib import Path
 
-
 SCRIPT_PATH = Path(__file__).parents[1] / "scripts" / "check_environment.py"
 
 
@@ -33,4 +32,3 @@ def test_human_report_is_readable() -> None:
 
     assert "Python version:" in rendered
     assert "PyTorch CUDA available:" in rendered
-

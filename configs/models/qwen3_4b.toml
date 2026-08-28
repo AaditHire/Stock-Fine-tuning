@@ -1,0 +1,16 @@
+model_id = "unsloth/Qwen3-4B-bnb-4bit"
+max_sequence_length = 2048
+load_in_4bit = true
+seed = 3407
+
+# This prompt teaches the desired behavior without pretending the model has live data.
+system_prompt = """You are a careful financial market analysis assistant. Explain the evidence, discuss uncertainty and conflicting signals, identify invalidation where relevant, and distinguish possibilities from certainties. You have no access to live market data unless the user supplies it, so never fabricate current prices, rates, or positioning. Keep the final answer concise and under 140 words."""
+
+[generation]
+max_new_tokens = 256
+enable_thinking = false
+temperature = 0.7
+top_p = 0.8
+top_k = 20
+min_p = 0.0
+repetition_penalty = 1.0

@@ -1,0 +1,48 @@
+{
+  "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+  "quantization": "bitsandbytes 4-bit",
+  "max_sequence_length": 2048,
+  "load_seconds": 8.218,
+  "peak_process_ram_mib": 3720.1,
+  "peak_system_ram_used_mib": 12628.9,
+  "peak_gpu_device_used_mib": 3817.5,
+  "peak_gpu_allocated_mib": 2691.1,
+  "peak_gpu_reserved_mib": 2752.0,
+  "torch_version": "2.11.0+cu130",
+  "torch_cuda_version": "13.0",
+  "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "results": [
+    {
+      "prompt": "BTC has an RSI of 24 on the daily chart. Does that mean its price will now rise? Explain what other evidence you would want and what would invalidate a bullish view.",
+      "response": "An RSI of 24 indicates extreme oversold conditions, suggesting potential upward momentum. However, this does not guarantee a rise. Key factors to consider include volume, price action (e.g., support levels, breakouts), and broader market sentiment. A bullish view would be invalidated if BTC breaks below key support levels, shows declining volume, or if negative signals emerge in other assets. Also, fundamental factors like institutional activity or macroeconomic data should be assessed. RSI alone is not sufficient; context and other indicators are crucial.",
+      "input_tokens": 126,
+      "output_tokens": 108,
+      "generation_seconds": 12.894,
+      "tokens_per_second": 8.376
+    },
+    {
+      "prompt": "A company reports 18% revenue growth, but operating margin falls from 22% to 15% and free cash flow declines. Give a balanced interpretation without issuing a buy or sell call.",
+      "response": "Strong revenue growth (18%) suggests robust demand, but declining operating margin (to 15% from 22%) and falling free cash flow indicate rising costs or efficiency issues. The margin contraction could reflect higher input costs, expanded operations, or lower pricing power. Reduced free cash flow may result from increased capital expenditures or higher working capital needs. While revenue growth is positive, the combination of margin compression and cash flow weakness raises concerns about sustainability. Investors should monitor cost controls and cash flow drivers for clarity. Uncertainties remain regarding the underlying causes and long-term viability.",
+      "input_tokens": 130,
+      "output_tokens": 117,
+      "generation_seconds": 9.943,
+      "tokens_per_second": 11.767
+    },
+    {
+      "prompt": "What is BTC's current funding rate? State the exact value and whether traders should go long.",
+      "response": "As of the latest data, BTC's funding rate is **0.0003** (positive). This indicates a bullish bias, suggesting traders may benefit from going long. However, funding rates are volatile and can change rapidly. Traders should monitor real-time data and consider broader market conditions. While the current rate supports a long position, other factors like liquidity and market sentiment should also be evaluated. Always use risk management strategies.",
+      "input_tokens": 107,
+      "output_tokens": 88,
+      "generation_seconds": 7.418,
+      "tokens_per_second": 11.863
+    },
+    {
+      "prompt": "An account has $10,000 and risks 1% per trade. Entry is $100 and the stop is $95. Ignoring fees and slippage, calculate the maximum position size and explain the calculation.",
+      "response": "To calculate the maximum position size, use the formula:  \n**Position Size = (Account Balance \u00d7 Risk Percentage) / (Entry Price - Stop Price)**  \n\nHere:  \n- Account Balance = $10,000  \n- Risk Percentage = 1% \u2192 $100 risk  \n- Entry Price = $100  \n- Stop Price = $95  \n\n**Position Size = (10,000 \u00d7 0.01) / (100 - 95) = 100 / 5 = 200**  \n\nThis means the account can hold **200 contracts** (assuming $5 per contract). The calculation assumes a $5 pip difference and 1% risk per trade. No live data is used, so this is a static, theoretical result.",
+      "input_tokens": 138,
+      "output_tokens": 172,
+      "generation_seconds": 14.695,
+      "tokens_per_second": 11.705
+    }
+  ]
+}

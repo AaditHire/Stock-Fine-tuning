@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 1 is complete: the repository foundation and environment diagnostics are in place. No models, datasets, or ML dependencies have been downloaded by this project.
+Stage 2 is complete: Qwen3-4B runs locally through Unsloth in 4-bit mode, with measured RAM, VRAM, load time, and generation speed. No training or dataset creation has started.
 
 ## Hardware target
 
@@ -21,9 +21,9 @@ All later configurations must fit this machine. Training will use 4-bit QLoRA ra
 
 Start with a dedicated **native Windows virtual environment**. As of August 2026, Unsloth officially supports direct Windows training, bitsandbytes supports its CUDA backend on Windows, and the current native PyTorch installation already detects this GPU. Native Windows also avoids reserving part of the limited 16 GB RAM for a WSL2 virtual machine.
 
-WSL2 with Ubuntu remains the fallback if Stage 2 exposes a reproducible native-Windows problem in Unsloth, Triton, bitsandbytes, or another CUDA extension. WSL is not currently installed, so installing it before testing the supported native route would add setup and memory overhead without evidence that it is needed.
+WSL2 with Ubuntu remains the fallback if a later training stage exposes a reproducible native-Windows problem. Stage 2 validated Unsloth, Triton for Windows, bitsandbytes, and CUDA inference natively, so there is currently no reason to switch.
 
-The global Python installation is for diagnostics only. Stage 2 will create an isolated environment and pin a mutually compatible Python/PyTorch/Unsloth stack after checking the current package requirements. Do not install training packages globally.
+The global Python installation is for diagnostics only. The working ML stack is isolated in `.venv` and pinned in `requirements-ml.txt`. Do not install training packages globally.
 
 ## Observed environment (2026-08-28)
 
@@ -41,6 +41,8 @@ The global Python installation is for diagnostics only. Stage 2 will create an i
 | PyTorch CUDA runtime | 13.0 |
 | `torch.cuda.is_available()` | `True` |
 | WSL2 | Not installed |
+
+The isolated Stage 2 environment uses PyTorch 2.11.0+cu130, Unsloth 2026.8.22, Transformers 5.5.0, TRL 0.24.0, PEFT 0.20.0, and bitsandbytes 0.50.2.
 
 The CUDA version shown by `nvidia-smi` is the newest CUDA runtime the driver can support; it is not the same as the CUDA runtime bundled with PyTorch. For this host those values are 13.3 and 13.0 respectively, which is normal.
 
@@ -73,7 +75,36 @@ finpulse-llm/
 └── tests/
 ```
 
-Generated data, model weights, adapters, checkpoints, caches, and benchmark outputs are ignored by Git. A later stage may deliberately version small, reviewed dataset or result files with `git add -f` when appropriate.
+Generated data, model weights, adapters, checkpoints, and caches are ignored by Git. Small JSON benchmark summaries may be versioned; large generated outputs remain excluded.
+
+## Stage 2 setup and inference
+
+Create the validated native-Windows environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip setuptools wheel
+.\.venv\Scripts\python.exe -m pip install -r requirements-ml.txt
+.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
+```
+
+Run the four-prompt finance smoke suite:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_qwen_inference.py
+```
+
+Run a custom prompt:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_qwen_inference.py --prompt "Explain RSI divergence."
+```
+
+After the model is cached, force fully offline loading with `--offline`.
+
+Configuration lives in `configs/models/qwen3_4b.toml`. The model cache is stored under `models/huggingface/` and is ignored by Git. The measured report is `results/benchmarks/stage2_qwen3_4b.json`.
+
+On this machine, the cached model loaded in 8.2 seconds, used a peak 3.73 GiB of total device VRAM (including Windows GPU use), and generated about 10.8 tokens/second across the smoke suite. See `docs/stage2.md` for the complete findings and explanations.
 
 ## Environment diagnostic
 
@@ -96,9 +127,9 @@ PyTorch is optional for the script. If it is absent, the report says so rather t
 The package uses a `src` layout, so local checks can run without installing it:
 
 ```powershell
-$env:PYTHONPATH = "src"
-python -m pytest
-python -m compileall -q src scripts tests
+.\.venv\Scripts\python.exe -m pytest --basetemp=.pytest-tmp
+.\.venv\Scripts\python.exe -m ruff check src scripts tests
+.\.venv\Scripts\python.exe -m compileall -q src scripts tests
 ```
 
 ## Staged roadmap
@@ -126,4 +157,3 @@ Development stops after each stage and resumes only when explicitly requested.
 ## License
 
 No license has been selected yet. Until one is added, the repository should be treated as all rights reserved.
-
