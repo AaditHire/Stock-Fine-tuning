@@ -1,0 +1,68 @@
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local environment files
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Hugging Face, PyTorch, and experiment caches
+.cache/
+huggingface/
+wandb/
+runs/
+
+# Model weights, adapters, checkpoints, and common exports
+models/*
+!models/.gitkeep
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.onnx
+adapter_model.*
+
+# Generated datasets. Keep only directory markers and deliberately reviewed files.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/train/*
+!data/train/.gitkeep
+data/validation/*
+!data/validation/.gitkeep
+data/eval/*
+!data/eval/.gitkeep
+
+# Generated benchmark and training outputs
+results/benchmarks/*
+!results/benchmarks/.gitkeep
+results/training/*
+!results/training/.gitkeep
+
