@@ -1,4 +1,5 @@
 model_id = "unsloth/Qwen3-4B-bnb-4bit"
+revision = "cad0bedfdd862093a12af478cb974ab2addd0e0a"
 max_sequence_length = 2048
 load_in_4bit = true
 trust_remote_code = false

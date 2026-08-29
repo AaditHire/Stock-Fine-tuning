@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 5 is complete: the provenance-aware financial instruction-data pipeline now normalizes, validates, deduplicates, leakage-checks, quality-checks, and deterministically splits conversational examples. A 40-example reviewed seed corpus demonstrates the pipeline; this is not yet the eventual 8,000–15,000-example training corpus. No fine-tuning has started.
+Stage 6 is complete: Qwen3-4B was fine-tuned locally with 4-bit QLoRA, Unsloth, and the reviewed Stage 5 seed. The one-epoch run stayed within the RTX 3060's 6 GB limit and saved only a LoRA adapter. This validates the training mechanics; the 40-example seed is not large enough to establish financial specialization, and the frozen Stage 7 comparison has not started.
 
 ## Hardware target
 
@@ -153,6 +153,18 @@ Verify the reviewed seed source, then rebuild the deterministic splits:
 The seed build contains 40 accepted and zero rejected examples: 33 train and 7 validation. Its category distribution exactly matches the requested 25% technical analysis, 20% crypto derivatives, 15% stock fundamentals, 15% macroeconomics, 10% risk management, 10% scenario analysis, and 5% terminology/miscellaneous.
 
 The JSONL files use conversational `messages` and load directly through Hugging Face `datasets`. Every example records category, subtopics, difficulty, source type, license, reference, and review status. Exact and fuzzy checks reject training prompts that overlap Stage 3 or the frozen Stage 4 benchmark. See `docs/stage5.md` for the schema and quality rules.
+
+## Stage 6 QLoRA fine-tuning
+
+Check the pinned inputs without loading CUDA, then optionally run a one-step smoke test before the complete seed experiment:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\train_qlora.py --preflight-only
+.\.venv\Scripts\python.exe scripts\train_qlora.py --smoke-test
+.\.venv\Scripts\python.exe scripts\train_qlora.py
+```
+
+The configuration is in `configs/training/qwen3_4b_stage6.toml`. It uses a 4-bit frozen base, rank-16 LoRA adapters across all major attention and MLP projections, 512-token context, micro-batch 1, gradient accumulation 4, Unsloth checkpointing, and one epoch. The measured run trained 33.0 million parameters (0.814%), peaked at 5,114.4 MiB total device VRAM, and saved a 66.1 MB adapter under the Git-ignored `models/adapters/` directory. See `docs/stage6.md` for the measurements, caveats, and concept explanations.
 
 ## Environment diagnostic
 

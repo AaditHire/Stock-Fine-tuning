@@ -80,3 +80,6 @@ results/benchmarks/*_pre_audit.*
 results/benchmarks/*_rerun.*
 results/training/*
 !results/training/.gitkeep
+!results/training/*.json
+!results/training/*.md
+results/training/*_smoke.*

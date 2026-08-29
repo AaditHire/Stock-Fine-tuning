@@ -1,0 +1,55 @@
+run_name = "stage6-qwen3-4b-seed-v1"
+seed = 3407
+
+[model]
+model_id = "unsloth/Qwen3-4B-bnb-4bit"
+revision = "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+load_in_4bit = true
+max_sequence_length = 512
+trust_remote_code = false
+
+[data]
+train_file = "data/train/finpulse_seed_v1.jsonl"
+validation_file = "data/validation/finpulse_seed_v1.jsonl"
+manifest_file = "data/processed/finpulse_seed_v1.manifest.json"
+train_sha256 = "f1e753cfa49dca9ad3e287869b3168ff1a0659c3a55768fc234211c54474768b"
+validation_sha256 = "b47c979a64528940b9d219ed58530832d9b6854cdcea2c1702ec6c83fa55841b"
+
+[lora]
+rank = 16
+alpha = 32
+dropout = 0.0
+bias = "none"
+target_modules = [
+  "q_proj",
+  "k_proj",
+  "v_proj",
+  "o_proj",
+  "gate_proj",
+  "up_proj",
+  "down_proj",
+]
+use_gradient_checkpointing = "unsloth"
+use_rslora = false
+
+[trainer]
+num_train_epochs = 1.0
+per_device_train_batch_size = 1
+per_device_eval_batch_size = 1
+gradient_accumulation_steps = 4
+learning_rate = 0.0002
+weight_decay = 0.01
+warmup_steps = 1
+lr_scheduler_type = "linear"
+optimizer = "adamw_8bit"
+precision = "bf16"
+max_grad_norm = 1.0
+logging_steps = 1
+eval_strategy = "epoch"
+packing = false
+train_on_responses_only = true
+
+[output]
+adapter_dir = "models/adapters/finpulse-qwen3-4b-seed-v1"
+working_dir = "models/checkpoints/stage6-qwen3-4b-seed-v1"
+metrics_file = "results/training/stage6_qwen3_4b_seed_v1.json"
