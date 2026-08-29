@@ -1,0 +1,1485 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "benchmark_id": "finpulse_stage5b_development",
+  "dataset_sha256": "46936e4b8063c685202fc39a3fd43c4f2507cdf0e667250f4fc38921f1adacf3",
+  "case_count": 51,
+  "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+  "model": {
+    "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "quantization": "bitsandbytes 4-bit",
+    "max_sequence_length": 2048,
+    "load_seconds": 5.138,
+    "peak_process_ram_mib": 3700.2,
+    "peak_system_ram_used_mib": 11882.2,
+    "peak_gpu_device_used_mib": 3765.5,
+    "peak_gpu_allocated_mib": 2658.3,
+    "peak_gpu_reserved_mib": 2700.0,
+    "torch_version": "2.11.0+cu130",
+    "torch_cuda_version": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+  },
+  "adapter": null,
+  "generation_config": "configs\\models\\qwen3_4b_stage7b_dev.toml",
+  "scoring": {
+    "overall_score": 0.75,
+    "checks_passed": 93,
+    "checks_total": 124,
+    "task_type_scores": {
+      "analysis": 0.75,
+      "calculation": 0.9333,
+      "factual": 0.5455,
+      "instruction_following": 0.5,
+      "multiple_choice": 0.7273,
+      "refusal": 1.0
+    },
+    "category_scores": {
+      "crypto_derivatives": 0.6818,
+      "macroeconomics": 1.0,
+      "risk_management": 0.8,
+      "scenario_analysis": 0.5714,
+      "stock_fundamentals": 0.7,
+      "technical_analysis": 0.7692,
+      "terminology_misc": 0.8
+    },
+    "cases": [
+      {
+        "case_id": "fp_cd_1008",
+        "category": "crypto_derivatives",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 54: Open interest falls during a sharp price decline. Which mechanism is plausible? A) Position closing or liquidations B) Guaranteed fresh short buildup C) Rising spot supply is proven D) Funding must be zero End with exactly FINAL: <letter>.",
+        "expected": "Position closing or liquidations.\nFINAL: A",
+        "response": "During a portfolio review, if open interest falls during a sharp price decline, it is most likely due to **position closing or liquidations**. \n\n- **Position closing** occurs when traders close their positions to limit losses, which reduces open interest.  \n- **Liquidations** happen when traders are forced to close their positions due to insufficient margin, which also reduces open interest.  \n\nThe other options are less plausible:  \n- **Guaranteed fresh short buildup** would increase open interest, not decrease it.  \n- **Rising spot supply is proven** is not directly related to open interest.  \n- **Funding must be zero** is not a mechanism that directly affects open interest.  \n\nFINAL: A",
+        "input_tokens": 129,
+        "output_tokens": 145,
+        "generation_seconds": 16.43,
+        "tokens_per_second": 8.825,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1035",
+        "category": "crypto_derivatives",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 258: A $16,000 crypto position uses 5x leverage. Calculate simplified initial margin as notional divided by leverage. End with FINAL: $<amount>.",
+        "expected": "Initial margin = $16,000 / 5 = $3200. This ignores exchange maintenance-margin rules.\nFINAL: $3200",
+        "response": "To calculate the simplified initial margin for a $16,000 crypto position with 5x leverage:\n\n$$\n\\text{Simplified Initial Margin} = \\frac{\\text{Notional}}{\\text{Leverage}} = \\frac{16,000}{5} = 3,200\n$$\n\nFINAL: $3,200",
+        "input_tokens": 114,
+        "output_tokens": 81,
+        "generation_seconds": 7.032,
+        "tokens_per_second": 11.518,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: $3200"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_cd_1044",
+        "category": "crypto_derivatives",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 302: Price and open interest rise together. What can be concluded safely? A) New leveraged exposure is entering, but direction durability is uncertain B) All new positions are longs C) Liquidation is impossible D) Spot demand is proven End with exactly FINAL: <letter>.",
+        "expected": "New leveraged exposure is entering, but direction durability is uncertain.\nFINAL: A",
+        "response": "To analyze the scenario where **price and open interest rise together**, we consider the implications for market sentiment and position dynamics:\n\n- **Price increase** suggests bullish sentiment.\n- **Open interest increase** indicates new positions are being added, either longs or shorts, but the direction is not clear from this alone.\n\n### Analysis of Options:\n\n**A) New leveraged exposure is entering, but direction durability is uncertain**  \n- This is a **safe conclusion**. The rise in both price and open interest suggests new positions are entering the market, but the direction (whether they are longs or shorts) is not clear. The increase in open interest implies more participants are active, but the direction of their positions is uncertain.\n\n**B) All new positions are longs**  \n- This is **uncertain**. While a price increase may suggest longs, open interest can also rise from short covering or other factors. There is no definitive evidence that all",
+        "input_tokens": 137,
+        "output_tokens": 192,
+        "generation_seconds": 16.3,
+        "tokens_per_second": 11.779,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": false,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 0.0
+      },
+      {
+        "case_id": "fp_cd_1048",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 328: basis widens, but liquidation volume increases. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "A widening basis may indicate weakening demand or supply imbalances, while rising liquidation volume suggests selling pressure. Competing interpretations: 1) Basis widening reflects stronger supply (e.g., higher inventory). 2) It signals weaker demand (e.g., selling pressure). Evidence: If inventory falls, support 1; if volume rises, support 2. Invalidation: If basis widens but inventory declines, the widening is not due to supply but demand.  final",
+        "input_tokens": 117,
+        "output_tokens": 96,
+        "generation_seconds": 9.007,
+        "tokens_per_second": 10.658,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": false,
+            "detail": "word_count=64"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_cd_1056",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 375: price declines, but open interest also declines. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: price declines, which may support the thesis. Cautious interpretation: open interest also declines, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "When price declines alongside falling open interest, interpretations include: (1) **bearish sentiment** (traders closing positions), or (2) **supply dominance** (increased selling pressure). Evidence: **volume** (high volume supports bearish sentiment) vs. **price momentum** (sustained decline indicates supply dominance). Invalidates: **low volume** with a steep price drop suggests **supply dominance**, not bearish sentiment. (45\u201380 words)",
+        "input_tokens": 115,
+        "output_tokens": 98,
+        "generation_seconds": 8.922,
+        "tokens_per_second": 10.984,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=53"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_cd_1061",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 404: basis widens, but liquidation volume increases. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Competing interpretations: 1) Widening basis reflects higher volatility, 2) Increased liquidation volume indicates selling pressure. Evidence: Check if basis widening correlates with volume spikes or price gaps. Invalidation: If basis widens during low-volume periods, it supports volatility, not selling pressure. Final marker: \u2705",
+        "input_tokens": 116,
+        "output_tokens": 65,
+        "generation_seconds": 6.069,
+        "tokens_per_second": 10.71,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=43"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_cd_1068",
+        "category": "crypto_derivatives",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 440: What is open interest? Answer in one sentence of no more than 35 words.",
+        "expected": "The number or notional value of derivative contracts that remain open.",
+        "response": "Open interest is the total number of outstanding derivative contracts in the market.",
+        "input_tokens": 96,
+        "output_tokens": 15,
+        "generation_seconds": 1.441,
+        "tokens_per_second": 10.407,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": true,
+            "detail": "coverage=0.571"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=13"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1073",
+        "category": "crypto_derivatives",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 474: A long enters at 254 and has an estimated liquidation level at 174. Calculate the downside buffer as a percentage of entry. End with FINAL: <percentage>.",
+        "expected": "Buffer = (254 - 174) / 254 \u00d7 100 = 31.5%. Actual liquidation depends on venue rules and fees.\nFINAL: 31.5%",
+        "response": "To calculate the downside buffer as a percentage of entry, we use the formula:\n\n$$\n\\text{Downside Buffer (\\%)} = \\left( \\frac{\\text{Entry Price} - \\text{Liquidation Level}}{\\text{Entry Price}} \\right) \\times 100\n$$\n\nGiven:\n- Entry Price = 254\n- Liquidation Level = 174\n\n$$\n\\text{Downside Buffer (\\%)} = \\left( \\frac{254 - 174}{254} \\right) \\times 100 = \\left( \\frac{80}{254} \\right) \\times 100 \\approx 31.49\\%\n$$\n\nFINAL: 31.49",
+        "input_tokens": 117,
+        "output_tokens": 170,
+        "generation_seconds": 15.421,
+        "tokens_per_second": 11.024,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: 31 5%"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ma_1002",
+        "category": "macroeconomics",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "In a risk meeting, case 18: Long-term yields rise because real growth expectations improve. Why can the equity effect be mixed? A) Higher earnings hopes compete with higher discount rates B) Yields never affect valuation C) Growth always lowers earnings D) All sectors have identical duration End with exactly FINAL: <letter>.",
+        "expected": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "response": "In the scenario where long-term yields rise because real growth expectations improve, the equity effect can be mixed due to the interplay between higher earnings hopes and higher discount rates. \n\nWhen real growth expectations improve, investors may anticipate higher future earnings, which could increase the present value of equity. However, if long-term yields rise, the discount rate used to calculate the present value of future cash flows also increases. A higher discount rate reduces the present value of future earnings, which can offset the positive impact of higher growth expectations.\n\nThus, the equity effect can be mixed because **higher earnings hopes (from improved growth expectations)** compete with **higher discount rates (from rising yields)**.\n\n**Correct answer: A) Higher earnings hopes compete with higher discount rates**\n\nFINAL: A",
+        "input_tokens": 137,
+        "output_tokens": 154,
+        "generation_seconds": 13.916,
+        "tokens_per_second": 11.067,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1007",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 48: A trade-weighted currency index changes from 88 to 107. Calculate the signed percentage change. End with FINAL: <percentage>.",
+        "expected": "Change = (107 - 88) / 88 \u00d7 100 = 21.59%.\nFINAL: 21.59%",
+        "response": "To calculate the signed percentage change, we use the formula:\n\n$$\n\\text{Signed Percentage Change} = \\left( \\frac{\\text{New Value} - \\text{Old Value}}{\\text{Old Value}} \\right) \\times 100\n$$\n\nGiven:\n- Old Value = 88\n- New Value = 107\n\n$$\n\\text{Signed Percentage Change} = \\left( \\frac{107 - 88}{88} \\right) \\times 100 = \\left( \\frac{19}{88} \\right) \\times 100 \\approx 21.59\\%\n$$\n\nFINAL: 21.59%",
+        "input_tokens": 108,
+        "output_tokens": 157,
+        "generation_seconds": 14.742,
+        "tokens_per_second": 10.65,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 21 59%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1013",
+        "category": "macroeconomics",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 73: Long-term yields rise because real growth expectations improve. Why can the equity effect be mixed? A) Higher earnings hopes compete with higher discount rates B) Yields never affect valuation C) Growth always lowers earnings D) All sectors have identical duration End with exactly FINAL: <letter>.",
+        "expected": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "response": "The equity effect can be mixed because higher long-term yields may reflect improved real growth expectations, which could boost earnings and equity valuations. However, higher yields also increase the discount rate used in valuation, which can reduce the present value of future earnings. Thus, the correct answer is:\n\nA) Higher earnings hopes compete with higher discount rates\n\nFINAL: A",
+        "input_tokens": 139,
+        "output_tokens": 72,
+        "generation_seconds": 7.184,
+        "tokens_per_second": 10.022,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1014",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 78: A trade-weighted currency index changes from 98 to 87. Calculate the signed percentage change. End with FINAL: <percentage>.",
+        "expected": "Change = (87 - 98) / 98 \u00d7 100 = -11.22%. The calculation uses only the supplied hypothetical inputs.\nFINAL: -11.22%",
+        "response": "To calculate the signed percentage change, we use the formula:\n\n$$\n\\text{Signed Percentage Change} = \\left( \\frac{\\text{New Value} - \\text{Old Value}}{\\text{Old Value}} \\right) \\times 100\n$$\n\nGiven:\n- Old Value = 98\n- New Value = 87\n\n$$\n\\text{Signed Percentage Change} = \\left( \\frac{87 - 98}{98} \\right) \\times 100 = \\left( \\frac{-11}{98} \\right) \\times 100 \\approx -11.22\\%\n$$\n\nFINAL: -11.22%",
+        "input_tokens": 107,
+        "output_tokens": 155,
+        "generation_seconds": 14.545,
+        "tokens_per_second": 10.657,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 11 22%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1038",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 346: A yield moves from 3.50% to 4.50%. Calculate the change in basis points. End with FINAL: <number> bps.",
+        "expected": "Change = (4.50% - 3.50%) \u00d7 100 = 100 basis points.\nFINAL: 100 bps",
+        "response": "The change in basis points is calculated as follows:\n\n$$\n\\text{Change in basis points} = (\\text{New Yield} - \\text{Old Yield}) \\times 100\n$$\n\n$$\n\\text{Change in basis points} = (4.50\\% - 3.50\\%) \\times 100 = 1.00 \\times 100 = 100 \\text{ bps}\n$$\n\nFINAL: 100 bps",
+        "input_tokens": 113,
+        "output_tokens": 109,
+        "generation_seconds": 10.219,
+        "tokens_per_second": 10.667,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 100 bps"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1044",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 422: Nominal GDP grows 8% while the GDP deflator rises 4%. Approximate real GDP growth using subtraction. End with FINAL: <percentage>.",
+        "expected": "Approximate real growth = 8% - 4% = 4%. This is a simplified approximation.\nFINAL: 4%",
+        "response": "To approximate real GDP growth using subtraction, we use the formula:\n\n$$\n\\text{Real GDP Growth} \\approx \\text{Nominal GDP Growth} - \\text{GDP Deflator Growth}\n$$\n\nGiven:\n- Nominal GDP Growth = 8%\n- GDP Deflator Growth = 4%\n\n$$\n\\text{Real GDP Growth} \\approx 8\\% - 4\\% = 4\\%\n$$\n\nFINAL: 4%",
+        "input_tokens": 110,
+        "output_tokens": 97,
+        "generation_seconds": 9.243,
+        "tokens_per_second": 10.494,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 4%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1001",
+        "category": "risk_management",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 2: A portfolio has 5 positions, each capped at $150 planned loss. Assuming all stops are hit, calculate nominal aggregate planned loss. End with FINAL: $<amount>.",
+        "expected": "Aggregate planned loss = 5 \u00d7 $150 = $750. Correlation and gaps can make realized loss differ.\nFINAL: $750",
+        "response": "To calculate the nominal aggregate planned loss for a portfolio with 5 positions, each capped at $150 planned loss, we assume that all positions reach their cap. \n\nThe calculation is as follows:\n\n$$\n\\text{Nominal Aggregate Planned Loss} = \\text{Number of Positions} \\times \\text{Cap per Position}\n$$\n$$\n\\text{Nominal Aggregate Planned Loss} = 5 \\times 150 = 750\n$$\n\nFINAL: $750",
+        "input_tokens": 114,
+        "output_tokens": 106,
+        "generation_seconds": 8.925,
+        "tokens_per_second": 11.877,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $750"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1003",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "In a risk meeting, case 19: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "In the scenario where a stop order fills below its trigger after a gap, the risk that materialized is **slippage or gap risk**. This occurs when the price gaps up or down, causing the stop order to execute at a price significantly different from the expected price, leading to potential losses.\n\nFINAL: A",
+        "input_tokens": 126,
+        "output_tokens": 65,
+        "generation_seconds": 5.538,
+        "tokens_per_second": 11.737,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1015",
+        "category": "risk_management",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 149: individual trade risk is small, but positions share one factor. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: individual trade risk is small, which may support the thesis. Cautious interpretation: positions share one factor, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Competing interpretations: 1) Low individual risk due to diversification; 2) Shared factor risk across positions. Evidence: Correlation between positions vs. individual volatility. Invalidation: If positions are uncorrelated, low individual risk doesn\u2019t imply shared factor risk. Final marker: \u2705",
+        "input_tokens": 118,
+        "output_tokens": 61,
+        "generation_seconds": 5.457,
+        "tokens_per_second": 11.179,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=38"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_rm_1019",
+        "category": "risk_management",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 167: A portfolio has 8 positions, each capped at $375 planned loss. Assuming all stops are hit, calculate nominal aggregate planned loss. End with FINAL: $<amount>.",
+        "expected": "Aggregate planned loss = 8 \u00d7 $375 = $3000. Correlation and gaps can make realized loss differ.\nFINAL: $3000",
+        "response": "To calculate the nominal aggregate planned loss for a portfolio with 8 positions, each capped at $375 planned loss, and assuming all stops are hit:\n\n$$\n\\text{Nominal aggregate planned loss} = \\text{Number of positions} \\times \\text{Cap per position}\n$$\n\n$$\n\\text{Nominal aggregate planned loss} = 8 \\times 375 = 3000\n$$\n\nFINAL: $3000",
+        "input_tokens": 116,
+        "output_tokens": 99,
+        "generation_seconds": 9.012,
+        "tokens_per_second": 10.985,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $3000"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1031",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 224: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "The scenario describes a stop order that fills below its trigger after a gap. This situation is associated with the risk of the stop order not being executed at the expected price due to the market gap. This is known as **gap risk**.\n\nHowever, the question asks for the risk that \"materialized,\" which refers to the actual risk that occurred. In this case, the stop order filled below its trigger after a gap, which is an example of **slippage or gap risk**.\n\nFINAL: A",
+        "input_tokens": 129,
+        "output_tokens": 103,
+        "generation_seconds": 9.04,
+        "tokens_per_second": 11.393,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1035",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "When documenting a thesis, case 239: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "Case 239: A stop order fills below its trigger after a gap. The risk that materialized is **slippage or gap risk**. This occurs when a stop order is executed at a price worse than the trigger price due to a gap in the market, leading to unexpected losses.\n\nFINAL: A",
+        "input_tokens": 127,
+        "output_tokens": 65,
+        "generation_seconds": 5.856,
+        "tokens_per_second": 11.1,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1037",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 250: Why cap aggregate portfolio exposure? A) Several individually small risks can occur together B) It guarantees every trade wins C) It increases concentration D) It removes market hours End with exactly FINAL: <letter>.",
+        "expected": "Several individually small risks can occur together.\nFINAL: A",
+        "response": "The correct answer is A) Several individually small risks can occur together.\n\n**Explanation:**  \nCap aggregate portfolio exposure is implemented to manage overall risk. Even if individual positions are small, they can correlate or move together in the same direction, increasing the overall risk to the portfolio. This is why aggregate exposure is capped to prevent excessive risk.\n\n**Final:** A",
+        "input_tokens": 125,
+        "output_tokens": 72,
+        "generation_seconds": 6.604,
+        "tokens_per_second": 10.903,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": false,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 0.0
+      },
+      {
+        "case_id": "fp_rm_1055",
+        "category": "risk_management",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 370: historical volatility declines, but event risk approaches. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: historical volatility declines, which may support the thesis. Cautious interpretation: event risk approaches, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Competing interpretations: 1) Volatility decline reflects improved market efficiency. 2) Event risk rise indicates underlying uncertainty. Evidence: Analyze price dispersion pre/post-event. Invalidation: If volatility drops while event risk rises, market efficiency may not explain the decline. Final marker: \u2705",
+        "input_tokens": 115,
+        "output_tokens": 60,
+        "generation_seconds": 5.436,
+        "tokens_per_second": 11.037,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": false,
+            "detail": "[False, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=39"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_sa_1004",
+        "category": "scenario_analysis",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 28: A base case is assigned the highest probability. What does that mean? A) It is most likely among defined cases, not certain B) It must occur C) Other outcomes are impossible D) Its payoff is always highest End with exactly FINAL: <letter>.",
+        "expected": "It is most likely among defined cases, not certain.\nFINAL: A",
+        "response": "In a portfolio review, if a base case is assigned the highest probability, it means that it is the most likely scenario among the defined cases, but it is not certain. The term \"base case\" typically refers to the most probable or most likely scenario in a set of possible outcomes.\n\nLet's analyze the options:\n\n- **A) It is most likely among defined cases, not certain**: This is correct. The base case is the most probable but not guaranteed to occur.\n- **B) It must occur**: This is incorrect. The base case is the most likely, but it does not necessarily occur.\n- **C) Other outcomes are impossible**: This is incorrect. Other outcomes are possible, but the base case is the most likely.\n- **D) Its payoff is always highest**: This is incorrect. The base case is the most likely, not necessarily the one with the highest payoff.\n\nTherefore, the correct answer is:\n\nA) It is",
+        "input_tokens": 133,
+        "output_tokens": 192,
+        "generation_seconds": 17.139,
+        "tokens_per_second": 11.202,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": false,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 0.0
+      },
+      {
+        "case_id": "fp_sa_1008",
+        "category": "scenario_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 44: price confirms, but fundamentals lag. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: price confirms, which may support the thesis. Cautious interpretation: fundamentals lag, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Price confirms bullish sentiment, while fundamentals lag, suggesting either a short-term rally or delayed earnings. Evidence: rising volume (short-term) vs. improving earnings (long-term). If volume declines, it invalidates the price rally as a trend. If earnings improve, fundamentals validate the price. Competing interpretations: momentum vs. fundamentals. Final marker: [Analysis Case 44]",
+        "input_tokens": 112,
+        "output_tokens": 78,
+        "generation_seconds": 6.919,
+        "tokens_per_second": 11.274,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=51"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_sa_1009",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 56: What is an invalidation condition? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"an invalidation condition\",\"definition\":\"A predefined observation that materially contradicts the thesis mechanism.\",\"live_data_required\":false}",
+        "response": "{\"term\": \"Invalidation condition\", \"definition\": \"A condition that, if met, renders a previous conclusion or result in a financial analysis or model as incorrect or irrelevant.\", \"live_data_required\": false}",
+        "input_tokens": 102,
+        "output_tokens": 44,
+        "generation_seconds": 3.901,
+        "tokens_per_second": 11.28,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1031",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 217: What is a base case? Answer in one sentence of no more than 35 words.",
+        "expected": "The scenario judged most plausible under stated assumptions, not a certainty.",
+        "response": "A base case is a standard scenario used in financial analysis to evaluate a project's viability under normal conditions.",
+        "input_tokens": 97,
+        "output_tokens": 22,
+        "generation_seconds": 1.911,
+        "tokens_per_second": 11.515,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.222"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=19"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1037",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 257: What is an invalidation condition? Answer in one sentence of no more than 35 words.",
+        "expected": "A predefined observation that materially contradicts the thesis mechanism.",
+        "response": "An invalidation condition is a scenario that renders a financial model, assumption, or calculation unreliable or incorrect.",
+        "input_tokens": 98,
+        "output_tokens": 22,
+        "generation_seconds": 1.939,
+        "tokens_per_second": 11.344,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.000"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=17"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1039",
+        "category": "scenario_analysis",
+        "task_type": "refusal",
+        "response_format": "plain",
+        "prompt": "Live-data boundary exercise 276: State the exact latest a stock's current price right now and briefly interpret it.",
+        "expected": "I do not have access to live data, so I cannot provide or verify that value. It also requires the ticker, venue, and timestamp. If you supply a sourced value with those details, I can interpret its direction, context, limitations, and relevant competing signals. Inventing an exact current figure would be misleading.",
+        "response": "I cannot provide live data or the exact latest price of a stock as I do not have real-time access to financial markets. However, I can help you analyze stock prices based on historical data or specific company information if you provide details. Please provide the stock ticker symbol or company name for analysis.",
+        "input_tokens": 96,
+        "output_tokens": 60,
+        "generation_seconds": 5.216,
+        "tokens_per_second": 11.502,
+        "checks": [
+          {
+            "name": "access_limitation",
+            "passed": true,
+            "detail": "must disclose lack of live-data access"
+          },
+          {
+            "name": "no_fabricated_value",
+            "passed": true,
+            "detail": "must not supply an exact live value"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1024",
+        "category": "stock_fundamentals",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 136: A stock trades at $46 with trailing EPS of $4. Calculate its P/E ratio. End with FINAL: <multiple>x.",
+        "expected": "P/E = $46 / $4 = 11.5x. The calculation uses only the supplied hypothetical inputs.\nFINAL: 11.5x",
+        "response": "The P/E ratio is calculated by dividing the stock price by the trailing EPS.\n\nGiven:\n- Stock price = $46\n- Trailing EPS = $4\n\nP/E ratio = Stock price / Trailing EPS = 46 / 4 = 11.5\n\nFINAL: 11.5x",
+        "input_tokens": 107,
+        "output_tokens": 67,
+        "generation_seconds": 5.788,
+        "tokens_per_second": 11.575,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 11 5x"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1029",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 150: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Free cash flow is the cash a company generates after accounting for all expenses, including capital expenditures, representing the cash available for distribution to shareholders and other uses.",
+        "input_tokens": 97,
+        "output_tokens": 32,
+        "generation_seconds": 2.804,
+        "tokens_per_second": 11.414,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=28"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1033",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 195: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Free cash flow is the cash a company generates after accounting for all expenses, including capital expenditures, representing the cash available for distribution to shareholders and other uses.",
+        "input_tokens": 97,
+        "output_tokens": 32,
+        "generation_seconds": 2.735,
+        "tokens_per_second": 11.702,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=28"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1036",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 222: What is free cash flow? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"free cash flow\",\"definition\":\"A cash measure commonly defined as operating cash flow minus capital expenditure.\",\"live_data_required\":false}",
+        "response": "{\n  \"term\": \"free cash flow\",\n  \"definition\": \"Free cash flow (FCF) is the cash a company generates after accounting for all its expenses, including capital expenditures (CAPEX) needed to maintain or expand its asset base. It represents the cash available to the company for other purposes, such as paying dividends, debt repayment, or reinvestment.\",\n  \"live_data_required\": false\n}",
+        "input_tokens": 102,
+        "output_tokens": 85,
+        "generation_seconds": 7.979,
+        "tokens_per_second": 10.653,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1040",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 249: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Free cash flow is the cash a company generates after accounting for all expenses, including capital expenditures, representing the cash available for distribution to shareholders and other uses.",
+        "input_tokens": 97,
+        "output_tokens": 32,
+        "generation_seconds": 2.994,
+        "tokens_per_second": 10.687,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=28"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1051",
+        "category": "stock_fundamentals",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For a training case, case 357: Which item is subtracted from operating cash flow to obtain a common free-cash-flow measure? A) Capital expenditure B) Revenue C) Gross profit D) Market capitalization End with exactly FINAL: <letter>.",
+        "expected": "Capital expenditure.\nFINAL: A",
+        "response": "To determine which item is subtracted from operating cash flow to obtain a common free-cash-flow measure, we need to recall the standard formula for free cash flow (FCF):\n\n$$\n\\text{Free Cash Flow (FCF)} = \\text{Operating Cash Flow} - \\text{Capital Expenditure}\n$$\n\nIn this formula, **capital expenditure** is subtracted from operating cash flow to calculate free cash flow. Free cash flow represents the cash a company generates after accounting for all capital expenditures, which are necessary to maintain or expand the company's asset base.\n\nThus, the correct answer is:\n\nA) Capital expenditure\n\nFINAL: A",
+        "input_tokens": 125,
+        "output_tokens": 133,
+        "generation_seconds": 11.656,
+        "tokens_per_second": 11.41,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1066",
+        "category": "stock_fundamentals",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 441: revenue accelerates, but operating margin contracts. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Competing interpretations: 1) Revenue growth is offset by higher costs; 2) Revenue growth is sustainable but operating margin is temporarily compressed. Evidence: Analyze cost of revenue, SG&A, and operating expenses. If costs rise proportionally, support interpretation 1. If costs remain stable, support interpretation 2. Invalidation: If revenue growth is due to one-time gains, not sustainable sales, the margin contraction may not reflect operational efficiency. Final markers: [analysis_case_441] [word_count_90-130]",
+        "input_tokens": 116,
+        "output_tokens": 114,
+        "generation_seconds": 9.807,
+        "tokens_per_second": 11.624,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": false,
+            "detail": "[False, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=68"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_sf_1067",
+        "category": "stock_fundamentals",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 445: revenue accelerates, but operating margin contracts. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Competing interpretations: 1) Revenue growth is offset by higher costs; 2) Revenue growth is sustainable but operating margin is temporarily compressed. Evidence: Analyze cost of revenue, SG&A, and operating expenses. If costs rise proportionally, support interpretation 1. If costs remain stable, support interpretation 2. Invalidation: If revenue growth is due to one-time gains, not recurring sales, the margin contraction may not reflect operational efficiency. Final markers: [analysis_case_445] [word_count_90-130]",
+        "input_tokens": 116,
+        "output_tokens": 114,
+        "generation_seconds": 10.79,
+        "tokens_per_second": 10.565,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": false,
+            "detail": "[False, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=68"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_ta_1001",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 5: A chart moves from a swing low of 85 to a swing high of 100. Calculate the advance as a percentage of the low. Show the formula and end with FINAL: <percentage>.",
+        "expected": "Advance = (100 - 85) / 85 \u00d7 100 = 17.65%.\nFINAL: 17.65%",
+        "response": "To calculate the advance as a percentage of the low, we use the formula:\n\n$$\n\\text{Advance Percentage} = \\left( \\frac{\\text{Swing High} - \\text{Swing Low}}{\\text{Swing Low}} \\right) \\times 100\n$$\n\nGiven:\n- Swing Low = 85\n- Swing High = 100\n\n$$\n\\text{Advance Percentage} = \\left( \\frac{100 - 85}{85} \\right) \\times 100 = \\left( \\frac{15}{85} \\right) \\times 100 \\approx 17.65\\%\n$$\n\nFINAL: 17.65%",
+        "input_tokens": 119,
+        "output_tokens": 162,
+        "generation_seconds": 14.555,
+        "tokens_per_second": 11.13,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 17 65%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1017",
+        "category": "technical_analysis",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 80: What is a support break? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"a support break\",\"definition\":\"Price acceptance below an area where demand previously emerged.\",\"live_data_required\":false}",
+        "response": "{\n  \"term\": \"support break\",\n  \"definition\": \"A support break occurs when a price breaks below a key support level, indicating a potential reversal in the trend or a shift in the market's sentiment.\",\n  \"live_data_required\": false\n}",
+        "input_tokens": 101,
+        "output_tokens": 54,
+        "generation_seconds": 4.706,
+        "tokens_per_second": 11.474,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ta_1021",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 106: For a range with high 141 and low 93, compute its midpoint. End with FINAL: <value>.",
+        "expected": "Midpoint = (141 + 93) / 2 = 117. The calculation uses only the supplied hypothetical inputs.\nFINAL: 117",
+        "response": "The midpoint of a range can be calculated using the formula:\n\n$$\n\\text{Midpoint} = \\frac{\\text{High} + \\text{Low}}{2}\n$$\n\nGiven:\n- High = 141\n- Low = 93\n\n$$\n\\text{Midpoint} = \\frac{141 + 93}{2} = \\frac{234}{2} = 117\n$$\n\nFINAL: 117",
+        "input_tokens": 105,
+        "output_tokens": 103,
+        "generation_seconds": 9.866,
+        "tokens_per_second": 10.44,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 117"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1028",
+        "category": "technical_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 143: What is a support break? Answer in one sentence of no more than 35 words.",
+        "expected": "Price acceptance below an area where demand previously emerged.",
+        "response": "A support break is a price level where buying pressure may increase, potentially leading to a price rise if the level is tested again.",
+        "input_tokens": 97,
+        "output_tokens": 27,
+        "generation_seconds": 2.449,
+        "tokens_per_second": 11.026,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.250"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=24"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ta_1030",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 148: a support retest holds, but market breadth weakens. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: a support retest holds, which may support the thesis. Cautious interpretation: market breadth weakens, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "A support retest holds, but market breadth weakens. Competing interpretations: 1) The support is valid, with breadth weakening due to sector rotation. 2) The support is a false signal, with breadth weakening indicating broader bearish sentiment. Evidence: Price action on the support level (e.g., volume, open interest) and sector performance (e.g., energy vs. tech). Invalidation: If volume surges on the support hold, it validates the support. If breadth declines further and key resistance is broken, it invalidates the support. (128 words)",
+        "input_tokens": 119,
+        "output_tokens": 120,
+        "generation_seconds": 10.976,
+        "tokens_per_second": 10.933,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=81"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_ta_1042",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 190: the weekly trend is up, but the daily structure turns down. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "The weekly trend is up, but the daily structure is down. Competing interpretations: 1) The weekly uptrend is valid, with daily divergence as a temporary pullback. 2) The daily downtrend is stronger, with the weekly uptrend being a false signal. Evidence: Confirming weekly volume and daily volume. If weekly volume increases, it supports the weekly trend. If daily volume increases, it supports the daily downtrend. Invalidation: If the weekly volume is lower than the daily volume, the weekly uptrend is invalid. (120 words)",
+        "input_tokens": 120,
+        "output_tokens": 117,
+        "generation_seconds": 11.487,
+        "tokens_per_second": 10.185,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=83"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_ta_1059",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 278: A long entry is 128, ATR is 5, and the plan places the stop two ATR below entry. Calculate the stop level. End with FINAL: <value>.",
+        "expected": "Stop = 128 - (2 \u00d7 5) = 118. ATR sizes the distance; it does not predict direction.\nFINAL: 118",
+        "response": "To calculate the stop level for a long entry, we use the formula:\n\n$$\n\\text{Stop Level} = \\text{Entry Level} - (\\text{ATR} \\times 2)\n$$\n\nGiven:\n- Entry Level = 128\n- ATR = 5\n\n$$\n\\text{Stop Level} = 128 - (5 \\times 2) = 128 - 10 = 118\n$$\n\nFINAL: 118",
+        "input_tokens": 118,
+        "output_tokens": 107,
+        "generation_seconds": 9.96,
+        "tokens_per_second": 10.743,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 118"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1062",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 293: A long entry is 143, ATR is 5, and the plan places the stop two ATR below entry. Calculate the stop level. End with FINAL: <value>.",
+        "expected": "Stop = 143 - (2 \u00d7 5) = 133. ATR sizes the distance; it does not predict direction.\nFINAL: 133",
+        "response": "To calculate the stop level for a long entry, we use the formula:\n\n$$\n\\text{Stop Level} = \\text{Entry Level} - (\\text{ATR} \\times 2)\n$$\n\nGiven:\n- Entry Level = 143\n- ATR = 5\n\n$$\n\\text{Stop Level} = 143 - (5 \\times 2) = 143 - 10 = 133\n$$\n\nFINAL: 133",
+        "input_tokens": 118,
+        "output_tokens": 107,
+        "generation_seconds": 10.044,
+        "tokens_per_second": 10.653,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 133"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1077",
+        "category": "technical_analysis",
+        "task_type": "instruction_following",
+        "response_format": "json_only",
+        "prompt": "JSON exercise 359 for technical analysis: Using only these supplied inputs\u2014signal score 94/100, volatility high, and bias bullish\u2014return only JSON with keys signal_score, volatility, bias, confidence, and live_data_used. No Markdown.",
+        "expected": "{\"signal_score\":94,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "response": "{\"signal_score\": 94, \"volatility\": \"high\", \"bias\": \"bullish\", \"confidence\": \"high\", \"live_data_used\": true}",
+        "input_tokens": 126,
+        "output_tokens": 36,
+        "generation_seconds": 3.541,
+        "tokens_per_second": 10.166,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ta_1090",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 450: the weekly trend is up, but the daily structure turns down. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "The weekly trend is up, but the daily structure is down. Competing interpretations: 1) The weekly uptrend is valid, with daily divergence as a temporary pullback. 2) The daily downtrend is stronger, with the weekly uptrend being a false signal. Evidence: Confirming volume and price action on the daily chart. If daily volume increases with higher lows, support 1). If daily volume decreases with lower highs, support 2). Invalidation: If the weekly chart shows a clear bullish pattern (e.g., higher highs), it invalidates the daily downtrend interpretation. If the daily chart shows a clear bearish pattern (e.g., lower lows), it invalidates the weekly uptrend interpretation.",
+        "input_tokens": 120,
+        "output_tokens": 148,
+        "generation_seconds": 14.094,
+        "tokens_per_second": 10.501,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": false,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=105"
+          }
+        ],
+        "score": 0.75
+      },
+      {
+        "case_id": "fp_tm_1003",
+        "category": "terminology_misc",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 42: What is uncertainty calibration? Answer in one sentence of no more than 35 words.",
+        "expected": "Matching confidence language to the strength and limitations of available evidence.",
+        "response": "Uncertainty calibration is the process of adjusting models to better reflect the true uncertainty in predictions, improving reliability.",
+        "input_tokens": 95,
+        "output_tokens": 22,
+        "generation_seconds": 2.128,
+        "tokens_per_second": 10.337,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.000"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=18"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_tm_1017",
+        "category": "terminology_misc",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 193: An unlevered $16,500 exposure gains 5%. Calculate the dollar gain before costs. End with FINAL: $<amount>.",
+        "expected": "Gain = $16,500 \u00d7 5% = $825. The calculation uses only the supplied hypothetical inputs.\nFINAL: $825",
+        "response": "To calculate the dollar gain before costs for an unlevered $16,500 exposure that gains 5%, we use the formula:\n\n$$\n\\text{Dollar gain before costs} = \\text{Exposure} \\times \\text{Percentage gain}\n$$\n\n$$\n\\text{Dollar gain before costs} = 16,500 \\times 0.05 = 825\n$$\n\nFINAL: $825",
+        "input_tokens": 110,
+        "output_tokens": 99,
+        "generation_seconds": 9.433,
+        "tokens_per_second": 10.495,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $825"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1021",
+        "category": "terminology_misc",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 212: Assets are $800 and liabilities are $340. Use the accounting identity to calculate equity. End with FINAL: $<amount>.",
+        "expected": "Equity = assets - liabilities = $800 - $340 = $460.\nFINAL: $460",
+        "response": "The accounting identity is:  \n**Assets = Liabilities + Equity**\n\nWe are given:  \n- Assets = $800  \n- Liabilities = $340  \n\nWe need to find Equity.  \n\nRearranging the formula:  \n**Equity = Assets - Liabilities**  \n\nSubstituting the values:  \n**Equity = $800 - $340 = $460**  \n\nFINAL: $460",
+        "input_tokens": 109,
+        "output_tokens": 95,
+        "generation_seconds": 9.1,
+        "tokens_per_second": 10.439,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $460"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1034",
+        "category": "terminology_misc",
+        "task_type": "instruction_following",
+        "response_format": "json_only",
+        "prompt": "JSON exercise 326 for terminology misc: Using only these supplied inputs\u2014signal score 61/100, volatility high, and bias bullish\u2014return only JSON with keys signal_score, volatility, bias, confidence, and live_data_used. No Markdown.",
+        "expected": "{\"signal_score\":61,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "response": "{\"signal_score\": 61, \"volatility\": \"high\", \"bias\": \"bullish\", \"confidence\": \"moderate\", \"live_data_used\": false}",
+        "input_tokens": 126,
+        "output_tokens": 37,
+        "generation_seconds": 3.65,
+        "tokens_per_second": 10.138,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_tm_1036",
+        "category": "terminology_misc",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 352: Which statement distinguishes possibility from probability? A) Possible means not ruled out; probable asserts greater likelihood B) They are identical C) Possible means certain D) Probable means impossible End with exactly FINAL: <letter>.",
+        "expected": "Possible means not ruled out; probable asserts greater likelihood.\nFINAL: A",
+        "response": "The correct answer is A) Possible means not ruled out; probable asserts greater likelihood.\n\nPossibility refers to something that could happen, while probability refers to the likelihood of something happening. Therefore, the statement that distinguishes possibility from probability is A.\n\nFINAL: A",
+        "input_tokens": 126,
+        "output_tokens": 53,
+        "generation_seconds": 5.191,
+        "tokens_per_second": 10.209,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      }
+    ]
+  }
+}

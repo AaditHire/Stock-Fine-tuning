@@ -99,6 +99,31 @@ def test_comparison_accepts_general_regression_sentinel() -> None:
     assert result["dimensions"]["general_capability_regression"]["delta"] == -0.3333
 
 
+def test_comparison_reports_iteration_metadata_and_non_truncation_regressions() -> None:
+    base = _report()
+    adapter = deepcopy(base)
+    changed = adapter["scoring"]["cases"][0]
+    changed["checks"][0]["passed"] = False
+    changed["score"] = 0.0
+    adapter["scoring"]["overall_score"] = 0.9974
+    adapter["scoring"]["checks_passed"] -= 1
+    adapter["scoring"]["category_scores"][changed["category"]] = 0.9375
+
+    result = compare_reports(
+        base,
+        adapter,
+        CASES,
+        training_examples=398,
+        validation_examples=51,
+        stage_label="Stage 7B",
+    )
+
+    assert result["stage_label"] == "Stage 7B"
+    assert "398 examples" in result["limitations"][0]
+    assert "truncation does not explain" in result["diagnostics"]["interpretation"]
+    assert render_comparison_markdown(result).startswith("# Stage 7B:")
+
+
 def test_completed_stage7_result_rejects_adapter() -> None:
     import json
 

@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "source_benchmark": "benchmarks/stage3_base_models.json",
+  "case_ids": [
+    "general_multiplication",
+    "general_syllogism",
+    "general_probability"
+  ],
+  "case_count": 3,
+  "decoding": "greedy",
+  "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+  "base_model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+  "adapter": {
+    "directory": "models\\adapters\\finpulse-qwen3-4b-stage5b-v1",
+    "weights_sha256": "4dbfab3baa3fe052b95f8334e7b3657fcf253d2a3947af9f83e18da48e289a56",
+    "weights_size_bytes": 66127776,
+    "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "base_model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+    "rank": 16,
+    "alpha": 32,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ]
+  },
+  "base": {
+    "model": {
+      "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+      "quantization": "bitsandbytes 4-bit",
+      "max_sequence_length": 2048,
+      "load_seconds": 5.15,
+      "peak_process_ram_mib": 3609.8,
+      "peak_system_ram_used_mib": 12282.8,
+      "peak_gpu_device_used_mib": 3747.5,
+      "peak_gpu_allocated_mib": 2647.7,
+      "peak_gpu_reserved_mib": 2682.0,
+      "torch_version": "2.11.0+cu130",
+      "torch_cuda_version": "13.0",
+      "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU"
+    },
+    "scoring": {
+      "overall_score": 0.6667,
+      "checks_passed": 2,
+      "checks_total": 3,
+      "category_scores": {
+        "general_reasoning": 0.6667
+      },
+      "cases": [
+        {
+          "id": "general_multiplication",
+          "category": "general_reasoning",
+          "prompt": "Calculate 17 multiplied by 23. End with exactly: FINAL: <number>",
+          "response": "17 multiplied by 23 equals 391.  \nFINAL: 391",
+          "input_tokens": 104,
+          "output_tokens": 21,
+          "generation_seconds": 6.35,
+          "tokens_per_second": 3.307,
+          "score": 1.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": true,
+              "detail": "required regex: FINAL:\\s*391\\s*$"
+            }
+          ]
+        },
+        {
+          "id": "general_syllogism",
+          "category": "general_reasoning",
+          "prompt": "All bonds are securities. Some securities are risky. Can we logically conclude that some bonds are risky? Explain briefly, then end with exactly FINAL: YES or FINAL: NO.",
+          "response": "Yes, the conclusion follows logically.  \nAll bonds are securities. Some securities are risky. Since bonds are a subset of securities, and some securities are risky, it is possible that some bonds are risky. However, this is not a guaranteed conclusion, as it depends on the specific characteristics of the bonds in question. The statement \"some securities are risky\" does not specify which securities, so we cannot definitively conclude that some bonds are risky without additional information.\n\nFINAL: YES",
+          "input_tokens": 120,
+          "output_tokens": 96,
+          "generation_seconds": 7.863,
+          "tokens_per_second": 12.209,
+          "score": 0.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": false,
+              "detail": "required regex: FINAL:\\s*NO\\s*$"
+            }
+          ]
+        },
+        {
+          "id": "general_probability",
+          "category": "general_reasoning",
+          "prompt": "A fair coin is flipped twice. What is the probability of at least one head? End with exactly: FINAL: <percentage>",
+          "response": "The probability of at least one head in two coin flips can be calculated by considering all possible outcomes and subtracting the probability of the complementary event (no heads, i.e., both flips are tails).\n\nThere are 4 possible outcomes when flipping a coin twice:  \n- HH  \n- HT  \n- TH  \n- TT  \n\nThe only outcome with no heads is TT.  \nThe probability of TT is (1/2) * (1/2) = 1/4.  \n\nTherefore, the probability of at least one head is 1 - 1/4 = 3/4.  \n\nFINAL: 75%",
+          "input_tokens": 111,
+          "output_tokens": 129,
+          "generation_seconds": 10.543,
+          "tokens_per_second": 12.235,
+          "score": 1.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": true,
+              "detail": "required regex: FINAL:\\s*75(?:\\.0+)?%\\s*$"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "fine_tuned": {
+    "model": {
+      "model_id": "C:\\Users\\Admin\\OneDrive\\Documents\\GitHub\\Stock Fine-tuning\\models\\adapters\\finpulse-qwen3-4b-stage5b-v1",
+      "quantization": "bitsandbytes 4-bit",
+      "max_sequence_length": 2048,
+      "load_seconds": 7.659,
+      "peak_process_ram_mib": 3678.3,
+      "peak_system_ram_used_mib": 12552.8,
+      "peak_gpu_device_used_mib": 3893.5,
+      "peak_gpu_allocated_mib": 2775.8,
+      "peak_gpu_reserved_mib": 2828.0,
+      "torch_version": "2.11.0+cu130",
+      "torch_cuda_version": "13.0",
+      "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU"
+    },
+    "scoring": {
+      "overall_score": 0.6667,
+      "checks_passed": 2,
+      "checks_total": 3,
+      "category_scores": {
+        "general_reasoning": 0.6667
+      },
+      "cases": [
+        {
+          "id": "general_multiplication",
+          "category": "general_reasoning",
+          "prompt": "Calculate 17 multiplied by 23. End with exactly: FINAL: <number>",
+          "response": "391.\nFINAL: 391",
+          "input_tokens": 104,
+          "output_tokens": 11,
+          "generation_seconds": 7.444,
+          "tokens_per_second": 1.478,
+          "score": 1.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": true,
+              "detail": "required regex: FINAL:\\s*391\\s*$"
+            }
+          ]
+        },
+        {
+          "id": "general_syllogism",
+          "category": "general_reasoning",
+          "prompt": "All bonds are securities. Some securities are risky. Can we logically conclude that some bonds are risky? Explain briefly, then end with exactly FINAL: YES or FINAL: NO.",
+          "response": "The premises are true, so the conclusion follows.\nFINAL: YES",
+          "input_tokens": 120,
+          "output_tokens": 14,
+          "generation_seconds": 2.152,
+          "tokens_per_second": 6.505,
+          "score": 0.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": false,
+              "detail": "required regex: FINAL:\\s*NO\\s*$"
+            }
+          ]
+        },
+        {
+          "id": "general_probability",
+          "category": "general_reasoning",
+          "prompt": "A fair coin is flipped twice. What is the probability of at least one head? End with exactly: FINAL: <percentage>",
+          "response": "First heads, then tails.\nFINAL: 75%",
+          "input_tokens": 111,
+          "output_tokens": 13,
+          "generation_seconds": 2.031,
+          "tokens_per_second": 6.402,
+          "score": 1.0,
+          "checks": [
+            {
+              "type": "regex",
+              "passed": true,
+              "detail": "required regex: FINAL:\\s*75(?:\\.0+)?%\\s*$"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "limitation": "This three-case development sentinel is not the frozen financial benchmark and is too small for a broad general-capability claim."
+}

@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 6B corrective training is complete after the rejected Stage 7 adapter. The new rank-16 QLoRA adapter trained for one epoch on 398 Stage 5B examples, validated on 51, and remained within the 6 GB GPU limit at 5,117.4 MiB peak device use. It has not been evaluated for promotion; the earlier Stage 7 adapter remains rejected and Stage 7B has not started.
+Stage 7B is complete. Although the Stage 6B corrective adapter passed its development gate at 91.13%, it regressed to 70.92% (278/392 checks) on the unchanged frozen benchmark versus the base model's 90.56%. The adapter is rejected, must not be exported, and Stage 8 has not started.
 
 ## Hardware target
 
@@ -184,6 +184,16 @@ Run or resume the adapter on the unchanged 160-case benchmark, then rebuild the 
 
 The base passed 355/392 checks (90.56%); the adapter passed 331/392 (84.44%). Hallucination resistance rose from 87.5% to 100%, while calculations fell from 75% to 50% and technical analysis fell from 95.31% to 70.31%. The adapter remains useful as an experiment but should not be exported as the finished model. See `docs/stage7.md` and `results/benchmarks/stage7_comparison.md` for the complete audit.
 
+## Stage 7B corrective evaluation
+
+The Stage 6B adapter first passed all seven checks in the 51-case Stage 5B development gate,
+improving from 75.00% to 91.13%. On the unchanged frozen benchmark it then fell to 70.92%
+(278/392), a 19.64-point regression from the saved base result. Financial calculations fell to
+18.75%, while hallucination resistance remained at 100%; the three-case general sentinel stayed
+at 2/3. The development split's shared template families made it an unreliable predictor of
+out-of-template transfer. See `docs/stage7b.md` and
+`results/benchmarks/stage7b_comparison.md` for the full audit.
+
 ## Environment diagnostic
 
 Run the human-readable report from the repository root:
@@ -227,7 +237,7 @@ Corrective iteration after Stage 7:
 
 - **Stage 5B — complete:** expanded behavior-balanced data and an independent development holdout.
 - **Stage 6B — complete:** one conservative QLoRA candidate trained using only the locked Stage 5B train/validation splits.
-- **Stage 7B — not started:** development-screen and frozen-benchmark evaluation of the corrective adapter.
+- **Stage 7B — complete, adapter rejected:** the development gate passed, but the frozen score regressed from 90.56% to 70.92%; stop before Stage 8.
 
 ## Scope and safety principles
 

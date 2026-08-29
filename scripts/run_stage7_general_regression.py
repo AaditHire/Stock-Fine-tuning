@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 from dataclasses import replace
@@ -20,7 +21,25 @@ ADAPTER_DIR = PROJECT_ROOT / "models" / "adapters" / "finpulse-qwen3-4b-seed-v1"
 OUTPUT = PROJECT_ROOT / "results" / "benchmarks" / "stage7_general_regression.json"
 
 
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--adapter-dir", type=Path, default=ADAPTER_DIR)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument(
+        "--reuse-base-report",
+        type=Path,
+        help="Reuse the validated base section from an existing sentinel report.",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = _parse_args()
+    adapter_dir = args.adapter_dir.resolve()
+    output = args.output.resolve()
+    reuse_base_report = (
+        args.reuse_base_report.resolve() if args.reuse_base_report else None
+    )
     os.environ.setdefault("HF_HOME", str(PROJECT_ROOT / "models" / "huggingface"))
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
@@ -28,13 +47,27 @@ def main() -> int:
         case for case in load_benchmark(BENCHMARK) if case.category == "general_reasoning"
     )
     config = load_model_config(MODEL_CONFIG)
-    adapter = inspect_adapter(ADAPTER_DIR, config.model_id)
+    adapter = inspect_adapter(adapter_dir, config.model_id)
     if adapter["base_model_revision"] != config.revision:
         raise ValueError("Adapter and base configuration revisions differ")
 
-    base_metrics = run_inference(config, [case.prompt for case in cases]).to_dict()
-    base_responses = base_metrics.pop("results")
-    adapter_config = replace(config, model_id=str(ADAPTER_DIR), revision=None)
+    if reuse_base_report:
+        prior = json.loads(reuse_base_report.read_text(encoding="utf-8"))
+        if prior.get("case_ids") != [case.id for case in cases]:
+            raise ValueError("Reusable base report has different sentinel cases")
+        if prior.get("base_model_id") != config.model_id:
+            raise ValueError("Reusable base report has a different model ID")
+        if prior.get("base_model_revision") != config.revision:
+            raise ValueError("Reusable base report has a different model revision")
+        base_report = prior["base"]
+    else:
+        base_metrics = run_inference(config, [case.prompt for case in cases]).to_dict()
+        base_responses = base_metrics.pop("results")
+        base_report = {
+            "model": base_metrics,
+            "scoring": score_responses(cases, base_responses),
+        }
+    adapter_config = replace(config, model_id=str(adapter_dir), revision=None)
     adapter_metrics = run_inference(
         adapter_config, [case.prompt for case in cases]
     ).to_dict()
@@ -49,7 +82,7 @@ def main() -> int:
         "base_model_id": config.model_id,
         "base_model_revision": config.revision,
         "adapter": adapter,
-        "base": {"model": base_metrics, "scoring": score_responses(cases, base_responses)},
+        "base": base_report,
         "fine_tuned": {
             "model": adapter_metrics,
             "scoring": score_responses(cases, adapter_responses),
@@ -59,7 +92,8 @@ def main() -> int:
             "is too small for a broad general-capability claim."
         ),
     }
-    OUTPUT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(
         json.dumps(
             {
@@ -74,4 +108,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

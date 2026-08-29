@@ -55,6 +55,9 @@ def compare_reports(
     adapter: dict[str, Any],
     frozen_cases: tuple[FrozenEvalCase, ...],
     general_regression: dict[str, Any] | None = None,
+    training_examples: int = 33,
+    validation_examples: int = 7,
+    stage_label: str = "Stage 7",
 ) -> dict[str, Any]:
     """Validate fairness invariants and calculate granular score changes."""
 
@@ -187,22 +190,37 @@ def compare_reports(
             "peak_process_ram_mib": source_report["model"]["peak_process_ram_mib"],
         }
     regressed_ids = {case["case_id"] for case in regressed}
-    diagnostics = {
-        "max_new_tokens": FROZEN_MAX_NEW_TOKENS,
-        "regressed_cases_at_token_ceiling": sum(
-            case["case_id"] in regressed_ids
-            and case["output_tokens"] >= FROZEN_MAX_NEW_TOKENS
-            for case in adapter_cases
-        ),
-        "regressed_case_count": len(regressed),
-        "interpretation": (
+    ceiling_regressions = sum(
+        case["case_id"] in regressed_ids
+        and case["output_tokens"] >= FROZEN_MAX_NEW_TOKENS
+        for case in adapter_cases
+    )
+    ceiling_fraction = ceiling_regressions / len(regressed) if regressed else 0.0
+    if ceiling_fraction >= 0.5:
+        ceiling_interpretation = (
             "Many regressions coincide with answers reaching the shared token ceiling before "
             "emitting required final-answer markers or all requested evidence."
-        ),
+        )
+    elif ceiling_regressions:
+        ceiling_interpretation = (
+            "Only a small minority of regressions reached the shared token ceiling, so "
+            "truncation is not the primary explanation for this result."
+        )
+    else:
+        ceiling_interpretation = (
+            "No regressed response reached the shared token ceiling, so truncation does not "
+            "explain the regressions."
+        )
+    diagnostics = {
+        "max_new_tokens": FROZEN_MAX_NEW_TOKENS,
+        "regressed_cases_at_token_ceiling": ceiling_regressions,
+        "regressed_case_count": len(regressed),
+        "interpretation": ceiling_interpretation,
     }
     return {
         "schema_version": 1,
         "status": "complete",
+        "stage_label": stage_label,
         "benchmark_id": base["benchmark_id"],
         "benchmark_sha256": base["benchmark_sha256"],
         "base_model_id": base["model"]["model_id"],
@@ -238,7 +256,8 @@ def compare_reports(
         "conclusion": conclusion,
         "promotion_recommendation": "reject_adapter" if conclusion == "regressed" else "review",
         "limitations": [
-            "The adapter was trained on only 33 examples and validated on 7 examples.",
+            f"The adapter was trained on {training_examples} examples and validated on "
+            f"{validation_examples} examples.",
             "The frozen benchmark is financial. A separate three-case development sentinel "
             "is used for general reasoning and is too small for a broad capability claim.",
             "Deterministic keyword and regex rubrics are reproducible but do not replace "
@@ -253,7 +272,7 @@ def render_comparison_markdown(report: dict[str, Any]) -> str:
     overall = report["overall"]
     changes = report["case_changes"]
     lines = [
-        "# Stage 7: base vs fine-tuned evaluation",
+        f"# {report.get('stage_label', 'Stage 7')}: base vs fine-tuned evaluation",
         "",
         f"Conclusion: **{report['conclusion']}**.",
         "",

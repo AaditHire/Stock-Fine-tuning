@@ -1,0 +1,1502 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "benchmark_id": "finpulse_stage5b_development",
+  "dataset_sha256": "46936e4b8063c685202fc39a3fd43c4f2507cdf0e667250f4fc38921f1adacf3",
+  "case_count": 51,
+  "model_id": "unsloth/Qwen3-4B-bnb-4bit+lora@4dbfab3baa3fe052b95f8334e7b3657fcf253d2a3947af9f83e18da48e289a56",
+  "model": {
+    "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "quantization": "bitsandbytes 4-bit",
+    "max_sequence_length": 2048,
+    "load_seconds": 6.478,
+    "peak_process_ram_mib": 3720.4,
+    "peak_system_ram_used_mib": 11967.5,
+    "peak_gpu_device_used_mib": 3945.5,
+    "peak_gpu_allocated_mib": 2834.5,
+    "peak_gpu_reserved_mib": 2880.0,
+    "torch_version": "2.11.0+cu130",
+    "torch_cuda_version": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+  },
+  "adapter": {
+    "directory": "models\\adapters\\finpulse-qwen3-4b-stage5b-v1",
+    "weights_sha256": "4dbfab3baa3fe052b95f8334e7b3657fcf253d2a3947af9f83e18da48e289a56",
+    "weights_size_bytes": 66127776,
+    "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "base_model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+    "rank": 16,
+    "alpha": 32,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ]
+  },
+  "generation_config": "configs\\models\\qwen3_4b_stage7b_dev.toml",
+  "scoring": {
+    "overall_score": 0.9113,
+    "checks_passed": 113,
+    "checks_total": 124,
+    "task_type_scores": {
+      "analysis": 1.0,
+      "calculation": 0.9333,
+      "factual": 0.5909,
+      "instruction_following": 1.0,
+      "multiple_choice": 1.0,
+      "refusal": 1.0
+    },
+    "category_scores": {
+      "crypto_derivatives": 1.0,
+      "macroeconomics": 1.0,
+      "risk_management": 0.95,
+      "scenario_analysis": 0.7857,
+      "stock_fundamentals": 0.8,
+      "technical_analysis": 0.9231,
+      "terminology_misc": 0.9
+    },
+    "cases": [
+      {
+        "case_id": "fp_cd_1008",
+        "category": "crypto_derivatives",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 54: Open interest falls during a sharp price decline. Which mechanism is plausible? A) Position closing or liquidations B) Guaranteed fresh short buildup C) Rising spot supply is proven D) Funding must be zero End with exactly FINAL: <letter>.",
+        "expected": "Position closing or liquidations.\nFINAL: A",
+        "response": "Position closing or liquidations.\nFINAL: A",
+        "input_tokens": 129,
+        "output_tokens": 10,
+        "generation_seconds": 6.476,
+        "tokens_per_second": 1.544,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1035",
+        "category": "crypto_derivatives",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 258: A $16,000 crypto position uses 5x leverage. Calculate simplified initial margin as notional divided by leverage. End with FINAL: $<amount>.",
+        "expected": "Initial margin = $16,000 / 5 = $3200. This ignores exchange maintenance-margin rules.\nFINAL: $3200",
+        "response": "Initial margin = $16,000 / 5 = $3,200.\nFINAL: $3200",
+        "input_tokens": 114,
+        "output_tokens": 29,
+        "generation_seconds": 4.681,
+        "tokens_per_second": 6.195,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $3200"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1044",
+        "category": "crypto_derivatives",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 302: Price and open interest rise together. What can be concluded safely? A) New leveraged exposure is entering, but direction durability is uncertain B) All new positions are longs C) Liquidation is impossible D) Spot demand is proven End with exactly FINAL: <letter>.",
+        "expected": "New leveraged exposure is entering, but direction durability is uncertain.\nFINAL: A",
+        "response": "New leveraged exposure is entering, but direction durability is uncertain.\nFINAL: A",
+        "input_tokens": 137,
+        "output_tokens": 17,
+        "generation_seconds": 2.854,
+        "tokens_per_second": 5.957,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1048",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 328: basis widens, but liquidation volume increases. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 117,
+        "output_tokens": 128,
+        "generation_seconds": 20.765,
+        "tokens_per_second": 6.164,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=101"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1056",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 375: price declines, but open interest also declines. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: price declines, which may support the thesis. Cautious interpretation: open interest also declines, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Constructive interpretation: price declines, which may support the thesis. Cautious interpretation: open interest also declines, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 115,
+        "output_tokens": 91,
+        "generation_seconds": 15.536,
+        "tokens_per_second": 5.857,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=71"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1061",
+        "category": "crypto_derivatives",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 404: basis widens, but liquidation volume increases. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Constructive interpretation: basis widens, which may support the thesis. Cautious interpretation: liquidation volume increases, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 116,
+        "output_tokens": 92,
+        "generation_seconds": 15.719,
+        "tokens_per_second": 5.853,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=70"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1068",
+        "category": "crypto_derivatives",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 440: What is open interest? Answer in one sentence of no more than 35 words.",
+        "expected": "The number or notional value of derivative contracts that remain open.",
+        "response": "The number of derivative contracts that remain open.",
+        "input_tokens": 96,
+        "output_tokens": 10,
+        "generation_seconds": 1.778,
+        "tokens_per_second": 5.623,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": true,
+            "detail": "coverage=0.714"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=8"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_cd_1073",
+        "category": "crypto_derivatives",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 474: A long enters at 254 and has an estimated liquidation level at 174. Calculate the downside buffer as a percentage of entry. End with FINAL: <percentage>.",
+        "expected": "Buffer = (254 - 174) / 254 \u00d7 100 = 31.5%. Actual liquidation depends on venue rules and fees.\nFINAL: 31.5%",
+        "response": "Downside buffer = (254 - 174) / 254 \u00d7 100 = 31.5%. The calculation uses only the supplied hypothetical inputs.\nFINAL: 31.5%",
+        "input_tokens": 117,
+        "output_tokens": 49,
+        "generation_seconds": 8.395,
+        "tokens_per_second": 5.837,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 31 5%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1002",
+        "category": "macroeconomics",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "In a risk meeting, case 18: Long-term yields rise because real growth expectations improve. Why can the equity effect be mixed? A) Higher earnings hopes compete with higher discount rates B) Yields never affect valuation C) Growth always lowers earnings D) All sectors have identical duration End with exactly FINAL: <letter>.",
+        "expected": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "response": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "input_tokens": 137,
+        "output_tokens": 13,
+        "generation_seconds": 2.425,
+        "tokens_per_second": 5.36,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1007",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 48: A trade-weighted currency index changes from 88 to 107. Calculate the signed percentage change. End with FINAL: <percentage>.",
+        "expected": "Change = (107 - 88) / 88 \u00d7 100 = 21.59%.\nFINAL: 21.59%",
+        "response": "Signed percentage change = (107 - 88) / 88 \u00d7 100 = 21.59%. The calculation uses only the supplied hypothetical inputs.\nFINAL: 21.59%",
+        "input_tokens": 108,
+        "output_tokens": 49,
+        "generation_seconds": 8.381,
+        "tokens_per_second": 5.847,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 21 59%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1013",
+        "category": "macroeconomics",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 73: Long-term yields rise because real growth expectations improve. Why can the equity effect be mixed? A) Higher earnings hopes compete with higher discount rates B) Yields never affect valuation C) Growth always lowers earnings D) All sectors have identical duration End with exactly FINAL: <letter>.",
+        "expected": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "response": "Higher earnings hopes compete with higher discount rates.\nFINAL: A",
+        "input_tokens": 139,
+        "output_tokens": 13,
+        "generation_seconds": 2.444,
+        "tokens_per_second": 5.32,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1014",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 78: A trade-weighted currency index changes from 98 to 87. Calculate the signed percentage change. End with FINAL: <percentage>.",
+        "expected": "Change = (87 - 98) / 98 \u00d7 100 = -11.22%. The calculation uses only the supplied hypothetical inputs.\nFINAL: -11.22%",
+        "response": "Signed percentage change = (87 - 98) / 98 \u00d7 100 = -11.22%. The calculation uses only the supplied hypothetical inputs.\nFINAL: -11.22%",
+        "input_tokens": 107,
+        "output_tokens": 48,
+        "generation_seconds": 8.085,
+        "tokens_per_second": 5.937,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 11 22%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1038",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 346: A yield moves from 3.50% to 4.50%. Calculate the change in basis points. End with FINAL: <number> bps.",
+        "expected": "Change = (4.50% - 3.50%) \u00d7 100 = 100 basis points.\nFINAL: 100 bps",
+        "response": "Change = (4.50% - 3.50%) \u00d7 100 = 100 bps.\nFINAL: 100 bps",
+        "input_tokens": 113,
+        "output_tokens": 37,
+        "generation_seconds": 6.516,
+        "tokens_per_second": 5.678,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 100 bps"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ma_1044",
+        "category": "macroeconomics",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 422: Nominal GDP grows 8% while the GDP deflator rises 4%. Approximate real GDP growth using subtraction. End with FINAL: <percentage>.",
+        "expected": "Approximate real growth = 8% - 4% = 4%. This is a simplified approximation.\nFINAL: 4%",
+        "response": "Approximate real growth = 8% - 4% = 4%.\nFINAL: 4%",
+        "input_tokens": 110,
+        "output_tokens": 23,
+        "generation_seconds": 3.98,
+        "tokens_per_second": 5.779,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 4%"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1001",
+        "category": "risk_management",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 2: A portfolio has 5 positions, each capped at $150 planned loss. Assuming all stops are hit, calculate nominal aggregate planned loss. End with FINAL: $<amount>.",
+        "expected": "Aggregate planned loss = 5 \u00d7 $150 = $750. Correlation and gaps can make realized loss differ.\nFINAL: $750",
+        "response": "Aggregate planned loss = 5 \u00d7 $150 = $750.\nFINAL: $750",
+        "input_tokens": 114,
+        "output_tokens": 24,
+        "generation_seconds": 4.176,
+        "tokens_per_second": 5.747,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $750"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1003",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "In a risk meeting, case 19: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "Slippage or gap risk.\nFINAL: A",
+        "input_tokens": 126,
+        "output_tokens": 11,
+        "generation_seconds": 2.028,
+        "tokens_per_second": 5.423,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1015",
+        "category": "risk_management",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 149: individual trade risk is small, but positions share one factor. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: individual trade risk is small, which may support the thesis. Cautious interpretation: positions share one factor, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Constructive interpretation: individual trade risk is small, which may support the thesis. Cautious interpretation: positions share one factor, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 118,
+        "output_tokens": 94,
+        "generation_seconds": 15.989,
+        "tokens_per_second": 5.879,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=74"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1019",
+        "category": "risk_management",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 167: A portfolio has 8 positions, each capped at $375 planned loss. Assuming all stops are hit, calculate nominal aggregate planned loss. End with FINAL: $<amount>.",
+        "expected": "Aggregate planned loss = 8 \u00d7 $375 = $3000. Correlation and gaps can make realized loss differ.\nFINAL: $3000",
+        "response": "Aggregate planned loss = 8 \u00d7 $375 = $3,000.\nFINAL: $3,000",
+        "input_tokens": 116,
+        "output_tokens": 28,
+        "generation_seconds": 4.714,
+        "tokens_per_second": 5.939,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: $3000"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_rm_1031",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 224: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "Slippage or gap risk.\nFINAL: A",
+        "input_tokens": 129,
+        "output_tokens": 11,
+        "generation_seconds": 1.861,
+        "tokens_per_second": 5.91,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1035",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "When documenting a thesis, case 239: A stop order fills below its trigger after a gap. What risk materialized? A) Slippage or gap risk B) Accounting risk C) Dividend yield D) Duration matching End with exactly FINAL: <letter>.",
+        "expected": "Slippage or gap risk.\nFINAL: A",
+        "response": "Slippage or gap risk.\nFINAL: A",
+        "input_tokens": 127,
+        "output_tokens": 11,
+        "generation_seconds": 1.954,
+        "tokens_per_second": 5.629,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1037",
+        "category": "risk_management",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For an end-of-day note, case 250: Why cap aggregate portfolio exposure? A) Several individually small risks can occur together B) It guarantees every trade wins C) It increases concentration D) It removes market hours End with exactly FINAL: <letter>.",
+        "expected": "Several individually small risks can occur together.\nFINAL: A",
+        "response": "Several individually small risks can occur together.\nFINAL: A",
+        "input_tokens": 125,
+        "output_tokens": 12,
+        "generation_seconds": 2.25,
+        "tokens_per_second": 5.333,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_rm_1055",
+        "category": "risk_management",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 370: historical volatility declines, but event risk approaches. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: historical volatility declines, which may support the thesis. Cautious interpretation: event risk approaches, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Constructive interpretation: historical volatility declines, which may support the thesis. Cautious interpretation: event risk approaches, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 115,
+        "output_tokens": 91,
+        "generation_seconds": 15.054,
+        "tokens_per_second": 6.045,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=71"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sa_1004",
+        "category": "scenario_analysis",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 28: A base case is assigned the highest probability. What does that mean? A) It is most likely among defined cases, not certain B) It must occur C) Other outcomes are impossible D) Its payoff is always highest End with exactly FINAL: <letter>.",
+        "expected": "It is most likely among defined cases, not certain.\nFINAL: A",
+        "response": "It is most likely among defined cases, not certain.\nFINAL: A",
+        "input_tokens": 133,
+        "output_tokens": 15,
+        "generation_seconds": 2.698,
+        "tokens_per_second": 5.559,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sa_1008",
+        "category": "scenario_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 44: price confirms, but fundamentals lag. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 45-80 words.",
+        "expected": "Constructive interpretation: price confirms, which may support the thesis. Cautious interpretation: fundamentals lag, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "response": "Constructive interpretation: price confirms, which may support the thesis. Cautious interpretation: fundamentals lag, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 112,
+        "output_tokens": 89,
+        "generation_seconds": 14.822,
+        "tokens_per_second": 6.005,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=69"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sa_1009",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 56: What is an invalidation condition? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"an invalidation condition\",\"definition\":\"A predefined observation that materially contradicts the thesis mechanism.\",\"live_data_required\":false}",
+        "response": "{\"term\":\"invalidation condition\",\"definition\":\"A condition that must be observed for the thesis to remain valid.\",\"live_data_required\":false}",
+        "input_tokens": 102,
+        "output_tokens": 29,
+        "generation_seconds": 5.005,
+        "tokens_per_second": 5.794,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1031",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 217: What is a base case? Answer in one sentence of no more than 35 words.",
+        "expected": "The scenario judged most plausible under stated assumptions, not a certainty.",
+        "response": "A scenario where all stated assumptions hold.",
+        "input_tokens": 97,
+        "output_tokens": 9,
+        "generation_seconds": 1.61,
+        "tokens_per_second": 5.589,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=7"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1037",
+        "category": "scenario_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 257: What is an invalidation condition? Answer in one sentence of no more than 35 words.",
+        "expected": "A predefined observation that materially contradicts the thesis mechanism.",
+        "response": "A condition that the thesis mechanism must independently satisfy.",
+        "input_tokens": 98,
+        "output_tokens": 11,
+        "generation_seconds": 1.996,
+        "tokens_per_second": 5.512,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=9"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sa_1039",
+        "category": "scenario_analysis",
+        "task_type": "refusal",
+        "response_format": "plain",
+        "prompt": "Live-data boundary exercise 276: State the exact latest a stock's current price right now and briefly interpret it.",
+        "expected": "I do not have access to live data, so I cannot provide or verify that value. It also requires the ticker, venue, and timestamp. If you supply a sourced value with those details, I can interpret its direction, context, limitations, and relevant competing signals. Inventing an exact current figure would be misleading.",
+        "response": "I do not have access to live data, so I cannot provide or verify that value. It also requires the stock's identifier, which you must supply. If you supply a sourced historical price and a stated direction, I can interpret whether the stated condition is supported, qualified, or inconsistent. Inventing an exact current value would be misleading.",
+        "input_tokens": 96,
+        "output_tokens": 69,
+        "generation_seconds": 11.452,
+        "tokens_per_second": 6.025,
+        "checks": [
+          {
+            "name": "access_limitation",
+            "passed": true,
+            "detail": "must disclose lack of live-data access"
+          },
+          {
+            "name": "no_fabricated_value",
+            "passed": true,
+            "detail": "must not supply an exact live value"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1024",
+        "category": "stock_fundamentals",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 136: A stock trades at $46 with trailing EPS of $4. Calculate its P/E ratio. End with FINAL: <multiple>x.",
+        "expected": "P/E = $46 / $4 = 11.5x. The calculation uses only the supplied hypothetical inputs.\nFINAL: 11.5x",
+        "response": "P/E = $46 / $4 = 11.5x.\nFINAL: 11.5x",
+        "input_tokens": 107,
+        "output_tokens": 26,
+        "generation_seconds": 4.508,
+        "tokens_per_second": 5.768,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 11 5x"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1029",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 150: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Cash flow after capital expenditures.",
+        "input_tokens": 97,
+        "output_tokens": 7,
+        "generation_seconds": 1.332,
+        "tokens_per_second": 5.254,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=5"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1033",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 195: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Cash flow after capital expenditures.",
+        "input_tokens": 97,
+        "output_tokens": 7,
+        "generation_seconds": 1.363,
+        "tokens_per_second": 5.135,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=5"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1036",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 222: What is free cash flow? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"free cash flow\",\"definition\":\"A cash measure commonly defined as operating cash flow minus capital expenditure.\",\"live_data_required\":false}",
+        "response": "{\"term\":\"free cash flow\",\"definition\":\"Cash flow after subtracting capital expenditures.\",\"live_data_required\":false}",
+        "input_tokens": 102,
+        "output_tokens": 24,
+        "generation_seconds": 4.229,
+        "tokens_per_second": 5.675,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1040",
+        "category": "stock_fundamentals",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 249: What is free cash flow? Answer in one sentence of no more than 35 words.",
+        "expected": "A cash measure commonly defined as operating cash flow minus capital expenditure.",
+        "response": "Cash flow after capital expenditures.",
+        "input_tokens": 97,
+        "output_tokens": 7,
+        "generation_seconds": 1.236,
+        "tokens_per_second": 5.665,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.333"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=5"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_sf_1051",
+        "category": "stock_fundamentals",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "For a training case, case 357: Which item is subtracted from operating cash flow to obtain a common free-cash-flow measure? A) Capital expenditure B) Revenue C) Gross profit D) Market capitalization End with exactly FINAL: <letter>.",
+        "expected": "Capital expenditure.\nFINAL: A",
+        "response": "Capital expenditure.\nFINAL: A",
+        "input_tokens": 125,
+        "output_tokens": 7,
+        "generation_seconds": 1.296,
+        "tokens_per_second": 5.401,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1066",
+        "category": "stock_fundamentals",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 441: revenue accelerates, but operating margin contracts. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 116,
+        "output_tokens": 127,
+        "generation_seconds": 20.984,
+        "tokens_per_second": 6.052,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=101"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_sf_1067",
+        "category": "stock_fundamentals",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 445: revenue accelerates, but operating margin contracts. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: revenue accelerates, which may support the thesis. Cautious interpretation: operating margin contracts, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 116,
+        "output_tokens": 127,
+        "generation_seconds": 21.532,
+        "tokens_per_second": 5.898,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=101"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1001",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 5: A chart moves from a swing low of 85 to a swing high of 100. Calculate the advance as a percentage of the low. Show the formula and end with FINAL: <percentage>.",
+        "expected": "Advance = (100 - 85) / 85 \u00d7 100 = 17.65%.\nFINAL: 17.65%",
+        "response": "Advance = (100 - 85) / 85 \u00d7 100 = 17.647%. The calculation uses only the supplied hypothetical inputs.\nFINAL: 17.647%",
+        "input_tokens": 119,
+        "output_tokens": 49,
+        "generation_seconds": 8.366,
+        "tokens_per_second": 5.857,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": false,
+            "detail": "expected normalized final value: 17 65%"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ta_1017",
+        "category": "technical_analysis",
+        "task_type": "factual",
+        "response_format": "json_only",
+        "prompt": "Reference check 80: What is a support break? Return only valid JSON with keys \"term\", \"definition\", and \"live_data_required\".",
+        "expected": "{\"term\":\"a support break\",\"definition\":\"Price acceptance below an area where demand previously emerged.\",\"live_data_required\":false}",
+        "response": "{\"term\":\"support break\",\"definition\":\"Price acceptance below a previously respected level.\",\"live_data_required\":false}",
+        "input_tokens": 101,
+        "output_tokens": 23,
+        "generation_seconds": 4.143,
+        "tokens_per_second": 5.551,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": false,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_ta_1021",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 106: For a range with high 141 and low 93, compute its midpoint. End with FINAL: <value>.",
+        "expected": "Midpoint = (141 + 93) / 2 = 117. The calculation uses only the supplied hypothetical inputs.\nFINAL: 117",
+        "response": "Midpoint = (141 + 93) / 2 = 117.\nFINAL: 117",
+        "input_tokens": 105,
+        "output_tokens": 28,
+        "generation_seconds": 4.899,
+        "tokens_per_second": 5.716,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 117"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1028",
+        "category": "technical_analysis",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 143: What is a support break? Answer in one sentence of no more than 35 words.",
+        "expected": "Price acceptance below an area where demand previously emerged.",
+        "response": "Price acceptance below an area where demand previously emerged.",
+        "input_tokens": 97,
+        "output_tokens": 11,
+        "generation_seconds": 1.948,
+        "tokens_per_second": 5.646,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": true,
+            "detail": "coverage=1.000"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=9"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1030",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 148: a support retest holds, but market breadth weakens. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: a support retest holds, which may support the thesis. Cautious interpretation: market breadth weakens, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: a support retest holds, which may support the thesis. Cautious interpretation: market breadth weakens, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 119,
+        "output_tokens": 130,
+        "generation_seconds": 21.692,
+        "tokens_per_second": 5.993,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=103"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1042",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 190: the weekly trend is up, but the daily structure turns down. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 120,
+        "output_tokens": 131,
+        "generation_seconds": 21.919,
+        "tokens_per_second": 5.977,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=106"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1059",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 278: A long entry is 128, ATR is 5, and the plan places the stop two ATR below entry. Calculate the stop level. End with FINAL: <value>.",
+        "expected": "Stop = 128 - (2 \u00d7 5) = 118. ATR sizes the distance; it does not predict direction.\nFINAL: 118",
+        "response": "Stop = 128 - (2 \u00d7 5) = 118.\nFINAL: 118",
+        "input_tokens": 118,
+        "output_tokens": 26,
+        "generation_seconds": 4.571,
+        "tokens_per_second": 5.688,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 118"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1062",
+        "category": "technical_analysis",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 293: A long entry is 143, ATR is 5, and the plan places the stop two ATR below entry. Calculate the stop level. End with FINAL: <value>.",
+        "expected": "Stop = 143 - (2 \u00d7 5) = 133. ATR sizes the distance; it does not predict direction.\nFINAL: 133",
+        "response": "Stop = 143 - (2 \u00d7 5) = 133.\nFINAL: 133",
+        "input_tokens": 118,
+        "output_tokens": 26,
+        "generation_seconds": 4.847,
+        "tokens_per_second": 5.364,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: 133"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1077",
+        "category": "technical_analysis",
+        "task_type": "instruction_following",
+        "response_format": "json_only",
+        "prompt": "JSON exercise 359 for technical analysis: Using only these supplied inputs\u2014signal score 94/100, volatility high, and bias bullish\u2014return only JSON with keys signal_score, volatility, bias, confidence, and live_data_used. No Markdown.",
+        "expected": "{\"signal_score\":94,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "response": "{\"signal_score\":94,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "input_tokens": 126,
+        "output_tokens": 28,
+        "generation_seconds": 4.634,
+        "tokens_per_second": 6.042,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": true,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_ta_1090",
+        "category": "technical_analysis",
+        "task_type": "analysis",
+        "response_format": "plain",
+        "prompt": "Analysis case 450: the weekly trend is up, but the daily structure turns down. Explain the competing interpretations, name evidence that would discriminate between them, and state an invalidation. Use 90-130 words.",
+        "expected": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "response": "Constructive interpretation: the weekly trend is up, which may support the thesis. Cautious interpretation: the daily structure turns down, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, whether the second signal stabilizes, and whether independent evidence confirms the same mechanism. The thesis is invalidated if the constructive signal reverses and the cautionary condition persists. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty; a persuasive narrative is not a substitute for confirmation. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 120,
+        "output_tokens": 131,
+        "generation_seconds": 21.158,
+        "tokens_per_second": 6.191,
+        "checks": [
+          {
+            "name": "both_signals",
+            "passed": true,
+            "detail": "[True, True]"
+          },
+          {
+            "name": "invalidation",
+            "passed": true,
+            "detail": "must state invalidation"
+          },
+          {
+            "name": "uncertainty",
+            "passed": true,
+            "detail": "must use calibrated uncertainty language"
+          },
+          {
+            "name": "requested_length",
+            "passed": true,
+            "detail": "word_count=106"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1003",
+        "category": "terminology_misc",
+        "task_type": "factual",
+        "response_format": "plain",
+        "prompt": "Reference check 42: What is uncertainty calibration? Answer in one sentence of no more than 35 words.",
+        "expected": "Matching confidence language to the strength and limitations of available evidence.",
+        "response": "The degree to which a forecast matches its confidence interval.",
+        "input_tokens": 95,
+        "output_tokens": 12,
+        "generation_seconds": 2.239,
+        "tokens_per_second": 5.36,
+        "checks": [
+          {
+            "name": "reference_token_coverage",
+            "passed": false,
+            "detail": "coverage=0.143"
+          },
+          {
+            "name": "concise",
+            "passed": true,
+            "detail": "word_count=10"
+          }
+        ],
+        "score": 0.5
+      },
+      {
+        "case_id": "fp_tm_1017",
+        "category": "terminology_misc",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 193: An unlevered $16,500 exposure gains 5%. Calculate the dollar gain before costs. End with FINAL: $<amount>.",
+        "expected": "Gain = $16,500 \u00d7 5% = $825. The calculation uses only the supplied hypothetical inputs.\nFINAL: $825",
+        "response": "Unlevered gain = $16,500 \u00d7 5% = $825.\nFINAL: $825",
+        "input_tokens": 110,
+        "output_tokens": 29,
+        "generation_seconds": 4.906,
+        "tokens_per_second": 5.912,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $825"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1021",
+        "category": "terminology_misc",
+        "task_type": "calculation",
+        "response_format": "final_marker",
+        "prompt": "Calculation exercise 212: Assets are $800 and liabilities are $340. Use the accounting identity to calculate equity. End with FINAL: $<amount>.",
+        "expected": "Equity = assets - liabilities = $800 - $340 = $460.\nFINAL: $460",
+        "response": "Equity = $800 - $340 = $460.\nFINAL: $460",
+        "input_tokens": 109,
+        "output_tokens": 25,
+        "generation_seconds": 4.249,
+        "tokens_per_second": 5.884,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: $460"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1034",
+        "category": "terminology_misc",
+        "task_type": "instruction_following",
+        "response_format": "json_only",
+        "prompt": "JSON exercise 326 for terminology misc: Using only these supplied inputs\u2014signal score 61/100, volatility high, and bias bullish\u2014return only JSON with keys signal_score, volatility, bias, confidence, and live_data_used. No Markdown.",
+        "expected": "{\"signal_score\":61,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "response": "{\"signal_score\":61,\"volatility\":\"high\",\"bias\":\"bullish\",\"confidence\":\"low\",\"live_data_used\":false}",
+        "input_tokens": 126,
+        "output_tokens": 28,
+        "generation_seconds": 4.852,
+        "tokens_per_second": 5.771,
+        "checks": [
+          {
+            "name": "json_only",
+            "passed": true,
+            "detail": "response must be one unfenced JSON object"
+          },
+          {
+            "name": "json_values",
+            "passed": true,
+            "detail": "JSON values must match inputs"
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "case_id": "fp_tm_1036",
+        "category": "terminology_misc",
+        "task_type": "multiple_choice",
+        "response_format": "final_marker",
+        "prompt": "During a portfolio review, case 352: Which statement distinguishes possibility from probability? A) Possible means not ruled out; probable asserts greater likelihood B) They are identical C) Possible means certain D) Probable means impossible End with exactly FINAL: <letter>.",
+        "expected": "Possible means not ruled out; probable asserts greater likelihood.\nFINAL: A",
+        "response": "Possible means not ruled out; probable asserts greater likelihood.\nFINAL: A",
+        "input_tokens": 126,
+        "output_tokens": 15,
+        "generation_seconds": 2.674,
+        "tokens_per_second": 5.61,
+        "checks": [
+          {
+            "name": "final_marker_format",
+            "passed": true,
+            "detail": "exactly one terminal FINAL marker"
+          },
+          {
+            "name": "final_value",
+            "passed": true,
+            "detail": "expected normalized final value: a"
+          }
+        ],
+        "score": 1.0
+      }
+    ]
+  }
+}

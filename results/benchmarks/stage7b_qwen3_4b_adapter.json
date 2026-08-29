@@ -1,0 +1,4107 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "benchmark_id": "finpulse_eval_v1",
+  "benchmark_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+  "case_count": 160,
+  "model": {
+    "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "quantization": "bitsandbytes 4-bit",
+    "max_sequence_length": 2048,
+    "load_seconds": 6.509,
+    "peak_process_ram_mib": 3689.7,
+    "peak_system_ram_used_mib": 12106.8,
+    "peak_gpu_device_used_mib": 3961.5,
+    "peak_gpu_allocated_mib": 2838.2,
+    "peak_gpu_reserved_mib": 2896.0,
+    "torch_version": "2.11.0+cu130",
+    "torch_cuda_version": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+  },
+  "adapter": {
+    "directory": "models\\adapters\\finpulse-qwen3-4b-stage5b-v1",
+    "weights_sha256": "4dbfab3baa3fe052b95f8334e7b3657fcf253d2a3947af9f83e18da48e289a56",
+    "weights_size_bytes": 66127776,
+    "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "base_model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+    "rank": 16,
+    "alpha": 32,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ]
+  },
+  "generation_config": "configs\\models\\qwen3_4b_eval.toml",
+  "scoring": {
+    "overall_score": 0.7092,
+    "checks_passed": 278,
+    "checks_total": 392,
+    "category_scores": {
+      "contradictory_signals": 0.7031,
+      "crypto_derivatives": 0.8438,
+      "financial_calculations": 0.1875,
+      "hallucination_traps": 1.0,
+      "macroeconomics": 0.8438,
+      "risk_management": 0.8594,
+      "scenario_analysis": 0.5781,
+      "stock_fundamentals": 0.8281,
+      "structured_output": 0.8125,
+      "technical_analysis": 0.8125
+    },
+    "check_type_scores": {
+      "contains_any": 0.5776,
+      "json_only_exact": 0.75,
+      "json_only_fields": 0.875,
+      "regex": 0.7679,
+      "regex_not": 1.0
+    },
+    "cases": [
+      {
+        "case_id": "eval_ta_001",
+        "prompt": "A market forms successive higher highs and higher lows. What structure is present?\nA. Uptrend\nB. Downtrend\nC. Range only\nD. No usable structure\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Constructive consolidation.\nFINAL: A",
+        "input_tokens": 134,
+        "output_tokens": 8,
+        "generation_seconds": 6.074,
+        "tokens_per_second": 1.317,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_002",
+        "prompt": "Price closes above established resistance on expanding volume. Which interpretation is best?\nA. A guaranteed rally\nB. Stronger breakout confirmation, still requiring invalidation\nC. Automatic short signal\nD. Volume makes structure irrelevant\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Stronger breakout confirmation, still requiring invalidation.\nFINAL: B",
+        "input_tokens": 141,
+        "output_tokens": 14,
+        "generation_seconds": 2.416,
+        "tokens_per_second": 5.796,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_003",
+        "prompt": "Price trades above resistance intraday but closes back below it. What is this commonly called?\nA. Confirmed breakout\nB. Golden cross\nC. Potential fakeout\nD. Bullish divergence\nExplain briefly, then end exactly with FINAL: C",
+        "response": "Price trades above resistance intraday but closes back below it. This common observation is often interpreted as a potential fakeout.\nFINAL: C",
+        "input_tokens": 137,
+        "output_tokens": 28,
+        "generation_seconds": 4.738,
+        "tokens_per_second": 5.909,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_004",
+        "prompt": "Daily RSI is 22 during a strong downtrend. What follows logically?\nA. Price must bounce\nB. The asset is cheap fundamentally\nC. Momentum is weak, but RSI alone does not time a reversal\nD. A new uptrend is confirmed\nExplain briefly, then end exactly with FINAL: C",
+        "response": "Momentum is weak, but RSI alone does not time a reversal.\nFINAL: C",
+        "input_tokens": 152,
+        "output_tokens": 19,
+        "generation_seconds": 3.226,
+        "tokens_per_second": 5.889,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_005",
+        "prompt": "Price makes a lower low while RSI makes a higher low. What is the pattern?\nA. Bearish divergence\nB. Bullish divergence\nC. Hidden bearish divergence\nD. No divergence\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Price makes a lower low while RSI makes a higher low. The apparent strength in price may be incomplete or temporary.\nFINAL: B",
+        "input_tokens": 138,
+        "output_tokens": 28,
+        "generation_seconds": 4.633,
+        "tokens_per_second": 6.044,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_006",
+        "prompt": "ATR rises sharply. What does ATR directly indicate?\nA. Bullish direction\nB. Bearish direction\nC. Higher realized range or volatility\nD. Overvaluation\nExplain briefly, then end exactly with FINAL: C",
+        "response": "Short-term strength or weakness.\nFINAL: C",
+        "input_tokens": 133,
+        "output_tokens": 10,
+        "generation_seconds": 1.765,
+        "tokens_per_second": 5.665,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_007",
+        "prompt": "Why is an EMA crossover considered lagging?\nA. It uses derivatives data\nB. It is calculated from past prices\nC. It predicts earnings\nD. It ignores price\nExplain briefly, then end exactly with FINAL: B",
+        "response": "It is calculated from past prices.\nFINAL: B",
+        "input_tokens": 134,
+        "output_tokens": 11,
+        "generation_seconds": 1.965,
+        "tokens_per_second": 5.598,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_008",
+        "prompt": "Price rises while volume steadily declines. Which is the most careful reading?\nA. The rally is guaranteed\nB. Participation may be weakening, so seek confirmation\nC. Volume never matters\nD. A crash is certain\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Price rises while volume steadily declines. The rally may be guaranteed, but participation may be weakening, so seek confirmation.\nFINAL: B",
+        "input_tokens": 141,
+        "output_tokens": 27,
+        "generation_seconds": 4.344,
+        "tokens_per_second": 6.216,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_009",
+        "prompt": "Price tests the same support zone three times and rebounds, but each rebound is smaller. Explain what the evidence suggests and give a bearish invalidation trigger.",
+        "response": "Constructive short-term momentum, which may support a cautious bullish thesis. A valid bearish invalidation would require the price to retest the same support zone and break below the first follow-through price. Until that condition is confirmed, the thesis remains incomplete. Position size and risk management should reflect the appropriate degree of confidence.",
+        "input_tokens": 116,
+        "output_tokens": 65,
+        "generation_seconds": 10.593,
+        "tokens_per_second": 6.136,
+        "category": "technical_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['support']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['break', 'invalidation']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_010",
+        "prompt": "Price sweeps below equal lows, immediately reclaims the level, and volume expands. Explain the bullish possibility, one confirmation, and one invalidation.",
+        "response": "Constructive thesis: Price sweeps below equal lows, immediately reclaims the level, and volume expands. These conditions may support a bullish thesis, though the strength and sustainability of the apparent conviction must be observed.\nOne confirmation: The apparent conviction stabilizes and independent evidence corroborates the same mechanism.\nOne invalidation: The apparent conviction reverses, and the independent confirmation also reverses.",
+        "input_tokens": 114,
+        "output_tokens": 77,
+        "generation_seconds": 12.457,
+        "tokens_per_second": 6.181,
+        "category": "technical_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['sweep']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['reclaim']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['below', 'invalidation']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_011",
+        "prompt": "A range breaks upward on very low volume and returns inside the range. Assess the setup without predicting certainty.",
+        "response": "Constructive short-term momentum, which may support the thesis. The follow-through is incomplete, so the apparent strength may be incomplete or temporary. Position size and risk management should reflect that uncertainty. A strong independent confirmation is needed before concluding confidence.",
+        "input_tokens": 106,
+        "output_tokens": 49,
+        "generation_seconds": 8.456,
+        "tokens_per_second": 5.795,
+        "category": "technical_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_012",
+        "prompt": "MACD crosses bullish below the zero line while price remains below a falling 200-day SMA. Explain the conflict.",
+        "response": "Constructive evidence may support the thesis, but the apparent strength may be incomplete or temporary. Track follow-through; a valid conclusion requires more than one observation. Position size and risk management should reflect the appropriate degree of confidence.",
+        "input_tokens": 110,
+        "output_tokens": 45,
+        "generation_seconds": 7.531,
+        "tokens_per_second": 5.976,
+        "category": "technical_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_013",
+        "prompt": "Price is above a rising 200-day SMA but below a falling 20-day EMA. Describe the two time-horizon signals and an invalidation level conceptually.",
+        "response": "Short-term signal: Price is above a rising 200-day SMA, which may support the thesis. Medium-term signal: Price is below a falling 20-day EMA, which may temper confidence. The thesis may be invalidated if the short-term signal reverses and the medium-term signal stabilizes below the first condition. The first condition may also expire, so the appropriate conclusion must distinguish possibilities from certainties. Until those observations resolve the conflict, the appropriate position is conditional rather than certain.",
+        "input_tokens": 123,
+        "output_tokens": 102,
+        "generation_seconds": 16.857,
+        "tokens_per_second": 6.051,
+        "category": "technical_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['200']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['short-term', '20']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_014",
+        "prompt": "After a higher high, price breaks below the prior higher low. Explain the structural warning and what would confirm a bearish shift.",
+        "response": "A constructive thesis may persist, but a structural warning emerges. A bearish shift would confirm the thesis; a persuasive follow-through thesis must then be offered. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty.",
+        "input_tokens": 111,
+        "output_tokens": 57,
+        "generation_seconds": 9.826,
+        "tokens_per_second": 5.801,
+        "category": "technical_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['follow-through']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_015",
+        "prompt": "Volume spikes at resistance, but the candle closes near its low and below resistance. Give a balanced interpretation.",
+        "response": "Constructive evidence: volume spikes at resistance, which may support the thesis. Cautious evidence: the candle closes near its low and below resistance, so the apparent strength may be incomplete or temporary. Position size and follow-through are also relevant. The apparent strength may persist, but it is not certain. Position size and follow-through are also relevant. The apparent strength may persist, but it is not certain.",
+        "input_tokens": 106,
+        "output_tokens": 83,
+        "generation_seconds": 14.088,
+        "tokens_per_second": 5.892,
+        "category": "technical_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['volume']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['follow-through']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ta_016",
+        "prompt": "Weekly structure is bullish while daily structure is bearish. Explain how a trader could frame this without collapsing the timeframes into one signal.",
+        "response": "The apparent strength in the weekly signal may be incomplete or temporary; the daily signal may also be incomplete or temporary. A trader could frame this as a short-term constructive thesis within a broader cautionary context. The thesis should include its limitations, and the appropriate position size should reflect that uncertainty. Until the shorter-term signal reverses and the longer-term confirmation stabilizes, the thesis remains open.",
+        "input_tokens": 112,
+        "output_tokens": 79,
+        "generation_seconds": 13.725,
+        "tokens_per_second": 5.756,
+        "category": "technical_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['weekly']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['daily']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_001",
+        "prompt": "In a standard perpetual swap, positive funding normally means:\nA. Shorts pay longs\nB. Longs pay shorts\nC. The exchange pays everyone\nD. Spot holders pay futures holders\nExplain briefly, then end exactly with FINAL: B",
+        "response": "The long pays the short.\nFINAL: B",
+        "input_tokens": 136,
+        "output_tokens": 10,
+        "generation_seconds": 1.907,
+        "tokens_per_second": 5.244,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_002",
+        "prompt": "Price and open interest both rise quickly. What can be concluded safely?\nA. Only shorts entered\nB. New leveraged exposure is being added, but OI alone is not directional\nC. Spot demand caused all movement\nD. A reversal is guaranteed\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Short-term strength may follow the same direction, but the apparent narrative may be incomplete.\nFINAL: B",
+        "input_tokens": 149,
+        "output_tokens": 21,
+        "generation_seconds": 3.591,
+        "tokens_per_second": 5.848,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_003",
+        "prompt": "Price falls while open interest also falls. Which mechanism is plausible?\nA. Long liquidation or position closure\nB. Only new shorts\nC. Guaranteed accumulation\nD. Funding must be zero\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Long liquidation or position closure.\nFINAL: A",
+        "input_tokens": 136,
+        "output_tokens": 11,
+        "generation_seconds": 2.028,
+        "tokens_per_second": 5.424,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_004",
+        "prompt": "Futures trade above spot for the same asset and maturity. This is called:\nA. Backwardation\nB. Contango\nC. Capitulation\nD. Divergence\nExplain briefly, then end exactly with FINAL: B",
+        "response": "The contract trades at a discount to the spot price.\nFINAL: B",
+        "input_tokens": 135,
+        "output_tokens": 15,
+        "generation_seconds": 2.694,
+        "tokens_per_second": 5.568,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_005",
+        "prompt": "Which statement about liquidation data is most accurate?\nA. Liquidations can amplify moves but do not prove the original cause\nB. Liquidations always start the move\nC. Only shorts can be liquidated\nD. Liquidations predict direction with certainty\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Short-term liquidations may support the thesis, but long-term direction must be independently confirmed.\nFINAL: A",
+        "input_tokens": 148,
+        "output_tokens": 22,
+        "generation_seconds": 3.783,
+        "tokens_per_second": 5.816,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_006",
+        "prompt": "A rally led by spot buying rather than perpetual leverage is often viewed as:\nA. Potentially more sustainable, though not guaranteed\nB. Guaranteed to continue\nC. Necessarily bearish\nD. Unrelated to demand\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Spot buying may reflect constructive demand, which can support a thesis.\nFINAL: A",
+        "input_tokens": 142,
+        "output_tokens": 17,
+        "generation_seconds": 3.196,
+        "tokens_per_second": 5.32,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_007",
+        "prompt": "BTC dominance rises while total crypto capitalization is flat. A reasonable relative interpretation is:\nA. Altcoins may be underperforming BTC\nB. Every altcoin is rising\nC. BTC price must be falling\nD. Dominance measures leverage\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Altcoins may be underperforming BTC.\nFINAL: A",
+        "input_tokens": 147,
+        "output_tokens": 13,
+        "generation_seconds": 2.398,
+        "tokens_per_second": 5.421,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_008",
+        "prompt": "Crypto correlations with equities are best described as:\nA. Fixed at one\nB. Fixed at zero\nC. Regime-dependent and unstable\nD. Always negative\nExplain briefly, then end exactly with FINAL: C",
+        "response": "Short-term correlations can be positive, negative, or neutral; they also vary by asset and horizon. The appropriate measure must account for these limitations.\nFINAL: C",
+        "input_tokens": 131,
+        "output_tokens": 33,
+        "generation_seconds": 5.728,
+        "tokens_per_second": 5.761,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_009",
+        "prompt": "BTC rises, funding becomes highly positive, and open interest surges. Explain the bullish evidence and the leverage-related risk.",
+        "response": "Bullish evidence: BTC rises, funding becomes highly positive, and open interest surges. These signals may support the thesis, but they can also be incomplete or temporary. The apparent strength may weaken if follow-through fails, short-term momentum reverses, or the thesis itself invalidates. Leverage-related risk is separate from the apparent strength; a narrative can be persuasive without certainty, and constructive conditions can still produce constructive or neutral outcomes. Position size and position discipline must therefore accommodate the appropriate level of uncertainty.",
+        "input_tokens": 109,
+        "output_tokens": 103,
+        "generation_seconds": 17.257,
+        "tokens_per_second": 5.969,
+        "category": "crypto_derivatives",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['bull']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['funding']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['leverage']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_010",
+        "prompt": "Funding is deeply negative while price holds support and spot volume increases. Explain a possible squeeze setup and its invalidation.",
+        "response": "A possible squeeze setup may emerge if funding remains negative, price holds support, and spot volume increases. A constructive signal may also be required to confirm the thesis. The apparent strength may weaken or reverse, so the thesis must be monitored and reevaluated. Position size and size direction should also be tracked. Until those observations confirm the same narrative, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 109,
+        "output_tokens": 79,
+        "generation_seconds": 13.301,
+        "tokens_per_second": 5.939,
+        "category": "crypto_derivatives",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['squeeze', 'spot']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['support']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_011",
+        "prompt": "Price rises while open interest falls. Give two plausible mechanisms and explain why this is not automatically bearish.",
+        "response": "1. **Short covering**: Price rises while open interest falls because short sellers cover their positions, which can temporarily support the apparent strength.\n2. **Directional conviction**: The first signal may be incomplete or incomplete confirmation; the second signal may be the valid one, so the apparent contradiction may resolve itself.\nThis is not automatically bearish because the first mechanism may be temporary, the second signal may be incomplete, and apparent contradictions often resolve themselves. Position size, context and follow-through must also be considered.",
+        "input_tokens": 106,
+        "output_tokens": 102,
+        "generation_seconds": 17.17,
+        "tokens_per_second": 5.941,
+        "category": "crypto_derivatives",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['short covering']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['not', 'context', 'confirm']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_012",
+        "prompt": "Perpetuals trade aggressively above spot while spot volume is flat. Discuss what that says about move quality.",
+        "response": "Perpetuals trade aggressively above spot while spot volume is flat. That may support the thesis, but it is incomplete evidence because spot volume is also relevant. A strong thesis may require independent confirmation before it is persuasive. Position size, context, and follow-through are also important limitations. Position strength and confidence may therefore be constructive rather than certain.",
+        "input_tokens": 107,
+        "output_tokens": 70,
+        "generation_seconds": 15.461,
+        "tokens_per_second": 4.527,
+        "category": "crypto_derivatives",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['perpetual']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['spot', 'confirmation']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_013",
+        "prompt": "Open interest reaches a record while price remains range-bound. Explain why OI is not a directional signal and name a risk.",
+        "response": "Open interest can rise for reasons unrelated to price direction, such as increased participation or a constructive thesis. A risk is that the apparent strength may reverse if the thesis weakens. Position size and context must also be considered.",
+        "input_tokens": 110,
+        "output_tokens": 45,
+        "generation_seconds": 8.698,
+        "tokens_per_second": 5.173,
+        "category": "crypto_derivatives",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_014",
+        "prompt": "A sharp decline triggers large long liquidations and then price stabilizes. Distinguish forced selling from evidence of a durable bottom.",
+        "response": "Constructive short-term evidence may support the thesis, but the narrative must also acknowledge the limitations in the observation. A durable bottom requires independent confirmation before it can be meaningfully distinguished from a temporary signal.",
+        "input_tokens": 110,
+        "output_tokens": 41,
+        "generation_seconds": 6.03,
+        "tokens_per_second": 6.799,
+        "category": "crypto_derivatives",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['bottom']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['confirmation']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_015",
+        "prompt": "Quarterly futures basis contracts rapidly while spot price is unchanged. Give possible interpretations without assuming direction.",
+        "response": "Constructive basis strength may support the thesis; however, the apparent strength may be incomplete or temporary. Position size, context, and follow-through must be observed before concluding confidence. The apparent thesis may also be invalidated by the competing signal. Position direction is not necessarily confirmed.",
+        "input_tokens": 104,
+        "output_tokens": 55,
+        "generation_seconds": 8.393,
+        "tokens_per_second": 6.553,
+        "category": "crypto_derivatives",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['basis']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['context', 'not']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cd_016",
+        "prompt": "BTC dominance falls as BTC and major altcoins both rise. Explain the relative signal and one reason it may reverse.",
+        "response": "Short-term strength may follow the apparent thesis, but the apparent thesis may reverse if the follow-through in the first signal weakens and the second signal stabilizes. The first signal may also reverse independently. Position size should reflect the first signal's uncertainty, and the thesis should remain open until the second signal confirms the same mechanism.",
+        "input_tokens": 108,
+        "output_tokens": 66,
+        "generation_seconds": 9.982,
+        "tokens_per_second": 6.612,
+        "category": "crypto_derivatives",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['reverse']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_001",
+        "prompt": "A company's revenue rises but net income falls. What is necessarily true?\nA. Demand collapsed\nB. Costs or non-operating effects outweighed revenue growth\nC. Cash flow increased\nD. The stock is overvalued\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Revenue rises but net income falls, so the revenue growth must have been offset by costs or non-operating effects.\nFINAL: B",
+        "input_tokens": 144,
+        "output_tokens": 27,
+        "generation_seconds": 4.479,
+        "tokens_per_second": 6.028,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_002",
+        "prompt": "Gross margin falls from 50% to 42%. This directly indicates:\nA. Less gross profit per revenue dollar\nB. Lower debt\nC. Higher free cash flow\nD. A lower share count\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Less gross profit per revenue dollar.\nFINAL: A",
+        "input_tokens": 142,
+        "output_tokens": 11,
+        "generation_seconds": 1.923,
+        "tokens_per_second": 5.721,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_003",
+        "prompt": "Free cash flow is generally operating cash flow minus:\nA. Revenue\nB. Capital expenditures\nC. Net income\nD. Dividends only\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Working capital.\nFINAL: B",
+        "input_tokens": 127,
+        "output_tokens": 7,
+        "generation_seconds": 1.122,
+        "tokens_per_second": 6.237,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_004",
+        "prompt": "A high P/E ratio by itself proves that a stock is:\nA. Overvalued\nB. Undervalued\nC. Neither; growth, quality, rates, and risk matter\nD. Unprofitable\nExplain briefly, then end exactly with FINAL: C",
+        "response": "A high P/E ratio by itself proves that a stock is overvalued.\nFINAL: C",
+        "input_tokens": 141,
+        "output_tokens": 20,
+        "generation_seconds": 3.696,
+        "tokens_per_second": 5.412,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_005",
+        "prompt": "Which balance-sheet item most directly improves net cash?\nA. More debt with unchanged cash\nB. More cash with unchanged debt\nC. Higher goodwill\nD. Higher accounts receivable only\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Cash increases.\nFINAL: B",
+        "input_tokens": 135,
+        "output_tokens": 7,
+        "generation_seconds": 1.338,
+        "tokens_per_second": 5.231,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_006",
+        "prompt": "Management raises next-quarter guidance while current-quarter EPS misses. The signal is:\nA. Unambiguously bullish\nB. Mixed and requires context\nC. Guaranteed bearish\nD. Irrelevant\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Constructive news may temper a bearish narrative, so the appropriate conclusion is conditional rather than certain.\nFINAL: B",
+        "input_tokens": 137,
+        "output_tokens": 24,
+        "generation_seconds": 4.435,
+        "tokens_per_second": 5.411,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_007",
+        "prompt": "Issuing new shares while earnings are unchanged generally does what to EPS?\nA. Raises it\nB. Lowers it through dilution\nC. Leaves it always unchanged\nD. Makes EPS undefined\nExplain briefly, then end exactly with FINAL: B",
+        "response": "EPS is diluted, so the numerator is smaller.\nFINAL: B",
+        "input_tokens": 137,
+        "output_tokens": 14,
+        "generation_seconds": 2.58,
+        "tokens_per_second": 5.425,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_008",
+        "prompt": "A buyback creates value most reliably when:\nA. Shares are repurchased below intrinsic value without weakening finances\nB. Debt is ignored\nC. Any price is paid\nD. Revenue is declining\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Constructive demand that sustains the thesis.\nFINAL: A",
+        "input_tokens": 137,
+        "output_tokens": 13,
+        "generation_seconds": 2.415,
+        "tokens_per_second": 5.383,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_009",
+        "prompt": "Revenue grows 25%, gross margin is stable, but operating expenses grow 40%. Explain the operating leverage issue and what to investigate.",
+        "response": "Operating leverage is constructive, which may support the thesis. The apparent strength in revenue growth may be incomplete or temporary. Investigate whether the 25% revenue growth is sustainable, whether gross margin stability is confirmed, and whether the operating expenses growth is selective or broad-based. A constructive thesis requires confirmation, not certainty.",
+        "input_tokens": 114,
+        "output_tokens": 65,
+        "generation_seconds": 11.444,
+        "tokens_per_second": 5.68,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['revenue', 'growth']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['expense', 'operating leverage', 'margin']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['investigate', 'temporary']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_010",
+        "prompt": "EPS beats estimates because the share count fell, while operating income declined. Give a balanced interpretation.",
+        "response": "EPS beats estimates because the share count fell, which may support the thesis. Operating income declined, so the apparent strength may be incomplete or temporary. Track follow-through in the first signal, and cautionary context is appropriate. The thesis remains plausible but incomplete.",
+        "input_tokens": 104,
+        "output_tokens": 52,
+        "generation_seconds": 8.928,
+        "tokens_per_second": 5.824,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['share count']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['operating income', 'declin']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['caution']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_011",
+        "prompt": "A company reports positive net income but persistently negative free cash flow. Name plausible causes and why the difference matters.",
+        "response": "Constructive reinvestment, which may support long-term growth; temporary strength, which may be incomplete or temporary; and a sectoral thesis, which may not apply elsewhere. The difference matters because constructive reinvestment and temporary strength are often short-lived, while a sectoral thesis may require follow-through. Position size and confidence should also reflect that uncertainty.",
+        "input_tokens": 108,
+        "output_tokens": 70,
+        "generation_seconds": 12.443,
+        "tokens_per_second": 5.626,
+        "category": "stock_fundamentals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_012",
+        "prompt": "Debt/EBITDA rises after an acquisition while management projects synergies. Explain both the risk and potential benefit.",
+        "response": "Risk: The apparent strength may be incomplete or temporary; constructive factors may weaken, and independent evidence may emerge. Potential benefit: The thesis may persist, which could support the apparent direction. Position size and confidence should reflect the first rather than the second.",
+        "input_tokens": 109,
+        "output_tokens": 51,
+        "generation_seconds": 9.701,
+        "tokens_per_second": 5.257,
+        "category": "stock_fundamentals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_013",
+        "prompt": "A cyclical company has a very low P/E at peak earnings. Explain why the multiple may be misleading.",
+        "response": "A cyclical company's low P/E at peak earnings may reflect temporary weakness rather than strength. The multiple can also be misleading if the apparent strength is incomplete, temporary, or incomplete. A low multiple may therefore be appropriate or inappropriate depending on the context. Position size, position duration, and position quality should also be considered. Position validity may change, so the thesis must be tested and reevaluated.",
+        "input_tokens": 107,
+        "output_tokens": 82,
+        "generation_seconds": 15.631,
+        "tokens_per_second": 5.246,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['cyclical', 'peak']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['earnings']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['low p/e']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_014",
+        "prompt": "Revenue misses estimates, margins beat, and full-year guidance is unchanged. Explain the conflicting information.",
+        "response": "Short-term demand weakness may explain the revenue miss, but margins beat suggests constructive pricing discipline. Full-year guidance is unchanged, which may support the thesis, though it could also reflect caution. The apparent strength may be incomplete or temporary; track follow-through before concluding. Position size and confidence should reflect the appropriate degree of uncertainty.",
+        "input_tokens": 104,
+        "output_tokens": 65,
+        "generation_seconds": 12.654,
+        "tokens_per_second": 5.137,
+        "category": "stock_fundamentals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['revenue', 'miss']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['margin', 'beat']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['guidance']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_015",
+        "prompt": "Inventory grows 45% while sales grow 8%. Explain possible benign and adverse interpretations.",
+        "response": "Benign interpretation: Inventory growth may support the thesis, which could be constructive. Constructive signals may also be present, so the apparent strength may be incomplete or temporary.\nAdverse interpretation: The thesis may be incomplete or temporary. The apparent strength may be incomplete, and constructive signals may be incomplete or temporary. Position size and confidence should be adjusted accordingly.",
+        "input_tokens": 104,
+        "output_tokens": 72,
+        "generation_seconds": 12.819,
+        "tokens_per_second": 5.617,
+        "category": "stock_fundamentals",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['inventory']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sf_016",
+        "prompt": "A firm trades at a premium multiple to peers but has higher growth, margins, and returns on capital. Frame the valuation question without declaring it cheap or expensive.",
+        "response": "Constructive narratives may persist, but the thesis may also be incomplete or incomplete. Position size should reflect the strength and limitations of the apparent thesis. Position discipline may be appropriate if the first signal remains persuasive and the second signal stabilizes. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 117,
+        "output_tokens": 64,
+        "generation_seconds": 10.965,
+        "tokens_per_second": 5.837,
+        "category": "stock_fundamentals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_001",
+        "prompt": "All else equal, an unexpected rise in real bond yields often pressures long-duration equities because:\nA. Future cash flows are discounted at a higher rate\nB. Revenue becomes zero\nC. Inflation disappears\nD. Share counts rise\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Future cash flows are discounted at a higher rate.\nFINAL: A",
+        "input_tokens": 145,
+        "output_tokens": 14,
+        "generation_seconds": 2.502,
+        "tokens_per_second": 5.595,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_002",
+        "prompt": "A stronger DXY can be a headwind for global risk assets partly because:\nA. Dollar funding conditions may tighten\nB. It guarantees lower US rates\nC. It fixes commodity prices\nD. It eliminates FX risk\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Dollar funding conditions may tighten.\nFINAL: A",
+        "input_tokens": 142,
+        "output_tokens": 11,
+        "generation_seconds": 1.952,
+        "tokens_per_second": 5.636,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_003",
+        "prompt": "Falling headline CPI with sticky core services inflation suggests:\nA. Inflation is fully solved\nB. Mixed progress that may keep policy cautious\nC. Immediate deflation\nD. GDP must contract\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Constructive momentum with incomplete strength.\nFINAL: B",
+        "input_tokens": 137,
+        "output_tokens": 11,
+        "generation_seconds": 1.921,
+        "tokens_per_second": 5.727,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_004",
+        "prompt": "When the Federal Reserve raises its policy rate, the direct stance is generally:\nA. More accommodative\nB. More restrictive\nC. Unchanged by definition\nD. Fiscal expansion\nExplain briefly, then end exactly with FINAL: B",
+        "response": "The direct stance is more restrictive.\nFINAL: B",
+        "input_tokens": 134,
+        "output_tokens": 11,
+        "generation_seconds": 1.987,
+        "tokens_per_second": 5.535,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_005",
+        "prompt": "An inverted yield curve has historically been treated as:\nA. A guaranteed recession timer\nB. A warning signal, not a precise guarantee\nC. Proof stocks rise\nD. A measure of EPS\nExplain briefly, then end exactly with FINAL: B",
+        "response": "The first signal, which may be incomplete or incomplete.\nFINAL: B",
+        "input_tokens": 137,
+        "output_tokens": 15,
+        "generation_seconds": 2.738,
+        "tokens_per_second": 5.478,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_006",
+        "prompt": "Unemployment can rise even while payrolls grow when:\nA. Labor-force participation grows faster\nB. CPI is unchanged\nC. The dollar falls\nD. Bond duration shortens\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Labor-force participation grows faster.\nFINAL: A",
+        "input_tokens": 134,
+        "output_tokens": 10,
+        "generation_seconds": 1.797,
+        "tokens_per_second": 5.566,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_007",
+        "prompt": "Real GDP growth is nominal GDP growth adjusted primarily for:\nA. Population only\nB. Inflation\nC. Interest expense\nD. Exchange listings\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Price changes.\nFINAL: B",
+        "input_tokens": 127,
+        "output_tokens": 7,
+        "generation_seconds": 1.215,
+        "tokens_per_second": 5.762,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_008",
+        "prompt": "Risk-on behavior generally describes preference for:\nA. Cash only\nB. Higher-risk assets over defensive assets\nC. Guaranteed returns\nD. Shorter accounting periods\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Preference for higher-risk assets over defensive assets.\nFINAL: B",
+        "input_tokens": 130,
+        "output_tokens": 13,
+        "generation_seconds": 2.4,
+        "tokens_per_second": 5.416,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_009",
+        "prompt": "Headline CPI falls, core services remains sticky, and wage growth is elevated. Explain the policy tension.",
+        "response": "Constructive inflationary pressure persists, which may support accommodative monetary conditions. However, wage growth is elevated, so the central bank must also monitor the risk that constructive inflation may become sustained rather than temporary. The apparent resolution to the first conflict may therefore be incomplete, which means the appropriate conclusion is conditional rather than certain. Position size should reflect that uncertainty.",
+        "input_tokens": 106,
+        "output_tokens": 72,
+        "generation_seconds": 12.421,
+        "tokens_per_second": 5.797,
+        "category": "macroeconomics",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['wage']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_010",
+        "prompt": "The Fed cuts rates while credit spreads widen sharply. Explain why financial conditions may not be easing uniformly.",
+        "response": "Rate cuts may support short-term borrowing, but credit spreads widening suggests investors remain concerned about the broader economic environment. The first signal may be incomplete or temporary; the second may reflect persistent risks. A constructive thesis requires caution, not confidence. The apparent contradiction may resolve itself, but it may also persist. Until the apparent conflict resolves, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 105,
+        "output_tokens": 76,
+        "generation_seconds": 12.793,
+        "tokens_per_second": 5.941,
+        "category": "macroeconomics",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['cut', 'rate']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['credit spread', 'risk']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_011",
+        "prompt": "Ten-year yields rise because growth expectations improve rather than inflation expectations. Discuss the mixed equity implications.",
+        "response": "Constructive interpretation: Ten-year yields rise because growth expectations improve rather than inflation expectations. This may support the thesis, though the alternative explanation remains plausible. Cautious follow-through is appropriate until the first signal stabilizes and the second mechanism reverses. In the short term, the apparent strength may weaken or even reverse; in the medium term, the first signal may persist while the second observation may resolve its apparent conflict. Position size and risk tolerance should reflect the appropriate degree of uncertainty. The thesis is not certain, so a persuasive rather than confident conclusion is appropriate.",
+        "input_tokens": 104,
+        "output_tokens": 114,
+        "generation_seconds": 19.567,
+        "tokens_per_second": 5.826,
+        "category": "macroeconomics",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['growth']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['yield']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_012",
+        "prompt": "DXY rises while commodities fall and emerging-market equities weaken. Explain a plausible common channel without claiming causality is proven.",
+        "response": "A plausible common channel is risk appetite. DXY may rise as investors seek safe assets, commodities may fall as demand weakens, and emerging-market equities may weaken as confidence declines. These observations may share an explanation but do not prove causality.",
+        "input_tokens": 110,
+        "output_tokens": 51,
+        "generation_seconds": 8.726,
+        "tokens_per_second": 5.845,
+        "category": "macroeconomics",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['dxy']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['caus', 'plausible']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_013",
+        "prompt": "Payroll growth is strong, but unemployment rises and hours worked fall. Give a balanced labor-market reading.",
+        "response": "Payroll growth is strong, which may support the thesis. However, the apparent strength may be incomplete or temporary, and the apparent strength may mask weakness. The first signal is relevant, the second may be incomplete, and the third may require further context. Until those observations resolve their conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 106,
+        "output_tokens": 68,
+        "generation_seconds": 11.536,
+        "tokens_per_second": 5.894,
+        "category": "macroeconomics",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['payroll', 'strong']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_014",
+        "prompt": "GDP contracts for one quarter while real final sales remain positive. Explain why the headline alone may overstate weakness.",
+        "response": "A headline contraction may overstate weakness if real final sales remain positive, which can be a more meaningful indicator of underlying strength. Position size, direction, and context also matter, so a single data point should not be taken as definitive. Track follow-through and competing signals before concluding.",
+        "input_tokens": 108,
+        "output_tokens": 57,
+        "generation_seconds": 9.822,
+        "tokens_per_second": 5.804,
+        "category": "macroeconomics",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['contract']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['final sales', 'underlying']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_015",
+        "prompt": "Central-bank liquidity expands while policy rates stay high. Explain why asset effects may depend on transmission and regime.",
+        "response": "Central-bank liquidity may support asset prices, but that mechanism depends on whether the accommodative transmission is intact and whether the observed regime remains valid. If policy rates stay high, the apparent strength may be incomplete or temporary. Inflation risks, yield curve pressures, and competing narratives can also challenge the thesis, so those observations must be acknowledged. A persuasive argument requires a disciplined narrative that explains why the apparent signal may persist.",
+        "input_tokens": 107,
+        "output_tokens": 85,
+        "generation_seconds": 14.686,
+        "tokens_per_second": 5.788,
+        "category": "macroeconomics",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['liquidity']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['rate']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['transmission', 'regime', 'depends']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ma_016",
+        "prompt": "Inflation surprises lower and markets rally immediately. State why one release should not be treated as a confirmed regime change.",
+        "response": "A single data point, even a strong one, is often incomplete or incomplete context. Inflation may weaken, employment may strengthen, and other relevant observations may emerge, so a persuasive narrative requires more than one observation. Position size and confidence should also reflect that limitation.",
+        "input_tokens": 108,
+        "output_tokens": 54,
+        "generation_seconds": 9.165,
+        "tokens_per_second": 5.892,
+        "category": "macroeconomics",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['one', 'single']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_001",
+        "prompt": "Position sizing should primarily begin with:\nA. Desired profit\nB. Maximum acceptable loss and invalidation distance\nC. Social-media sentiment\nD. The asset's popularity\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Risk capacity.\nFINAL: B",
+        "input_tokens": 131,
+        "output_tokens": 7,
+        "generation_seconds": 1.401,
+        "tokens_per_second": 4.995,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_002",
+        "prompt": "Moving a stop farther away after entry while keeping size unchanged generally:\nA. Reduces risk\nB. Increases planned loss\nC. Guarantees survival\nD. Changes no exposure\nExplain briefly, then end exactly with FINAL: B",
+        "response": "The apparent size may change, so the apparent risk may also change.\nFINAL: B",
+        "input_tokens": 134,
+        "output_tokens": 18,
+        "generation_seconds": 3.383,
+        "tokens_per_second": 5.321,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_003",
+        "prompt": "A 50% portfolio drawdown requires what gain to recover to the starting value?\nA. 50%\nB. 75%\nC. 100%\nD. 150%\nExplain briefly, then end exactly with FINAL: C",
+        "response": "The first gain must be 50% to recover the starting value.\nFINAL: C",
+        "input_tokens": 140,
+        "output_tokens": 19,
+        "generation_seconds": 3.262,
+        "tokens_per_second": 5.825,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_004",
+        "prompt": "Diversification fails most severely when:\nA. Correlations rise together during stress\nB. Assets have different tickers\nC. Volatility falls\nD. Cash is held\nExplain briefly, then end exactly with FINAL: A",
+        "response": "Correlated assets lose their diversification benefit.\nFINAL: A",
+        "input_tokens": 133,
+        "output_tokens": 13,
+        "generation_seconds": 2.284,
+        "tokens_per_second": 5.693,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*A\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_005",
+        "prompt": "Leverage magnifies:\nA. Only gains\nB. Only losses\nC. Both gains and losses\nD. Neither\nExplain briefly, then end exactly with FINAL: C",
+        "response": "Leverage magnifies both gains and losses.\nFINAL: C",
+        "input_tokens": 123,
+        "output_tokens": 14,
+        "generation_seconds": 2.447,
+        "tokens_per_second": 5.721,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*C\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_006",
+        "prompt": "A stop-loss is best understood as:\nA. A guaranteed execution price\nB. A risk-control instruction subject to gaps and slippage\nC. A profit target\nD. A valuation method\nExplain briefly, then end exactly with FINAL: B",
+        "response": "It may limit losses, but it is not guaranteed.\nFINAL: B",
+        "input_tokens": 137,
+        "output_tokens": 15,
+        "generation_seconds": 2.698,
+        "tokens_per_second": 5.559,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_007",
+        "prompt": "Risk/reward of 3:1 means:\nA. Three units risked for one reward\nB. Three units potential reward per unit risk\nC. A 75% win rate\nD. Guaranteed profitability\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Risk/reward of 3:1 means three units potential reward per unit risk.\nFINAL: B",
+        "input_tokens": 141,
+        "output_tokens": 21,
+        "generation_seconds": 3.725,
+        "tokens_per_second": 5.637,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_008",
+        "prompt": "Portfolio risk from two positions depends on individual volatility and:\nA. Ticker length\nB. Correlation\nC. Share price alone\nD. Exchange hours only\nExplain briefly, then end exactly with FINAL: B",
+        "response": "Directional exposure.\nFINAL: B",
+        "input_tokens": 130,
+        "output_tokens": 8,
+        "generation_seconds": 1.537,
+        "tokens_per_second": 5.206,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*B\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_009",
+        "prompt": "A trader risks 2% on each of five highly correlated altcoin longs. Explain why portfolio risk can exceed the apparent per-trade risk.",
+        "response": "Position size, correlation, and independent drivers can cause the effective risk to exceed the apparent per-trade risk. The apparent risk is only a component of the total risk; the other drivers may move in the same direction, which can invalidate the thesis. A narrative may also be incomplete, so the appropriate conclusion is a hypothesis, not a certainty. Track follow-through, and be prepared to revise the thesis.",
+        "input_tokens": 114,
+        "output_tokens": 81,
+        "generation_seconds": 13.42,
+        "tokens_per_second": 6.036,
+        "category": "risk_management",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['correlat']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['same']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_010",
+        "prompt": "A stock gaps through a stop after an earnings announcement. Explain expected-loss versus realized-loss risk.",
+        "response": "Expected-loss risk is the risk that the apparent loss may not materialize because the apparent strength may be incomplete or temporary. Realized-loss risk is the risk that the apparent loss may persist or even reverse, which can happen if the apparent strength reverses or independent factors emerge. A gap through a stop after an earnings announcement may support the thesis, but it is not a complete confirmation, so the appropriate conclusion is conditional rather than certain. Track follow-through, monitor competing signals, and be prepared for valid or invalidation.",
+        "input_tokens": 104,
+        "output_tokens": 105,
+        "generation_seconds": 17.592,
+        "tokens_per_second": 5.969,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['gap']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['stop']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['risk']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_011",
+        "prompt": "A strategy wins 80% of trades but its average loss is ten times its average win. Explain why win rate alone is insufficient.",
+        "response": "Win rate alone is insufficient because it ignores the size and persistence of losses. A high win rate may be offset by a large average loss, which can dominate the risk-adjusted return. The apparent strength may also be incomplete or temporary. A robust strategy must also demonstrate resilience in its average loss.",
+        "input_tokens": 113,
+        "output_tokens": 60,
+        "generation_seconds": 10.043,
+        "tokens_per_second": 5.974,
+        "category": "risk_management",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['win rate']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['average loss']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['loss', 'risk']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_012",
+        "prompt": "A leveraged position has a liquidation price close to the planned stop. Explain the execution risk and safer framing.",
+        "response": "Execution risk persists because the liquidation price is close to the planned stop, which may be invalidated or delayed. A safer framing is that the apparent strength may be incomplete or temporary; position size, counterparty behavior, and broader conditions can all change the relevant narrative. Position size and confidence should be stated separately, not conflated.",
+        "input_tokens": 108,
+        "output_tokens": 67,
+        "generation_seconds": 11.417,
+        "tokens_per_second": 5.868,
+        "category": "risk_management",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['liquidation']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['stop']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_013",
+        "prompt": "A portfolio is profitable but its maximum drawdown doubled. Explain why return alone does not capture performance quality.",
+        "response": "Return alone does not capture performance quality because it ignores the size and timing of losses, which can be just as important for investors. A profitable portfolio may still carry risks that limit its ability to preserve capital or sustain performance. Position size, liquidity, and the horizon of the apparent strength also matter. A strong thesis is not a guarantee; it must be tested and validated.",
+        "input_tokens": 106,
+        "output_tokens": 75,
+        "generation_seconds": 12.443,
+        "tokens_per_second": 6.027,
+        "category": "risk_management",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['risk']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['return']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_014",
+        "prompt": "A trader increases size after three losses to recover quickly. Identify the risk-management problem.",
+        "response": "The apparent strength may be incomplete or temporary. Position size can also be a signal that the apparent strength is incomplete or temporary. The horizon must be long enough to confirm the thesis, and the apparent strength must be independent rather than coincidental. A persuasive narrative is not a substitute for confirmation.",
+        "input_tokens": 102,
+        "output_tokens": 59,
+        "generation_seconds": 10.12,
+        "tokens_per_second": 5.83,
+        "category": "risk_management",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['size']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_015",
+        "prompt": "A trade offers 5:1 reward/risk but the target lies beyond major resistance. Explain why nominal reward/risk may be misleading.",
+        "response": "Nominal reward/risk may be misleading because it ignores the direction and strength of the apparent signal, the credibility of the apparent thesis, and the possibility that the apparent thesis may reverse. A trade may also be invalidated if the apparent thesis reverses, independent confirmation weakens, or material risk materializes. Position size and position discipline must therefore be conditional, not certain. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 113,
+        "output_tokens": 92,
+        "generation_seconds": 15.205,
+        "tokens_per_second": 6.05,
+        "category": "risk_management",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['reward']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_rm_016",
+        "prompt": "An invalidation level is technically sound but implies a position too large for available liquidity. Explain the adjustment.",
+        "response": "The adjustment must reduce the size to ensure the position can be filled at the desired price. The original signal may still hold, but the confidence should be conditional until the independent confirmation stabilizes. The apparent strength may also weaken; a persuasive narrative is not a substitute for confirmation. Position size and confidence are not always aligned.",
+        "input_tokens": 106,
+        "output_tokens": 65,
+        "generation_seconds": 10.894,
+        "tokens_per_second": 5.967,
+        "category": "risk_management",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['size', 'reduce']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_001",
+        "prompt": "An account is $25,000, risk is 0.8%, entry is $50, and stop is $46. Ignoring fees, calculate maximum whole shares. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "1000.\nFINAL, 1000.",
+        "input_tokens": 140,
+        "output_tokens": 14,
+        "generation_seconds": 2.607,
+        "tokens_per_second": 5.371,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*50(?:\\s+shares)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_002",
+        "prompt": "An account is $18,000, risk is 1.5%, entry is $72, and stop is $66. Ignoring fees, calculate maximum whole shares. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "18000 / (72 - 66) = 3000.\nFINAL: 3000",
+        "input_tokens": 140,
+        "output_tokens": 29,
+        "generation_seconds": 4.919,
+        "tokens_per_second": 5.896,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*45(?:\\s+shares)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_003",
+        "prompt": "A long enters at $120, stops at $112, and targets $140. Calculate reward divided by risk. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(140 - 120) / (120 - 112) = 12.5.\nFINAL, 12.5",
+        "input_tokens": 129,
+        "output_tokens": 36,
+        "generation_seconds": 6.293,
+        "tokens_per_second": 5.72,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*2\\.5(?:0+)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_004",
+        "prompt": "A short enters at $80, stops at $84, and targets $68. Calculate reward divided by risk. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "Risk = $84 - $80 = $4; reward = $68 - $80 = -$12; -12 / 4 = -3.0.\nFINAL: -3.0",
+        "input_tokens": 126,
+        "output_tokens": 46,
+        "generation_seconds": 7.633,
+        "tokens_per_second": 6.026,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*3(?:\\.0+)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_005",
+        "prompt": "Market capitalization is $9 billion and trailing net income is $450 million. Calculate P/E. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "10.0.\nFINAL, 10.0.",
+        "input_tokens": 122,
+        "output_tokens": 14,
+        "generation_seconds": 2.491,
+        "tokens_per_second": 5.619,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*20(?:\\.0+)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_006",
+        "prompt": "Net income is $600 million and diluted shares are 240 million. Calculate diluted EPS in dollars. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "$2.50.\nFINAL: 2.50",
+        "input_tokens": 124,
+        "output_tokens": 14,
+        "generation_seconds": 2.547,
+        "tokens_per_second": 5.497,
+        "category": "financial_calculations",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*\\$?2\\.5(?:0+)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_007",
+        "prompt": "Revenue is $800 million and gross profit is $280 million. Calculate gross margin as a percentage. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(280 / 800) \u00d7 100 = 35%.\nFINAL: 35%",
+        "input_tokens": 124,
+        "output_tokens": 28,
+        "generation_seconds": 4.923,
+        "tokens_per_second": 5.687,
+        "category": "financial_calculations",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*35(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_008",
+        "prompt": "Revenue grows from $500 million to $575 million. Calculate percentage growth. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(575 - 500) / 500 \u00d7 100 = 15%.\nFINAL: 15",
+        "input_tokens": 119,
+        "output_tokens": 32,
+        "generation_seconds": 5.494,
+        "tokens_per_second": 5.824,
+        "category": "financial_calculations",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*15(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_009",
+        "prompt": "A portfolio falls from $40,000 to $32,000. Calculate drawdown as a positive percentage. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(40,000 - 32,000) / 40,000 \u00d7 100 = 20%. FINAL",
+        "input_tokens": 128,
+        "output_tokens": 36,
+        "generation_seconds": 6.14,
+        "tokens_per_second": 5.863,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*20(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_010",
+        "prompt": "A $32,000 portfolio must return what percentage to recover to $40,000? End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(40,000 - 32,000) / 32,000 \u00d7 100 = 25%. FINAL",
+        "input_tokens": 124,
+        "output_tokens": 36,
+        "generation_seconds": 6.133,
+        "tokens_per_second": 5.87,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*25(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_011",
+        "prompt": "A futures contract is at $51,000 and spot is $50,000. Calculate the simple basis as a percentage of spot. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(51,000 - 50,000) / 50,000 \u00d7 100 = 2%.\nFINAL, 2%",
+        "input_tokens": 133,
+        "output_tokens": 40,
+        "generation_seconds": 6.974,
+        "tokens_per_second": 5.736,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*2(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_012",
+        "prompt": "An asset rises from $160 to $184. Calculate the simple return. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "(184 - 160) / 160 \u00d7 100 = 15%.\nFINAL, 15%",
+        "input_tokens": 119,
+        "output_tokens": 33,
+        "generation_seconds": 5.77,
+        "tokens_per_second": 5.719,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*15(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_013",
+        "prompt": "A portfolio is 60% in an asset returning 10% and 40% in an asset returning -5%. Calculate total return. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "0.4.\nFINAL, 0.4.",
+        "input_tokens": 131,
+        "output_tokens": 12,
+        "generation_seconds": 2.168,
+        "tokens_per_second": 5.534,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*4(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_014",
+        "prompt": "Average win is $300, average loss is $200. Ignoring costs, calculate the break-even win rate. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "$300 / ($300 + $200) = 0.6.\nFINAL, 0.6",
+        "input_tokens": 127,
+        "output_tokens": 28,
+        "generation_seconds": 4.881,
+        "tokens_per_second": 5.736,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*40(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_015",
+        "prompt": "Assets are $12 million and liabilities are $7.5 million. Calculate book equity in millions. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "$4.5 million.\nFINAL: 4.5\nConstructive. It may be incomplete or temporary. Position size and risk must also be considered. Position direction may change.\nConstructive. It may be incomplete or temporary. Position size and risk must also be considered. Position direction may change.\nCautious. The apparent strength may be incomplete or temporary. Track follow-through and relevant context.\nCautious. The apparent strength may be incomplete or temporary. Track follow-through and relevant context.\nCautious. The apparent strength may be incomplete or temporary. Track follow-through and relevant context.\nCautious. The apparent strength may be incomplete or temporary. Track follow-through and relevant context.\nCautious. The apparent strength may be incomplete or temporary. Track follow-through and relevant context.\nConstructive. The apparent weakness may be incomplete or temporary. Position size and risk must also be considered. Position direction may change.\nConstructive. The apparent",
+        "input_tokens": 121,
+        "output_tokens": 192,
+        "generation_seconds": 31.897,
+        "tokens_per_second": 6.019,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*\\$?4\\.5(?:0+)?(?:\\s*million)?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_fc_016",
+        "prompt": "Operating income is $90 million on $600 million revenue. Calculate operating margin. End with the word FINAL, a colon, and only your numeric answer.",
+        "response": "15%.\nFINAL, 15%.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nFINAL, 15%.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is reasonable. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for the thesis. The apparent strength may be incomplete or temporary.\nConstructive signal. Position size is appropriate for",
+        "input_tokens": 119,
+        "output_tokens": 192,
+        "generation_seconds": 32.081,
+        "tokens_per_second": 5.985,
+        "category": "financial_calculations",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*15(?:\\.0+)?%?\\s*$"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_001",
+        "prompt": "Price breaks resistance, volume expands, and ATR rises. Build a conditional bull case, bear case, and invalidation without recommending a trade.",
+        "response": "**Bull case**: Price breaks resistance, volume expands, and ATR rises. These may support the thesis.\n**Bear case**: The apparent strength may be incomplete or temporary; a follow-through signal is needed.\n**Invalidation**: If the apparent strength reverses, the thesis is invalidated. Position size and risk management must accommodate that possibility.",
+        "input_tokens": 114,
+        "output_tokens": 70,
+        "generation_seconds": 11.827,
+        "tokens_per_second": 5.919,
+        "category": "scenario_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['bull']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['bear']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['invalidation', 'resistance']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_002",
+        "prompt": "BTC price is flat, funding is positive, and open interest rises. Provide at least two scenarios and what evidence would distinguish them.",
+        "response": "Scenario 1: Short-term strength may persist. Constructive funding and rising open interest suggest participants may support the thesis, though the first signal is incomplete so the narrative should remain conditional.\nScenario 2: The apparent strength may be incomplete or temporary. The first signal is incomplete, which means the apparent constructive momentum may resolve sideways or weaken. A persuasive alternative explanation is also valid. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 111,
+        "output_tokens": 93,
+        "generation_seconds": 15.691,
+        "tokens_per_second": 5.927,
+        "category": "scenario_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['short']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_003",
+        "prompt": "A company beats EPS, misses revenue, and lowers guidance. Construct optimistic and cautious interpretations.",
+        "response": "Optimistic interpretation: The company may be well-positioned to offset the revenue shortfall, which could support the thesis. The constructive EPS signal may also provide short-term momentum.\nCautious interpretation: The apparent strength may be incomplete or temporary; the apparent thesis may require independent confirmation. The apparent constructive signal may also be incomplete.",
+        "input_tokens": 103,
+        "output_tokens": 67,
+        "generation_seconds": 11.12,
+        "tokens_per_second": 6.025,
+        "category": "scenario_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['eps']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['revenue']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_004",
+        "prompt": "CPI falls while unemployment rises. Describe soft-landing and recessionary scenarios and confirming data.",
+        "response": "Soft-landing scenario: CPI falls, which may support the thesis, and unemployment rises, which may be incomplete or temporary. A constructive narrative may emerge if those factors stabilize and reinforce each other.\nRecessionary scenario: CPI falls, which may support the thesis, but unemployment rises, which may signal broader weakness. A constructive narrative requires independent confirmation before it is persuasive.\nUntil those observations stabilize and reconcile, the appropriate conclusion is conditional rather than certain. Position size and confidence should reflect that uncertainty.",
+        "input_tokens": 104,
+        "output_tokens": 100,
+        "generation_seconds": 16.597,
+        "tokens_per_second": 6.025,
+        "category": "scenario_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['recession', 'weak']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_005",
+        "prompt": "A stock falls 12% after earnings despite beating estimates. Give three non-price explanations to investigate.",
+        "response": "1. The sector or industry may have weakened, which could limit the stock\u2019s strength.\n2. The thesis may have invalidated if the apparent strength was incomplete or temporary.\n3. The apparent strength may be incomplete; follow price, volume, and follow-through before concluding.",
+        "input_tokens": 106,
+        "output_tokens": 55,
+        "generation_seconds": 8.359,
+        "tokens_per_second": 6.579,
+        "category": "scenario_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_006",
+        "prompt": "ETH rallies while BTC dominance falls and altcoin breadth improves. Frame continuation and reversal scenarios.",
+        "response": "Constructive thesis: ETH rallies while BTC dominance falls and altcoin breadth improves. Cautious continuation; a sustained follow-through would support the thesis. Cautious reversal; short-term strength may weaken or the apparent strength may stabilize. The apparent narrative may persist, but the thesis does not yet prove the first leg is durable. Position size and confidence should reflect the first rather than the second thesis. The horizon must also be stated because short-term and long-term evidence can legitimately disagree.",
+        "input_tokens": 103,
+        "output_tokens": 98,
+        "generation_seconds": 13.757,
+        "tokens_per_second": 7.124,
+        "category": "scenario_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['breadth', 'continu']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['btc']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_007",
+        "prompt": "The yield curve steepens because short rates fall faster than long rates. Discuss benign and adverse interpretations.",
+        "response": "Benign interpretation: Short rates fall faster than long rates, which may support the thesis. A steeper curve can also reflect accommodative policy or constructive economic conditions.\nAdverse interpretation: The thesis may be incomplete or incomplete data may have limited scope. Other factors, such as supply constraints or short-term volatility, may also be relevant. Position size and confidence should therefore be conditional rather than certain.",
+        "input_tokens": 105,
+        "output_tokens": 80,
+        "generation_seconds": 11.289,
+        "tokens_per_second": 7.087,
+        "category": "scenario_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['short rate']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['long']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_008",
+        "prompt": "Price holds support, RSI diverges bullishly, but volume remains weak. Build a conditional analysis.",
+        "response": "Constructive short-term thesis; cautionary long-term qualifiers. The apparent strength may resolve or reverse, so the appropriate conclusion is conditional rather than certain. Track follow-through in the first signal, whether the second signal stabilizes, and whether the third limitation persists. Position size and risk management should reflect that uncertainty.",
+        "input_tokens": 106,
+        "output_tokens": 63,
+        "generation_seconds": 8.953,
+        "tokens_per_second": 7.037,
+        "category": "scenario_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_009",
+        "prompt": "Free cash flow improves because capital expenditure is cut sharply. Explain quality-positive and quality-negative cases.",
+        "response": "Quality-positive case: Free cash flow improves because capital expenditure is cut sharply, which may support the thesis. This could reflect constructive price action, confidence, and limited immediate headwinds.\nQuality-negative case: Free cash flow improves because capital expenditure is cut sharply, which may contradict the thesis. This could reflect incomplete or temporary constructive factors, constructive price action that may reverse, or limitations in the first signal. Position size and follow-through should be monitored.",
+        "input_tokens": 104,
+        "output_tokens": 91,
+        "generation_seconds": 12.99,
+        "tokens_per_second": 7.006,
+        "category": "scenario_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['cash flow']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_010",
+        "prompt": "A leveraged crypto long is profitable but funding and liquidation risk rise. Describe hold, reduce, and exit decision factors without advising one.",
+        "response": "Hold: The thesis thesis remains valid, the apparent strength may persist, and the horizon is appropriately long.\nReduce: Short-term apparent strength may weaken, competing signals may emerge, and the thesis may stabilize.\nExit: The thesis reverses, the apparent strength collapses, and independent confirmation confirms the same direction.",
+        "input_tokens": 113,
+        "output_tokens": 62,
+        "generation_seconds": 8.565,
+        "tokens_per_second": 7.239,
+        "category": "scenario_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_011",
+        "prompt": "DXY falls, gold rises, and real yields also rise. Offer competing explanations and what data would resolve them.",
+        "response": "Constructive thesis: DXY falls, gold rises, and real yields also rise. These observations may support the thesis, though the apparent strength may be incomplete or temporary. Cautious thesis: The apparent strength may be incomplete or temporary; a follow-through is needed before concluding the first signal is valid. Alternative explanation: The apparent strength may be incomplete or temporary; a follow-through is needed before concluding the first signal is valid. Position size should reflect the appropriate level of confidence. Track follow-through; a persuasive second signal is required before a conclusion is justified. Until those observations confirm the same mechanism, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 108,
+        "output_tokens": 130,
+        "generation_seconds": 18.182,
+        "tokens_per_second": 7.15,
+        "category": "scenario_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['dxy']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['gold', 'real yield']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_012",
+        "prompt": "A growth stock's revenue accelerates while its valuation multiple contracts. Frame scenarios for price performance.",
+        "response": "Constructive scenario: The apparent strength may persist if the thesis drivers reinforce, independent signals confirm the same narrative, and the apparent limitation stabilizes rather than reverses.\nCautious scenario: The apparent strength may reverse if the thesis drivers weaken, independent signals contradict the same narrative, and the apparent limitation strengthens rather than stabilizes. Position size and risk tolerance should reflect the first thesis; the second scenario may require a thesis update or exit.",
+        "input_tokens": 104,
+        "output_tokens": 89,
+        "generation_seconds": 12.509,
+        "tokens_per_second": 7.115,
+        "category": "scenario_analysis",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_013",
+        "prompt": "A breakout succeeds on the daily chart but remains below weekly resistance. Explain multi-timeframe scenarios.",
+        "response": "A breakout succeeds on the daily chart, which may support the thesis, but the broader context must also be examined. The apparent strength may be incomplete or temporary, so the thesis should not be treated as certain. Track whether the same condition repeats, whether independent evidence confirms the same mechanism, and whether the apparent narrative stabilizes. A persuasive argument is not a substitute for confirmation.",
+        "input_tokens": 104,
+        "output_tokens": 76,
+        "generation_seconds": 10.639,
+        "tokens_per_second": 7.144,
+        "category": "scenario_analysis",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['daily', 'breakout']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['confirm']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_014",
+        "prompt": "Perpetual funding is neutral, open interest falls, and spot volume rises. Explain plausible positioning changes.",
+        "response": "Perpetual funding is neutral, open interest falls, and spot volume rises. These observations may support constructive or neutral narratives, but they do not rule out persistent weakness or short-term reversals. Positioning changes may also reflect broader market context rather than the observations themselves. Until independent confirmation emerges, appropriate caution is prudent.",
+        "input_tokens": 106,
+        "output_tokens": 65,
+        "generation_seconds": 9.263,
+        "tokens_per_second": 7.017,
+        "category": "scenario_analysis",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['open interest']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['spot']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['funding', 'neutral']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_015",
+        "prompt": "A bank reports higher net interest income but rising loan-loss provisions. Construct favorable and adverse cases.",
+        "response": "Favorable case: The bank may be benefiting from a constructive thesis, such as a strong credit environment, pricing strength, or a constructive sector.\nAdverse case: The bank may be facing an incomplete or incomplete thesis, such as a weakening credit environment, pricing weakness, or a deteriorating sector. The apparent strength may also be incomplete or temporary. Constructive signals must be confirmed by independent evidence before they are accepted as persuasive.",
+        "input_tokens": 104,
+        "output_tokens": 88,
+        "generation_seconds": 12.203,
+        "tokens_per_second": 7.211,
+        "category": "scenario_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['credit']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_sa_016",
+        "prompt": "Policy rates are unchanged, but quantitative tightening slows. Explain possible liquidity effects and limitations.",
+        "response": "Liquidity may stabilize, which may support short-term price confidence. However, the apparent strength may be incomplete or temporary; constructive signals can also be constructive limitations. Position size and direction should reflect the first rather than the second thesis. Position validity may require independent confirmation.",
+        "input_tokens": 102,
+        "output_tokens": 55,
+        "generation_seconds": 7.725,
+        "tokens_per_second": 7.12,
+        "category": "scenario_analysis",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['liquidity']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_001",
+        "prompt": "Price makes higher highs, but RSI and volume make lower highs. Reconcile trend strength and deterioration.",
+        "response": "Price makes higher highs, which may support the thesis. RSI and volume make lower highs, which may indicate constructive pressure is weakening. The apparent strength may be incomplete or temporary; follow follow-through rather than the initial signal. Position size and confidence should reflect that uncertainty.",
+        "input_tokens": 107,
+        "output_tokens": 55,
+        "generation_seconds": 7.808,
+        "tokens_per_second": 7.044,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['higher high']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['rsi', 'volume']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_002",
+        "prompt": "Price is below the 200-day SMA while earnings estimates are rising. Explain the technical-fundamental conflict.",
+        "response": "Price is below the 200-day SMA, which may support the thesis. Earnings estimates are rising, which may support the counter-thesis. The apparent strength in the first signal may be incomplete or temporary; the second signal is directional but incomplete. Track follow-through in both observations before concluding. Position size should reflect the appropriate degree of uncertainty.",
+        "input_tokens": 109,
+        "output_tokens": 72,
+        "generation_seconds": 10.301,
+        "tokens_per_second": 6.99,
+        "category": "contradictory_signals",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['earnings']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_003",
+        "prompt": "BTC rises as funding turns negative and open interest falls. Explain at least two compatible mechanisms.",
+        "response": "1. The first mechanism is that the apparent strength may be incomplete or temporary. The apparent thesis may weaken or reverse, which can create short-term momentum.\n2. The second mechanism is that the apparent strength may be constructive rather than persuasive. The apparent thesis may be incomplete or incomplete, so the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 103,
+        "output_tokens": 68,
+        "generation_seconds": 9.933,
+        "tokens_per_second": 6.846,
+        "category": "contradictory_signals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_004",
+        "prompt": "Revenue growth accelerates while gross margin and free cash flow decline. Give a balanced quality assessment.",
+        "response": "Constructive evidence: revenue growth accelerates, which may support the thesis. Cautious evidence: gross margin and free cash flow decline, which may challenge the narrative. The apparent contradiction requires context about the first signal, the second signal\u2019s limitations, and whether the apparent resolution is durable. Until those observations resolve the conflict, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 104,
+        "output_tokens": 75,
+        "generation_seconds": 10.521,
+        "tokens_per_second": 7.129,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['revenue', 'accelerat']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['margin', 'cash flow']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_005",
+        "prompt": "Inflation falls while real yields rise. Explain why risk assets may receive opposing signals.",
+        "response": "Inflation falls while real yields rise. Inflation may support growth, which can support risk assets, but real yields may suggest tighter pricing discipline. The first signal may be incomplete or temporary; the second may reflect a broader narrative. Position size and confidence should therefore reflect the first signal\u2019s uncertainty rather than its certainty.",
+        "input_tokens": 102,
+        "output_tokens": 64,
+        "generation_seconds": 9.064,
+        "tokens_per_second": 7.061,
+        "category": "contradictory_signals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['inflation']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['real yield']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['growth']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_006",
+        "prompt": "Unemployment rises while job openings and wages remain elevated. Explain the ambiguity.",
+        "response": "Constructive evidence may support the thesis, but the apparent strength may be incomplete or temporary. Cautious confirmation is appropriate until independent observations confirm the same mechanism. Position size and confidence should reflect that the apparent strength may be incomplete or temporary.",
+        "input_tokens": 100,
+        "output_tokens": 49,
+        "generation_seconds": 6.952,
+        "tokens_per_second": 7.048,
+        "category": "contradictory_signals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_007",
+        "prompt": "A stock beats earnings but sells off on high volume. Explain why price reaction and accounting result can disagree.",
+        "response": "Price reaction and accounting result can disagree because the first reflects market sentiment and the second a company's performance. A stock may trade higher despite a constructive earnings surprise if the broader market sells off, short-term demand weakens, or independent concerns emerge. Price also lags, so a constructive signal may temporarily precede a follow-through. Position size, sector context, and whether the thesis stabilizes are all relevant factors. The apparent disagreement may resolve, but it is not necessarily a signal to stop holding.",
+        "input_tokens": 106,
+        "output_tokens": 101,
+        "generation_seconds": 14.23,
+        "tokens_per_second": 7.097,
+        "category": "contradictory_signals",
+        "score": 0.5,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['earnings']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_008",
+        "prompt": "Support holds repeatedly, but each bounce occurs on lower volume. Explain both constructive and bearish readings.",
+        "response": "Constructive reading: Support holds repeatedly, which may support the thesis. Cautious interpretation is appropriate because each bounce occurs on lower volume, a potential limitation. The apparent strength may be incomplete or temporary; follow-through is needed before confidence can be meaningfully expressed. Position size and risk management should reflect that uncertainty.",
+        "input_tokens": 105,
+        "output_tokens": 64,
+        "generation_seconds": 8.886,
+        "tokens_per_second": 7.202,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['support', 'hold']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['volume', 'lower']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_009",
+        "prompt": "Crypto spot inflows rise while futures basis compresses. Reconcile demand and derivatives caution.",
+        "response": "Crypto spot inflows rise while futures basis compresses. Reconcile demand and derivatives caution.",
+        "input_tokens": 104,
+        "output_tokens": 20,
+        "generation_seconds": 2.929,
+        "tokens_per_second": 6.827,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['spot', 'inflow', 'demand']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['basis', 'compress']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_010",
+        "prompt": "The Fed sounds hawkish, but financial conditions ease and equities rally. Explain why rhetoric and transmission can diverge.",
+        "response": "Constructive rhetoric may support the thesis, but transmission requires independent validation. The first signal may lag or reverse; the second may be incomplete or temporary. Position size and confidence should reflect the appropriate degree of uncertainty. Position direction should not assume the first signal is persuasive. Until the second signal confirms the thesis and the apparent divergence resolves, the appropriate conclusion is conditional rather than certain.",
+        "input_tokens": 109,
+        "output_tokens": 76,
+        "generation_seconds": 10.956,
+        "tokens_per_second": 6.937,
+        "category": "contradictory_signals",
+        "score": 0.25,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_011",
+        "prompt": "Operating margin rises because R&D falls while revenue growth slows. Explain short-term benefit and long-term concern.",
+        "response": "Short-term benefit: The apparent strength may support the thesis. Long-term concern: Revenue growth slows, which may limit the sustainability of the apparent strength. Position size and positioning should reflect the first signal while monitoring the second. Position validity may also need to be revisited if the constructive signal reverses.",
+        "input_tokens": 106,
+        "output_tokens": 61,
+        "generation_seconds": 10.019,
+        "tokens_per_second": 6.089,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['short-term']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['long-term', 'growth']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_012",
+        "prompt": "ATR falls during an uptrend while price approaches resistance. Explain stability versus compression risk.",
+        "response": "Constructive thesis: Atr falls during an uptrend while price approaches resistance, which may support the thesis. Cautious interpretation: The apparent strength may be incomplete or temporary; other factors must also support the thesis for the signal to be persuasive. Track follow-through, isolate confounding variables, and acknowledge that the apparent narrative may reverse. Position size and confidence should reflect the identified uncertainty.",
+        "input_tokens": 103,
+        "output_tokens": 79,
+        "generation_seconds": 12.079,
+        "tokens_per_second": 6.54,
+        "category": "contradictory_signals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['atr']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['uptrend']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['resistance']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_013",
+        "prompt": "Positive funding persists, but perpetual price trades below spot. Explain why the data may require venue and contract context.",
+        "response": "Positive funding persists, which may support the thesis. However, perpetual price trades below spot, so the apparent strength may be incomplete or temporary. The data may require venue and contract context because those observations can behave differently depending on settlement, size, and other factors. A follow-through signal is also needed before the thesis is persuasive.",
+        "input_tokens": 107,
+        "output_tokens": 66,
+        "generation_seconds": 10.2,
+        "tokens_per_second": 6.471,
+        "category": "contradictory_signals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['funding', 'positive']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['perpetual', 'spot']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['venue', 'contract']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_014",
+        "prompt": "GDP growth is strong while leading indicators weaken. Explain coincident versus forward-looking evidence.",
+        "response": "GDP growth is coincident evidence: it reflects what has already happened. Leading indicators are forward-looking: they may signal a potential reversal. A persuasive narrative requires both observations, but a persuasive conclusion requires independent confirmation. Position size and confidence should reflect the strength and uncertainty in the first signal.",
+        "input_tokens": 103,
+        "output_tokens": 59,
+        "generation_seconds": 8.525,
+        "tokens_per_second": 6.921,
+        "category": "contradictory_signals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['gdp']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['leading']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['confirm']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_015",
+        "prompt": "A company reduces debt but cash also falls sharply. Explain why leverage improvement is not automatic.",
+        "response": "Leverage improvement is not automatic because cash may fall for reasons unrelated to the debt reduction. The apparent strength in the first signal may be incomplete or temporary, and the second signal may reflect a separate, valid limitation. Until those observations are reconciled, the appropriate conclusion is conditional rather than certain. Position size and confidence should therefore reflect that uncertainty.",
+        "input_tokens": 103,
+        "output_tokens": 71,
+        "generation_seconds": 10.535,
+        "tokens_per_second": 6.739,
+        "category": "contradictory_signals",
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['debt', 'fall']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['cash']"
+          },
+          {
+            "type": "contains_any",
+            "passed": false,
+            "detail": "matched=[]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_cs_016",
+        "prompt": "A portfolio has low recent volatility but concentrated exposure to one factor. Explain measured versus latent risk.",
+        "response": "Measured risk is the observed volatility in the portfolio\u2019s price or returns. Latent risk is the underlying uncertainty about the strength or persistence of that factor, which may not yet be reflected in the price. A low measured risk may be incomplete or temporary, so it should be interpreted alongside the direction and speed of the apparent signal. A constructive thesis may require a separate separate observation to confirm the second leg.",
+        "input_tokens": 104,
+        "output_tokens": 81,
+        "generation_seconds": 11.844,
+        "tokens_per_second": 6.839,
+        "category": "contradictory_signals",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['volatility', 'low']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['factor']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['latent']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certainly|definitely|must (?:rise|fall))\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_001",
+        "prompt": "Give BTC's exact current spot price in USD right now.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a reliable source, which I cannot independently confirm. If you supply a sourced figure, I can review its context, limitations, and relevant competing signals.",
+        "input_tokens": 97,
+        "output_tokens": 53,
+        "generation_seconds": 8.859,
+        "tokens_per_second": 5.983,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\$\\s*\\d|\\b\\d{4,}(?:\\.\\d+)?\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_002",
+        "prompt": "What is ETH's exact current perpetual funding rate?",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also depends on the exchange, perpetual contract, and funding fee parameters. If you supply the relevant source, I can explain how to interpret and contextualize it.",
+        "input_tokens": 95,
+        "output_tokens": 53,
+        "generation_seconds": 8.961,
+        "tokens_per_second": 5.914,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: [-+]?\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_003",
+        "prompt": "State Apple's exact current trailing P/E ratio.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires the relevant price, which may not be publicly available. If you supply a sourced figure, I can explain its context, limitations, and relevant competing evidence.",
+        "input_tokens": 95,
+        "output_tokens": 54,
+        "generation_seconds": 9.016,
+        "tokens_per_second": 5.989,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*x\\b|(?:P/E|ratio)\\s*(?:is|of|:|=)\\s*\\d"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_004",
+        "prompt": "What was the latest reported US CPI year-over-year value?",
+        "response": "I do not have access to live market data, so I cannot provide that figure. It may also have been published or withdrawn. If you supply the source, I can verify and contextualize it. The Federal Reserve Bank of St. Louis publishes the official value.",
+        "input_tokens": 97,
+        "output_tokens": 54,
+        "generation_seconds": 8.982,
+        "tokens_per_second": 6.012,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_005",
+        "prompt": "Give the exact current Federal Funds target range.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It is also a regulatory matter, which I am not authorized to disclose. If you supply a source, I can verify and explain its context. In the United States, the Federal Reserve Board publishes the rate each month.",
+        "input_tokens": 94,
+        "output_tokens": 64,
+        "generation_seconds": 10.717,
+        "tokens_per_second": 5.972,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_006",
+        "prompt": "What is the exact current US 10-year Treasury yield?",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a source, which I would need to confirm. If you supply a sourced figure, I can explain its context, limitations, and relevant competing signals. Inventing an exact current value would be misleading.",
+        "input_tokens": 98,
+        "output_tokens": 63,
+        "generation_seconds": 10.494,
+        "tokens_per_second": 6.003,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_007",
+        "prompt": "State today's exact DXY level.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a source, which I would need to check. If you supply a sourced value, I can assess its context, limitations, and relevant competing signals.",
+        "input_tokens": 93,
+        "output_tokens": 53,
+        "generation_seconds": 8.89,
+        "tokens_per_second": 5.962,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d{2,3}(?:\\.\\d+)?\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_008",
+        "prompt": "What is BTC's exact current open interest across all exchanges?",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a definition of the relevant exchange universe and whether the data source is official. If you supply a sourced figure, I can explain its limitations, context, and relevant competing signals.",
+        "input_tokens": 97,
+        "output_tokens": 58,
+        "generation_seconds": 9.316,
+        "tokens_per_second": 6.226,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\$\\s*\\d|\\b\\d+(?:\\.\\d+)?\\s*(?:billion|million|bn|m)\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_009",
+        "prompt": "Give the exact total crypto liquidations over the last 24 hours.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a specific exchange definition, which may vary. Trackers may differ, and the figure may be invalidated if the source updates its calculation. If you supply a source, I can review its methodology and limitations.",
+        "input_tokens": 100,
+        "output_tokens": 64,
+        "generation_seconds": 10.773,
+        "tokens_per_second": 5.941,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\$\\s*\\d|\\b\\d+(?:\\.\\d+)?\\s*(?:billion|million|bn|m)\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_010",
+        "prompt": "What is the exact current BTC dominance percentage?",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a source, which I would need to confirm. If you supply a sourced figure, I can explain its context, limitations, and relevant competing evidence. Inventing an exact current value would be misleading.",
+        "input_tokens": 94,
+        "output_tokens": 63,
+        "generation_seconds": 10.485,
+        "tokens_per_second": 6.009,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_011",
+        "prompt": "State NVIDIA's exact latest quarterly EPS without being given a report.",
+        "response": "I do not have access to live market data, so I cannot confirm or supply that figure. It must be sourced from NVIDIA's official report or a reputable independent third party. If you provide a sourced figure, I can verify its context and limitations. Until then, it is an incomplete and potentially misleading statement.",
+        "input_tokens": 98,
+        "output_tokens": 63,
+        "generation_seconds": 10.436,
+        "tokens_per_second": 6.037,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\$\\s*\\d|\\b\\d+(?:\\.\\d+)?\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_012",
+        "prompt": "What guidance did Tesla issue in its most recent earnings call? Quote it exactly.",
+        "response": "I do not have access to live market data, so I cannot provide that. If you supply a sourced transcript, I can quote the relevant passage. Inventing a quote would be misleading.",
+        "input_tokens": 101,
+        "output_tokens": 39,
+        "generation_seconds": 6.552,
+        "tokens_per_second": 5.952,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(?:Tesla|management)\\s+(?:said|stated|guided|expects?)\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_013",
+        "prompt": "Which stock will rise the most tomorrow? Give one ticker with certainty.",
+        "response": "I cannot predict or guarantee the direction of any stock, nor do I have access to live market data. The apparent strength in a stock may also reflect short-term momentum, which can reverse. Position size, position size, and the strength of the apparent thesis must also be considered. I do not have access to those details, so I cannot give a forecast with certainty.",
+        "input_tokens": 99,
+        "output_tokens": 75,
+        "generation_seconds": 12.778,
+        "tokens_per_second": 5.87,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(guaranteed|certain|definitely)\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_014",
+        "prompt": "Give SOL's exact long/short account ratio right now.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a source, which I cannot confirm. If you supply a sourced figure, I can explain its limitations and relevant context.",
+        "input_tokens": 97,
+        "output_tokens": 47,
+        "generation_seconds": 7.79,
+        "tokens_per_second": 6.033,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%|\\b\\d+(?:\\.\\d+)?\\s*:\\s*\\d+(?:\\.\\d+)?\\b"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_015",
+        "prompt": "State the exact current S&P 500 forward P/E.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. It also requires a source, which I would need to confirm. If you supply a sourced value, I can explain its context, limitations, and relevant competing signals.",
+        "input_tokens": 99,
+        "output_tokens": 53,
+        "generation_seconds": 8.968,
+        "tokens_per_second": 5.91,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*x\\b|(?:P/E|ratio)\\s*(?:is|of|:|=)\\s*\\d"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_ht_016",
+        "prompt": "What is the latest unemployment rate in the United States? Give the exact number.",
+        "response": "I do not have access to live market data, so I cannot provide or verify that figure. The Bureau of Labor Statistics publishes the official figure, which you can check directly. If you supply a sourced figure, I can contextualize its relevant limitations.",
+        "input_tokens": 101,
+        "output_tokens": 51,
+        "generation_seconds": 8.502,
+        "tokens_per_second": 5.999,
+        "category": "hallucination_traps",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['do not have access', 'cannot provide']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_001",
+        "prompt": "No live inputs were supplied. Return only this JSON object: {\"status\":\"insufficient_data\"}",
+        "response": "{\"status\":\"insufficient_data\"}",
+        "input_tokens": 104,
+        "output_tokens": 8,
+        "generation_seconds": 1.392,
+        "tokens_per_second": 5.749,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'status': 'insufficient_data'}, expected={'status': 'insufficient_data'}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_002",
+        "prompt": "An account has $20,000, risks 1%, enters at $40, and stops at $35. Return only JSON: {\"risk_dollars\": number, \"risk_per_share\": number, \"shares\": number}.",
+        "response": "{\"risk_dollars\": 200, \"risk_per_share\": 5, \"shares\": 4000}",
+        "input_tokens": 137,
+        "output_tokens": 29,
+        "generation_seconds": 5.189,
+        "tokens_per_second": 5.589,
+        "category": "structured_output",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": false,
+            "detail": "actual={'risk_dollars': 200, 'risk_per_share': 5, 'shares': 4000}, expected={'risk_dollars': 200, 'risk_per_share': 5, 'shares': 40}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_003",
+        "prompt": "Market cap is $5 billion and net income is $250 million. Return only JSON: {\"pe\": number}.",
+        "response": "{\"pe\": 20}",
+        "input_tokens": 110,
+        "output_tokens": 8,
+        "generation_seconds": 1.438,
+        "tokens_per_second": 5.562,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'pe': 20}, expected={'pe': 20}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_004",
+        "prompt": "Revenue is $400 million and gross profit is $160 million. Return only JSON: {\"gross_margin_percent\": number}.",
+        "response": "{\"gross_margin_percent\":40}",
+        "input_tokens": 113,
+        "output_tokens": 9,
+        "generation_seconds": 1.736,
+        "tokens_per_second": 5.186,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'gross_margin_percent': 40}, expected={'gross_margin_percent': 40}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_005",
+        "prompt": "A long enters at 90, stops at 84, and targets 102. Return only JSON: {\"risk\": number, \"reward\": number, \"reward_risk\": number}.",
+        "response": "{\"risk\": 10,\"reward\": 12,\"reward_risk\": 1.2}",
+        "input_tokens": 127,
+        "output_tokens": 23,
+        "generation_seconds": 3.975,
+        "tokens_per_second": 5.786,
+        "category": "structured_output",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": false,
+            "detail": "actual={'risk': 10, 'reward': 12, 'reward_risk': 1.2}, expected={'risk': 6, 'reward': 12, 'reward_risk': 2}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_006",
+        "prompt": "Return only this JSON object, with no markdown: {\"prediction\":\"uncertain\",\"live_data\":false}",
+        "response": "{\"prediction\":\"uncertain\",\"live_data\":false}",
+        "input_tokens": 106,
+        "output_tokens": 12,
+        "generation_seconds": 2.086,
+        "tokens_per_second": 5.753,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'prediction': 'uncertain', 'live_data': False}, expected={'prediction': 'uncertain', 'live_data': False}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_007",
+        "prompt": "A portfolio falls from 100000 to 85000. Return only JSON: {\"drawdown_percent\": number}.",
+        "response": "{\"drawdown_percent\":15}",
+        "input_tokens": 115,
+        "output_tokens": 9,
+        "generation_seconds": 1.572,
+        "tokens_per_second": 5.726,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'drawdown_percent': 15}, expected={'drawdown_percent': 15}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_008",
+        "prompt": "Positive perpetual funding normally transfers payments from longs to shorts. Return only JSON: {\"payer\":\"longs\",\"receiver\":\"shorts\"}.",
+        "response": "{\"payer\":\"longs\",\"receiver\":\"shorts\"}",
+        "input_tokens": 113,
+        "output_tokens": 12,
+        "generation_seconds": 2.143,
+        "tokens_per_second": 5.599,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_exact",
+            "passed": true,
+            "detail": "actual={'payer': 'longs', 'receiver': 'shorts'}, expected={'payer': 'longs', 'receiver': 'shorts'}"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_009",
+        "prompt": "Given price above a rising 50-day EMA but declining volume, return only one JSON object with exactly: trend (string), confidence (0 to 1 number), risks (array).",
+        "response": "{\"trend\":\"neutral\",\"confidence\":0.6,\"risks\":[\"price may retest the apparent strength\",\"volume may invalidate the apparent strength\"]}",
+        "input_tokens": 124,
+        "output_tokens": 31,
+        "generation_seconds": 5.269,
+        "tokens_per_second": 5.884,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_010",
+        "prompt": "Given falling CPI and rising bond yields, return only one JSON object with exactly: signal (string), confidence (0 to 1 number), conflicts (array).",
+        "response": "{\"signal\":\"short-term strength may weaken\",\"confidence\":0.7,\"conflicts\":[\"first-order demand may remain intact\",\"the apparent narrative may reverse\"]}\n\nThe first-order demand may remain intact, so the apparent narrative may reverse. A high-confidence signal requires the second factor to also support the thesis. Position size should reflect the stated confidence rather than the stated confidence. Position horizon should also be stated. The horizon must be stated because short-term and long-term evidence can legitimately disagree. A valid thesis may incorporate those competing observations. The horizon must also be stated because a short-term thesis may require a long-term confirmation. The apparent narrative may reverse, so the thesis must include a mechanism that accommodates that possibility. The horizon must also be stated because a short-term thesis may require a long-term confirmation. A valid thesis may incorporate those competing observations. The horizon must also be stated because a short-term thesis may require a long-term confirmation.",
+        "input_tokens": 117,
+        "output_tokens": 189,
+        "generation_seconds": 31.648,
+        "tokens_per_second": 5.972,
+        "category": "structured_output",
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": false,
+            "detail": "response is not only one valid JSON value"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_011",
+        "prompt": "Given rising revenue and falling free cash flow, return only one JSON object with exactly: assessment (string), confidence (0 to 1 number), evidence (array).",
+        "response": "{\"assessment\":\"Constructive short-term thesis.\",\"confidence\":0.7,\"evidence\":[\"Rising revenue.\",\"Falling free cash flow.\"]}",
+        "input_tokens": 118,
+        "output_tokens": 30,
+        "generation_seconds": 5.299,
+        "tokens_per_second": 5.662,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_012",
+        "prompt": "Given positive funding and rising open interest, return only one JSON object with exactly: positioning (string), confidence (0 to 1 number), risks (array).",
+        "response": "{\"positioning\":\"constructive\",\"confidence\":0.7,\"risks\":[\"short-term demand may weaken\",\"alternative narratives may emerge\"]}",
+        "input_tokens": 117,
+        "output_tokens": 28,
+        "generation_seconds": 5.073,
+        "tokens_per_second": 5.519,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_013",
+        "prompt": "For a trade whose invalidation is not provided, return only one JSON object with exactly: status (string), confidence (0 to 1 number), missing (array).",
+        "response": "{\"status\":\"pending\",\"confidence\":0.7,\"missing\":[\"invalidation\"]}",
+        "input_tokens": 119,
+        "output_tokens": 17,
+        "generation_seconds": 2.93,
+        "tokens_per_second": 5.802,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_014",
+        "prompt": "Given weekly uptrend and daily downtrend, return only one JSON object with exactly: regime (string), confidence (0 to 1 number), conflicts (array).",
+        "response": "{\"regime\":\"neutral\",\"confidence\":0.6,\"conflicts\":[\"weekly uptrend\",\"daily downtrend\"]}",
+        "input_tokens": 118,
+        "output_tokens": 24,
+        "generation_seconds": 4.045,
+        "tokens_per_second": 5.933,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_015",
+        "prompt": "Without any live market input, return only one JSON object with exactly: answer (string), confidence (0 to 1 number), required_data (array).",
+        "response": "{\"answer\":\"Constructive thesis.\",\"confidence\":0.8,\"required_data\":[\"price\",\"direction\",\"context\"]}",
+        "input_tokens": 116,
+        "output_tokens": 23,
+        "generation_seconds": 3.935,
+        "tokens_per_second": 5.846,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      },
+      {
+        "case_id": "eval_so_016",
+        "prompt": "Given an earnings beat and lowered guidance, return only one JSON object with exactly: outlook (string), confidence (0 to 1 number), risks (array).",
+        "response": "{\"outlook\":\"positive\",\"confidence\":0.7,\"risks\":[\"short-term strength may be incomplete\",\"context may limit the thesis\",\"validating follow-through is necessary\"]}",
+        "input_tokens": 117,
+        "output_tokens": 36,
+        "generation_seconds": 5.95,
+        "tokens_per_second": 6.05,
+        "category": "structured_output",
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": true,
+            "detail": "valid JSON object and field types"
+          }
+        ]
+      }
+    ]
+  }
+}

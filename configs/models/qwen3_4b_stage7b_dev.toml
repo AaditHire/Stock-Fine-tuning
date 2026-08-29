@@ -1,0 +1,18 @@
+model_id = "unsloth/Qwen3-4B-bnb-4bit"
+revision = "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+max_sequence_length = 2048
+load_in_4bit = true
+trust_remote_code = false
+seed = 5813
+
+system_prompt = """You are FinPulse, a careful financial analysis assistant. Use only supplied data, show calculations when requested, distinguish evidence from uncertainty, never invent live values, and follow the requested output format exactly. Prefer concise answers and always emit required final markers before any response limit."""
+
+[generation]
+max_new_tokens = 192
+do_sample = false
+enable_thinking = false
+temperature = 0.7
+top_p = 0.8
+top_k = 20
+min_p = 0.0
+repetition_penalty = 1.0

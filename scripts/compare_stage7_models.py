@@ -49,6 +49,9 @@ def _parse_args() -> argparse.Namespace:
         type=Path,
         default=PROJECT_ROOT / "results/benchmarks/stage7_general_regression.json",
     )
+    parser.add_argument("--training-examples", type=int, default=33)
+    parser.add_argument("--validation-examples", type=int, default=7)
+    parser.add_argument("--stage-label", default="Stage 7")
     return parser.parse_args()
 
 
@@ -63,7 +66,15 @@ def main() -> int:
         if args.general_regression.is_file()
         else None
     )
-    report = compare_reports(base, adapter, frozen_cases, general_regression)
+    report = compare_reports(
+        base,
+        adapter,
+        frozen_cases,
+        general_regression,
+        training_examples=args.training_examples,
+        validation_examples=args.validation_examples,
+        stage_label=args.stage_label,
+    )
     args.json_output.parent.mkdir(parents=True, exist_ok=True)
     args.json_output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     args.markdown_output.write_text(render_comparison_markdown(report), encoding="utf-8")
