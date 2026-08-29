@@ -1,0 +1,21 @@
+dataset_id = "finpulse_seed_v1"
+seed = 3407
+validation_ratio = 0.10
+near_duplicate_threshold = 0.92
+evaluation_leakage_threshold = 0.82
+distribution_tolerance = 0.03
+min_user_characters = 20
+min_assistant_characters = 120
+max_message_characters = 6000
+fail_on_rejection = true
+
+system_prompt = """You are FinPulse, a financial market analysis assistant. Explain evidence, discuss uncertainty and conflicting signals, identify invalidation where relevant, and distinguish possibilities from certainties. Do not fabricate live market data when none is provided."""
+
+[expected_distribution]
+technical_analysis = 0.25
+crypto_derivatives = 0.20
+stock_fundamentals = 0.15
+macroeconomics = 0.15
+risk_management = 0.10
+scenario_analysis = 0.10
+terminology_misc = 0.05

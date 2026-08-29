@@ -53,12 +53,17 @@ adapter_model.*
 # Generated datasets. Keep only directory markers and deliberately reviewed files.
 data/raw/*
 !data/raw/.gitkeep
+!data/raw/finpulse_seed_v1.jsonl
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/finpulse_seed_v1.manifest.json
+!data/processed/finpulse_seed_v1.quality.json
 data/train/*
 !data/train/.gitkeep
+!data/train/finpulse_seed_v1.jsonl
 data/validation/*
 !data/validation/.gitkeep
+!data/validation/finpulse_seed_v1.jsonl
 data/eval/*
 !data/eval/.gitkeep
 !data/eval/finpulse_eval_v1.jsonl

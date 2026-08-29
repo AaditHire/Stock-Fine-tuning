@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 4 is complete: a frozen 160-question financial evaluation benchmark was created, integrity-locked, and run against the selected Qwen3-4B base model. The pre-training baseline is 90.56%. No training dataset or fine-tuning has started.
+Stage 5 is complete: the provenance-aware financial instruction-data pipeline now normalizes, validates, deduplicates, leakage-checks, quality-checks, and deterministically splits conversational examples. A 40-example reviewed seed corpus demonstrates the pipeline; this is not yet the eventual 8,000–15,000-example training corpus. No fine-tuning has started.
 
 ## Hardware target
 
@@ -140,6 +140,19 @@ Run or resume the complete Qwen baseline locally:
 The benchmark contains 160 project-authored questions, with 16 cases in each required category. Its final SHA-256 is `bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa`. Qwen scored 90.56% (355/392 rubric checks), generated 20,785 tokens at an aggregate 10.69 tokens/second, and peaked at 3,809.5 MiB total device VRAM.
 
 The evaluation JSONL, answers, checks, and paraphrases must never enter training data. See `docs/stage4.md` for the category results, audit notes, and leakage policy.
+
+## Stage 5 instruction-data pipeline
+
+Verify the reviewed seed source, then rebuild the deterministic splits:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_stage5_seed.py
+.\.venv\Scripts\python.exe scripts\build_training_dataset.py data\raw\finpulse_seed_v1.jsonl
+```
+
+The seed build contains 40 accepted and zero rejected examples: 33 train and 7 validation. Its category distribution exactly matches the requested 25% technical analysis, 20% crypto derivatives, 15% stock fundamentals, 15% macroeconomics, 10% risk management, 10% scenario analysis, and 5% terminology/miscellaneous.
+
+The JSONL files use conversational `messages` and load directly through Hugging Face `datasets`. Every example records category, subtopics, difficulty, source type, license, reference, and review status. Exact and fuzzy checks reject training prompts that overlap Stage 3 or the frozen Stage 4 benchmark. See `docs/stage5.md` for the schema and quality rules.
 
 ## Environment diagnostic
 

@@ -1,0 +1,67 @@
+{
+  "dataset_id": "finpulse_seed_v1",
+  "input_records": 40,
+  "accepted_records": 40,
+  "rejected_records": 0,
+  "train_records": 33,
+  "validation_records": 7,
+  "category_counts": {
+    "crypto_derivatives": 8,
+    "macroeconomics": 6,
+    "risk_management": 4,
+    "scenario_analysis": 4,
+    "stock_fundamentals": 6,
+    "technical_analysis": 10,
+    "terminology_misc": 2
+  },
+  "difficulty_counts": {
+    "advanced": 11,
+    "beginner": 11,
+    "intermediate": 18
+  },
+  "source_type_counts": {
+    "original": 40
+  },
+  "message_character_stats": {
+    "user": {
+      "minimum": 54,
+      "maximum": 156,
+      "average": 100.7
+    },
+    "assistant": {
+      "minimum": 474,
+      "maximum": 679,
+      "average": 596.5
+    }
+  },
+  "actual_distribution": {
+    "technical_analysis": 0.25,
+    "crypto_derivatives": 0.2,
+    "stock_fundamentals": 0.15,
+    "macroeconomics": 0.15,
+    "risk_management": 0.1,
+    "scenario_analysis": 0.1,
+    "terminology_misc": 0.05
+  },
+  "expected_distribution": {
+    "technical_analysis": 0.25,
+    "crypto_derivatives": 0.2,
+    "stock_fundamentals": 0.15,
+    "macroeconomics": 0.15,
+    "risk_management": 0.1,
+    "scenario_analysis": 0.1,
+    "terminology_misc": 0.05
+  },
+  "distribution_delta": {
+    "technical_analysis": 0.0,
+    "crypto_derivatives": 0.0,
+    "stock_fundamentals": 0.0,
+    "macroeconomics": 0.0,
+    "risk_management": 0.0,
+    "scenario_analysis": 0.0,
+    "terminology_misc": 0.0
+  },
+  "distribution_within_tolerance": true,
+  "distribution_tolerance": 0.03,
+  "rejections": []
+}

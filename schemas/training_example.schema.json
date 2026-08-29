@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://finpulse.local/schemas/training-example-v1.json",
+  "title": "FinPulse conversational supervised fine-tuning example",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "messages", "metadata"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^fp_[a-z]{2,4}_[0-9]{4}$"},
+    "messages": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {"$ref": "#/$defs/systemMessage"},
+        {"$ref": "#/$defs/userMessage"},
+        {"$ref": "#/$defs/assistantMessage"}
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "subtopics", "difficulty", "source", "review"],
+      "properties": {
+        "category": {
+          "enum": [
+            "technical_analysis",
+            "crypto_derivatives",
+            "stock_fundamentals",
+            "macroeconomics",
+            "risk_management",
+            "scenario_analysis",
+            "terminology_misc"
+          ]
+        },
+        "subtopics": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "difficulty": {"enum": ["beginner", "intermediate", "advanced"]},
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "reference", "license"],
+          "properties": {
+            "type": {"enum": ["original", "synthetic", "licensed"]},
+            "reference": {"type": "string", "minLength": 1},
+            "license": {"type": "string", "minLength": 1}
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "reviewer"],
+          "properties": {
+            "status": {"enum": ["reviewed", "needs_review"]},
+            "reviewer": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "systemMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {"role": {"const": "system"}, "content": {"type": "string"}}
+    },
+    "userMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {"role": {"const": "user"}, "content": {"type": "string"}}
+    },
+    "assistantMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {"role": {"const": "assistant"}, "content": {"type": "string"}}
+    }
+  }
+}
