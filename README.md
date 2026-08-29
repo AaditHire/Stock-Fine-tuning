@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 3 is complete: Qwen3-4B and Phi-4-mini-instruct were benchmarked locally under matched 4-bit settings. Qwen3-4B was selected for the later baseline and fine-tuning stages. No training or dataset creation has started.
+Stage 4 is complete: a frozen 160-question financial evaluation benchmark was created, integrity-locked, and run against the selected Qwen3-4B base model. The pre-training baseline is 90.56%. No training dataset or fine-tuning has started.
 
 ## Hardware target
 
@@ -121,7 +121,25 @@ Rebuild the comparison report from the saved results:
 .\.venv\Scripts\python.exe scripts\compare_stage3_models.py results\benchmarks\stage3_qwen3_4b.json results\benchmarks\stage3_phi4_mini.json --json-output results\benchmarks\stage3_comparison.json --markdown-output results\benchmarks\stage3_comparison.md
 ```
 
-Qwen scored 82.8% (24/29 checks), compared with Phi's 75.9% (22/29). Qwen was stronger on the calculation cases, while Phi was faster and handled both live-data refusal traps. Both fit comfortably below 4 GiB of measured total device VRAM. This 15-prompt development benchmark guides model choice; it is deliberately separate from the larger frozen evaluation set planned for Stage 4. See `docs/stage3.md` for methodology and limitations.
+Qwen scored 82.8% (24/29 checks), compared with Phi's 75.9% (22/29). Qwen was stronger on the calculation cases, while Phi was faster and handled both live-data refusal traps. Both fit comfortably below 4 GiB of measured total device VRAM. This 15-prompt development benchmark guided model choice; it remains deliberately separate from the frozen Stage 4 evaluation set. See `docs/stage3.md` for methodology and limitations.
+
+## Stage 4 frozen evaluation
+
+Verify the frozen dataset and its SHA-256 manifest without modifying either file:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_stage4_benchmark.py --check
+```
+
+Run or resume the complete Qwen baseline locally:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_stage4_baseline.py --offline --resume
+```
+
+The benchmark contains 160 project-authored questions, with 16 cases in each required category. Its final SHA-256 is `bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa`. Qwen scored 90.56% (355/392 rubric checks), generated 20,785 tokens at an aggregate 10.69 tokens/second, and peaked at 3,809.5 MiB total device VRAM.
+
+The evaluation JSONL, answers, checks, and paraphrases must never enter training data. See `docs/stage4.md` for the category results, audit notes, and leakage policy.
 
 ## Environment diagnostic
 

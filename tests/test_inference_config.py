@@ -4,10 +4,11 @@ import pytest
 
 from finpulse_llm.inference.config import load_model_config
 from finpulse_llm.inference.prompts import FINANCE_SMOKE_PROMPTS
-from finpulse_llm.inference.runner import _MemorySampler
+from finpulse_llm.inference.runner import _generation_arguments, _MemorySampler
 
 CONFIG_PATH = Path(__file__).parents[1] / "configs" / "models" / "qwen3_4b.toml"
 PHI_CONFIG_PATH = Path(__file__).parents[1] / "configs" / "models" / "phi4_mini.toml"
+EVAL_CONFIG_PATH = Path(__file__).parents[1] / "configs" / "models" / "qwen3_4b_eval.toml"
 
 
 def test_qwen_config_is_memory_safe() -> None:
@@ -32,6 +33,18 @@ def test_stage3_model_configs_use_identical_benchmark_settings() -> None:
     assert phi.seed == qwen.seed
     assert phi.system_prompt == qwen.system_prompt
     assert phi.generation == qwen.generation
+
+
+def test_stage4_eval_config_uses_deterministic_decoding() -> None:
+    config = load_model_config(EVAL_CONFIG_PATH)
+
+    assert config.model_id == "unsloth/Qwen3-4B-bnb-4bit"
+    assert config.load_in_4bit is True
+    assert config.generation.do_sample is False
+    assert config.generation.max_new_tokens == 192
+    arguments = _generation_arguments(config)
+    assert arguments["do_sample"] is False
+    assert "temperature" not in arguments
 
 
 def test_missing_config_has_clear_error() -> None:

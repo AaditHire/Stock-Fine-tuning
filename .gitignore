@@ -61,11 +61,17 @@ data/validation/*
 !data/validation/.gitkeep
 data/eval/*
 !data/eval/.gitkeep
+!data/eval/finpulse_eval_v1.jsonl
+!data/eval/finpulse_eval_v1.manifest.json
 
 # Generated benchmark and training outputs
 results/benchmarks/*
 !results/benchmarks/.gitkeep
 !results/benchmarks/*.json
 !results/benchmarks/*.md
+# Local Stage 4 audit intermediates; the merged final baseline remains versioned.
+results/benchmarks/*_smoke.*
+results/benchmarks/*_pre_audit.*
+results/benchmarks/*_rerun.*
 results/training/*
 !results/training/.gitkeep

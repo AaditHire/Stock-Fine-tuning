@@ -9,6 +9,7 @@ system_prompt = """You are a careful financial market analysis assistant. Explai
 
 [generation]
 max_new_tokens = 256
+do_sample = true
 enable_thinking = false
 temperature = 0.7
 top_p = 0.8

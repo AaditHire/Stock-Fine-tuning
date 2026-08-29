@@ -121,6 +121,14 @@ def score_check(response: str, check: dict[str, Any]) -> CheckResult:
             detail = f"actual={actual!r}, expected={expected!r}"
         except ValueError as exc:
             detail = str(exc)
+    elif check_type == "json_only_exact":
+        try:
+            actual = json.loads(response.strip())
+            expected = check["value"]
+            passed = actual == expected
+            detail = f"actual={actual!r}, expected={expected!r}"
+        except json.JSONDecodeError:
+            detail = "response is not only one valid JSON value"
     elif check_type == "json_fields":
         try:
             passed, detail = _json_fields(_extract_json(response), check)

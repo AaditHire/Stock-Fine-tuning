@@ -13,6 +13,7 @@ class GenerationConfig:
     """Sampling settings passed to Hugging Face ``generate``."""
 
     max_new_tokens: int
+    do_sample: bool
     enable_thinking: bool
     temperature: float
     top_p: float
@@ -55,6 +56,7 @@ def load_model_config(path: str | Path) -> ModelConfig:
     generation_raw = _require(raw, "generation")
     generation = GenerationConfig(
         max_new_tokens=int(_require(generation_raw, "max_new_tokens")),
+        do_sample=bool(generation_raw.get("do_sample", True)),
         enable_thinking=bool(_require(generation_raw, "enable_thinking")),
         temperature=float(_require(generation_raw, "temperature")),
         top_p=float(_require(generation_raw, "top_p")),

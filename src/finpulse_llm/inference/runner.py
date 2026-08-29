@@ -6,7 +6,7 @@ import gc
 import logging
 import threading
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -91,19 +91,27 @@ class _MemorySampler:
 
 def _generation_arguments(config: ModelConfig) -> dict[str, Any]:
     generation = config.generation
-    return {
+    arguments: dict[str, Any] = {
         "max_new_tokens": generation.max_new_tokens,
-        "do_sample": True,
-        "temperature": generation.temperature,
-        "top_p": generation.top_p,
-        "top_k": generation.top_k,
-        "min_p": generation.min_p,
+        "do_sample": generation.do_sample,
         "repetition_penalty": generation.repetition_penalty,
         "use_cache": True,
     }
+    if generation.do_sample:
+        arguments.update(
+            temperature=generation.temperature,
+            top_p=generation.top_p,
+            top_k=generation.top_k,
+            min_p=generation.min_p,
+        )
+    return arguments
 
 
-def run_inference(config: ModelConfig, prompts: Sequence[str]) -> RunMetrics:
+def run_inference(
+    config: ModelConfig,
+    prompts: Sequence[str],
+    on_result: Callable[[GenerationResult], None] | None = None,
+) -> RunMetrics:
     """Load one 4-bit model, answer every prompt, and return measured results."""
 
     if not prompts:
@@ -181,6 +189,8 @@ def run_inference(config: ModelConfig, prompts: Sequence[str]) -> RunMetrics:
                     tokens_per_second=round(output_tokens / generation_seconds, 3),
                 )
             )
+            if on_result is not None:
+                on_result(generated[-1])
 
         sampler.stop()
         return RunMetrics(

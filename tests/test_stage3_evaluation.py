@@ -39,6 +39,11 @@ def test_stage3_benchmark_has_required_coverage() -> None:
             {"type": "json_exact", "value": {"status": "insufficient_data"}},
             True,
         ),
+        (
+            '```json\n{"status":"insufficient_data"}\n```',
+            {"type": "json_only_exact", "value": {"status": "insufficient_data"}},
+            False,
+        ),
     ],
 )
 def test_score_check(response: str, check: dict, expected: bool) -> None:
