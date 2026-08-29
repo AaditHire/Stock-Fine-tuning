@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 6 is complete: Qwen3-4B was fine-tuned locally with 4-bit QLoRA, Unsloth, and the reviewed Stage 5 seed. The one-epoch run stayed within the RTX 3060's 6 GB limit and saved only a LoRA adapter. This validates the training mechanics; the 40-example seed is not large enough to establish financial specialization, and the frozen Stage 7 comparison has not started.
+Stage 7 is complete: the Stage 6 adapter scored 84.44% on the frozen benchmark, below the base model's 90.56%, so it is rejected as a release candidate. Hallucination resistance improved to 100%, but calculations, factual finance checks, instruction following, and most domain categories regressed. The result confirms that the 40-example seed validated mechanics but was not sufficient for a successful specialist model.
 
 ## Hardware target
 
@@ -165,6 +165,18 @@ Check the pinned inputs without loading CUDA, then optionally run a one-step smo
 ```
 
 The configuration is in `configs/training/qwen3_4b_stage6.toml`. It uses a 4-bit frozen base, rank-16 LoRA adapters across all major attention and MLP projections, 512-token context, micro-batch 1, gradient accumulation 4, Unsloth checkpointing, and one epoch. The measured run trained 33.0 million parameters (0.814%), peaked at 5,114.4 MiB total device VRAM, and saved a 66.1 MB adapter under the Git-ignored `models/adapters/` directory. See `docs/stage6.md` for the measurements, caveats, and concept explanations.
+
+## Stage 7 base-versus-adapter evaluation
+
+Run or resume the adapter on the unchanged 160-case benchmark, then rebuild the comparison:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_stage7_adapter.py --resume
+.\.venv\Scripts\python.exe scripts\run_stage7_general_regression.py
+.\.venv\Scripts\python.exe scripts\compare_stage7_models.py
+```
+
+The base passed 355/392 checks (90.56%); the adapter passed 331/392 (84.44%). Hallucination resistance rose from 87.5% to 100%, while calculations fell from 75% to 50% and technical analysis fell from 95.31% to 70.31%. The adapter remains useful as an experiment but should not be exported as the finished model. See `docs/stage7.md` and `results/benchmarks/stage7_comparison.md` for the complete audit.
 
 ## Environment diagnostic
 
