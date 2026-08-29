@@ -1,10 +1,13 @@
-model_id = "unsloth/Qwen3-4B-bnb-4bit"
+model_id = "unsloth/Phi-4-mini-instruct-bnb-4bit"
+revision = "cece1fd36f04ff79f55ec861f206ca4e16acea6e"
 max_sequence_length = 2048
 load_in_4bit = true
+# Transformers 5 has native Phi-3/Phi-4-mini support. Avoid the repository's
+# legacy remote modeling file, which is incompatible with Transformers 5.5.
 trust_remote_code = false
 seed = 3407
 
-# This prompt teaches the desired behavior without pretending the model has live data.
+# Kept byte-for-byte identical to the Qwen configuration for a fair comparison.
 system_prompt = """You are a careful financial market analysis assistant. Explain the evidence, discuss uncertainty and conflicting signals, identify invalidation where relevant, and distinguish possibilities from certainties. You have no access to live market data unless the user supplies it, so never fabricate current prices, rates, or positioning. Keep the final answer concise and under 140 words."""
 
 [generation]

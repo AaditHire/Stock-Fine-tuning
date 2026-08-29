@@ -26,8 +26,10 @@ class ModelConfig:
     """Model-loading and generation settings kept outside application code."""
 
     model_id: str
+    revision: str | None
     max_sequence_length: int
     load_in_4bit: bool
+    trust_remote_code: bool
     seed: int
     system_prompt: str
     generation: GenerationConfig
@@ -62,8 +64,10 @@ def load_model_config(path: str | Path) -> ModelConfig:
     )
     config = ModelConfig(
         model_id=str(_require(raw, "model_id")),
+        revision=str(raw["revision"]) if raw.get("revision") else None,
         max_sequence_length=int(_require(raw, "max_sequence_length")),
         load_in_4bit=bool(_require(raw, "load_in_4bit")),
+        trust_remote_code=bool(raw.get("trust_remote_code", False)),
         seed=int(_require(raw, "seed")),
         system_prompt=str(_require(raw, "system_prompt")).strip(),
         generation=generation,
@@ -78,7 +82,7 @@ def _validate(config: ModelConfig) -> None:
     if config.max_sequence_length <= 0:
         raise ValueError("max_sequence_length must be positive")
     if not config.load_in_4bit:
-        raise ValueError("Stage 2 requires load_in_4bit=true for the 6 GB GPU")
+        raise ValueError("Local benchmark models must use 4-bit loading for the 6 GB GPU")
     if config.generation.max_new_tokens <= 0:
         raise ValueError("max_new_tokens must be positive")
     if config.generation.temperature <= 0:

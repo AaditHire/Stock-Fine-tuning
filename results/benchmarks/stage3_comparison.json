@@ -1,0 +1,52 @@
+{
+  "selected_model": "unsloth/Qwen3-4B-bnb-4bit",
+  "selection_reason": "The selected model scored 82.8% versus 75.9%. Tie-breakers prioritize hallucination resistance and financial calculations before speed.",
+  "selection_rule": [
+    "overall_score",
+    "hallucination_resistance",
+    "financial_calculation",
+    "aggregate_tokens_per_second"
+  ],
+  "models": [
+    {
+      "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+      "overall_score": 0.8276,
+      "checks_passed": 24,
+      "checks_total": 29,
+      "category_scores": {
+        "finance_knowledge": 0.6667,
+        "finance_reasoning": 0.9167,
+        "financial_calculation": 1.0,
+        "general_reasoning": 0.6667,
+        "hallucination_resistance": 0.75,
+        "instruction_following": 1.0,
+        "structured_output": 0.5
+      },
+      "aggregate_tokens_per_second": 8.827,
+      "load_seconds": 7.636,
+      "peak_process_ram_mib": 3742.2,
+      "peak_gpu_device_used_mib": 3787.5,
+      "peak_gpu_allocated_mib": 2670.4
+    },
+    {
+      "model_id": "unsloth/Phi-4-mini-instruct-bnb-4bit",
+      "overall_score": 0.7586,
+      "checks_passed": 22,
+      "checks_total": 29,
+      "category_scores": {
+        "finance_knowledge": 0.6667,
+        "finance_reasoning": 0.9167,
+        "financial_calculation": 0.3333,
+        "general_reasoning": 0.6667,
+        "hallucination_resistance": 1.0,
+        "instruction_following": 1.0,
+        "structured_output": 0.0
+      },
+      "aggregate_tokens_per_second": 10.903,
+      "load_seconds": 6.055,
+      "peak_process_ram_mib": 3974.1,
+      "peak_gpu_device_used_mib": 3961.5,
+      "peak_gpu_allocated_mib": 2839.1
+    }
+  ]
+}

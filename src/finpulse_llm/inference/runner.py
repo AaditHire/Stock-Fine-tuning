@@ -132,8 +132,10 @@ def run_inference(config: ModelConfig, prompts: Sequence[str]) -> RunMetrics:
         load_started = time.perf_counter()
         model, tokenizer = FastModel.from_pretrained(
             model_name=config.model_id,
+            revision=config.revision,
             max_seq_length=config.max_sequence_length,
             load_in_4bit=config.load_in_4bit,
+            trust_remote_code=config.trust_remote_code,
         )
         FastModel.for_inference(model)
         torch.cuda.synchronize()

@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 2 is complete: Qwen3-4B runs locally through Unsloth in 4-bit mode, with measured RAM, VRAM, load time, and generation speed. No training or dataset creation has started.
+Stage 3 is complete: Qwen3-4B and Phi-4-mini-instruct were benchmarked locally under matched 4-bit settings. Qwen3-4B was selected for the later baseline and fine-tuning stages. No training or dataset creation has started.
 
 ## Hardware target
 
@@ -105,6 +105,23 @@ After the model is cached, force fully offline loading with `--offline`.
 Configuration lives in `configs/models/qwen3_4b.toml`. The model cache is stored under `models/huggingface/` and is ignored by Git. The measured report is `results/benchmarks/stage2_qwen3_4b.json`.
 
 On this machine, the cached model loaded in 8.2 seconds, used a peak 3.73 GiB of total device VRAM (including Windows GPU use), and generated about 10.8 tokens/second across the smoke suite. See `docs/stage2.md` for the complete findings and explanations.
+
+## Stage 3 base-model benchmark
+
+Run either model independently so only one occupies GPU memory:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_stage3_model.py --model-config configs\models\qwen3_4b.toml --output results\benchmarks\stage3_qwen3_4b.json --offline
+.\.venv\Scripts\python.exe scripts\run_stage3_model.py --model-config configs\models\phi4_mini.toml --output results\benchmarks\stage3_phi4_mini.json --offline
+```
+
+Rebuild the comparison report from the saved results:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\compare_stage3_models.py results\benchmarks\stage3_qwen3_4b.json results\benchmarks\stage3_phi4_mini.json --json-output results\benchmarks\stage3_comparison.json --markdown-output results\benchmarks\stage3_comparison.md
+```
+
+Qwen scored 82.8% (24/29 checks), compared with Phi's 75.9% (22/29). Qwen was stronger on the calculation cases, while Phi was faster and handled both live-data refusal traps. Both fit comfortably below 4 GiB of measured total device VRAM. This 15-prompt development benchmark guides model choice; it is deliberately separate from the larger frozen evaluation set planned for Stage 4. See `docs/stage3.md` for methodology and limitations.
 
 ## Environment diagnostic
 

@@ -1,0 +1,374 @@
+{
+  "benchmark": "C:\\Users\\Admin\\OneDrive\\Documents\\GitHub\\Stock Fine-tuning\\benchmarks\\stage3_base_models.json",
+  "benchmark_case_count": 15,
+  "model": {
+    "model_id": "unsloth/Phi-4-mini-instruct-bnb-4bit",
+    "quantization": "bitsandbytes 4-bit",
+    "max_sequence_length": 2048,
+    "load_seconds": 6.055,
+    "peak_process_ram_mib": 3974.1,
+    "peak_system_ram_used_mib": 11359.4,
+    "peak_gpu_device_used_mib": 3961.5,
+    "peak_gpu_allocated_mib": 2839.1,
+    "peak_gpu_reserved_mib": 2896.0,
+    "torch_version": "2.11.0+cu130",
+    "torch_cuda_version": "13.0",
+    "gpu_name": "NVIDIA GeForce RTX 3060 Laptop GPU"
+  },
+  "scoring": {
+    "overall_score": 0.7586,
+    "checks_passed": 22,
+    "checks_total": 29,
+    "category_scores": {
+      "finance_knowledge": 0.6667,
+      "finance_reasoning": 0.9167,
+      "financial_calculation": 0.3333,
+      "general_reasoning": 0.6667,
+      "hallucination_resistance": 1.0,
+      "instruction_following": 1.0,
+      "structured_output": 0.0
+    },
+    "cases": [
+      {
+        "id": "finance_position_size",
+        "category": "financial_calculation",
+        "prompt": "An account has $10,000 and risks 1% per trade. Entry is $100 and stop is $95. Ignoring fees and slippage, calculate the maximum whole-share position. End with exactly: FINAL: <number> shares",
+        "response": "To determine the maximum whole-share position, we divide the account balance by the trade risk per share and the entry price, adjusting for the stop-loss price. \n\n$10,000 / ($100 - $95) = $10,000 / $5 = 2000 trades\n\n2000 trades / 1% risk per trade = 2000 trades / 0.01 = 200,000 shares\n\nFINAL: 200,000 shares",
+        "input_tokens": 122,
+        "output_tokens": 92,
+        "generation_seconds": 39.414,
+        "tokens_per_second": 2.334,
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*20\\s+shares\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "finance_reward_risk",
+        "category": "financial_calculation",
+        "prompt": "A long trade enters at $50, has a stop at $46, and a target at $60. Calculate reward divided by risk. End with exactly: FINAL: <number>",
+        "response": "To calculate the reward divided by risk (R/R), we first find the reward (target minus stop) and risk (stop minus entry price). Here, the reward is $60 - $46 = $14, and the risk is $46 - $50 = -$4. However, since risk can't be negative, we consider the absolute value, which gives us $4. Thus, R/R = $14 / $4 = 3.75.\n\nFINAL: 3.75",
+        "input_tokens": 110,
+        "output_tokens": 100,
+        "generation_seconds": 6.286,
+        "tokens_per_second": 15.909,
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*2(?:\\.5|\\.50)\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "finance_pe_ratio",
+        "category": "financial_calculation",
+        "prompt": "A company has a $2.4 billion market capitalization and $120 million trailing net income. Calculate its P/E ratio. End with exactly: FINAL: <number>",
+        "response": "To calculate the P/E ratio, divide the market capitalization by the net income. Market capitalization is $2.4 billion, and net income is $120 million.\n\nP/E ratio = Market Cap / Net Income\nP/E ratio = $2,400,000,000 / $120,000,000\nP/E ratio = 20\n\nFINAL: 20",
+        "input_tokens": 107,
+        "output_tokens": 75,
+        "generation_seconds": 4.778,
+        "tokens_per_second": 15.695,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*20(?:\\.0+)?\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "technical_rsi_uncertainty",
+        "category": "finance_reasoning",
+        "prompt": "BTC daily RSI is 24. Does that guarantee a bounce? In under 100 words, explain uncertainty, name at least two useful confirmation signals, and state one bullish invalidation condition.",
+        "response": "The RSI being at 24 suggests the asset is in the oversold region, indicating a potential bounce. However, this alone doesn't guarantee a bounce due to market uncertainty and conflicting signals. Two useful confirmation signals are a bullish candlestick pattern (e.g., hammer, engulfing) and a breakout above the 50 level on the RSI. One bullish invalidation condition is if the RSI crosses above the 70 level, indicating overbought conditions and a potential reversal. Market dynamics and investor sentiment play a crucial role in the actual outcome.",
+        "input_tokens": 111,
+        "output_tokens": 109,
+        "generation_seconds": 6.935,
+        "tokens_per_second": 15.718,
+        "score": 0.75,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['uncertain']"
+          },
+          {
+            "type": "keyword_count",
+            "passed": false,
+            "detail": "matched=[], minimum=2"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['invalidation']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(will|must) (rise|bounce)\\b"
+          }
+        ]
+      },
+      {
+        "id": "macro_conflicting_signals",
+        "category": "finance_reasoning",
+        "prompt": "Inflation is falling, but bond yields and DXY are both rising. Explain the conflicting implications for risk assets without making a certain directional prediction. Keep it under 120 words.",
+        "response": "The decline in inflation suggests a potential easing of monetary policy, which typically favors risk assets as investors seek higher returns. Conversely, rising bond yields indicate increasing borrowing costs, which can dampen risk asset performance. Additionally, a rising DXY points to a strengthening U.S. dollar, often seen as a negative for emerging market risk assets due to reduced competitiveness. This juxtaposition of declining inflation against rising bond yields and DXY presents conflicting implications for risk assets. Investors must weigh these factors carefully, recognizing the uncertainty inherent in market dynamics.",
+        "input_tokens": 109,
+        "output_tokens": 107,
+        "generation_seconds": 6.613,
+        "tokens_per_second": 16.18,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_all",
+            "passed": true,
+            "detail": "missing=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['conflict']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['uncertain']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(definitely|certainly|guaranteed)\\b"
+          }
+        ]
+      },
+      {
+        "id": "fundamentals_mixed",
+        "category": "finance_reasoning",
+        "prompt": "Revenue grew 18%, operating margin fell from 22% to 15%, and free cash flow declined. Give a balanced interpretation without recommending a trade. Keep it under 120 words.",
+        "response": "The company shows mixed performance indicators. Revenue growth of 18% suggests strong sales or market expansion. However, the drop in operating margin from 22% to 15% raises concerns about profitability and cost management. Declining free cash flow may indicate potential issues with liquidity or capital expenditures. While revenue growth is positive, the declining operating margin and free cash flow suggest the company faces challenges in maintaining profitability and managing cash effectively. It's essential to consider other factors like industry trends, competitive landscape, and company-specific events before drawing conclusions. This mixed performance indicates uncertainty and conflicting signals, making it challenging to form a definitive assessment of the company's financial health.",
+        "input_tokens": 111,
+        "output_tokens": 130,
+        "generation_seconds": 8.146,
+        "tokens_per_second": 15.96,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_all",
+            "passed": true,
+            "detail": "missing=[]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['cost']"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['uncertain', 'may']"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b(you should|I recommend) (buy|sell|short)\\b"
+          }
+        ]
+      },
+      {
+        "id": "live_btc_funding",
+        "category": "hallucination_resistance",
+        "prompt": "What is BTC's current funding rate right now? Give the exact value.",
+        "response": "I'm sorry, but I can't provide real-time data or current market prices, rates, or positioning, including BTC's current funding rate. To get the most accurate and up-to-date information, please refer to reliable cryptocurrency market data sources or platforms.",
+        "input_tokens": 88,
+        "output_tokens": 50,
+        "generation_seconds": 3.23,
+        "tokens_per_second": 15.48,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=[\"can't provide real-time\"]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: [-+]?\\d+(?:\\.\\d+)?\\s*%"
+          }
+        ]
+      },
+      {
+        "id": "live_aapl_pe",
+        "category": "hallucination_resistance",
+        "prompt": "What is Apple's exact current trailing P/E ratio right now? Do not estimate.",
+        "response": "I can't provide Apple's current trailing Price-to-Earnings (P/E) ratio as I don't have access to live market data. You can obtain this information from financial news websites, stock market apps, or Apple's investor relations page for the most accurate and up-to-date figures.",
+        "input_tokens": 89,
+        "output_tokens": 55,
+        "generation_seconds": 3.405,
+        "tokens_per_second": 16.151,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=[\"don't have access\"]"
+          },
+          {
+            "type": "regex_not",
+            "passed": true,
+            "detail": "forbidden regex: \\b\\d{1,3}(?:\\.\\d+)?x?\\b"
+          }
+        ]
+      },
+      {
+        "id": "funding_mechanics",
+        "category": "finance_knowledge",
+        "prompt": "In a standard crypto perpetual swap, who pays whom when funding is positive, and why is that signal not independently directional? Answer in under 100 words.",
+        "response": "In a standard crypto perpetual swap with positive funding, the buyer pays the seller. This signal isn't independently directional because it only reflects the current market sentiment and funding levels, not a long-term trend or fundamental change in the asset's value. It is important to consider other market factors and indicators to form a comprehensive view of the market direction.",
+        "input_tokens": 104,
+        "output_tokens": 68,
+        "generation_seconds": 4.422,
+        "tokens_per_second": 15.379,
+        "score": 0.6667,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: \\b(?:longs?|buyers?)\\b.{0,40}\\bpay\\b.{0,40}\\b(?:shorts?|sellers?)\\b"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=[\"isn't independently\"]"
+          },
+          {
+            "type": "contains_any",
+            "passed": true,
+            "detail": "matched=['sentiment']"
+          }
+        ]
+      },
+      {
+        "id": "structured_market_summary",
+        "category": "structured_output",
+        "prompt": "Given only these facts: price is above the 50-day EMA, volume is declining, and ATR is rising. Return only one JSON object with exactly these keys: trend (string), confidence (number from 0 to 1), risks (array of strings).",
+        "response": "```json\n{\n  \"trend\": \"downward\",\n  \"confidence\": 0.6,\n  \"risks\": [\"EMA resistance\", \"volume decline\", \"increasing volatility\"]\n}\n```\n\nExplanation: The price being above the 50-day Exponential Moving Average (EMA) suggests resistance, implying a potential downward trend. Declining volume could indicate weakening momentum, adding uncertainty to the trend. Rising Average True Range (ATR) points to increasing volatility, which may increase the risk of a trend reversal. Balancing these factors, we derive a downward trend with moderate confidence (0.6) and acknowledge the risks of EMA resistance, declining volume, and rising volatility. This assessment is tentative, as market dynamics can swiftly change.",
+        "input_tokens": 126,
+        "output_tokens": 150,
+        "generation_seconds": 9.501,
+        "tokens_per_second": 15.788,
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "json_only_fields",
+            "passed": false,
+            "detail": "response is not only one valid JSON value"
+          }
+        ]
+      },
+      {
+        "id": "instruction_exact_json",
+        "category": "instruction_following",
+        "prompt": "Return exactly this JSON and nothing else: {\"status\":\"insufficient_data\"}",
+        "response": "{\"status\":\"insufficient_data\"}",
+        "input_tokens": 88,
+        "output_tokens": 8,
+        "generation_seconds": 0.562,
+        "tokens_per_second": 14.243,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "json_exact",
+            "passed": true,
+            "detail": "actual={'status': 'insufficient_data'}, expected={'status': 'insufficient_data'}"
+          },
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: ^\\s*\\{\\s*\"status\"\\s*:\\s*\"insufficient_data\"\\s*\\}\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "general_multiplication",
+        "category": "general_reasoning",
+        "prompt": "Calculate 17 multiplied by 23. End with exactly: FINAL: <number>",
+        "response": "To calculate 17 multiplied by 23, we perform a simple multiplication operation:\n\n17 * 23 = 391\n\nFINAL: 391",
+        "input_tokens": 90,
+        "output_tokens": 29,
+        "generation_seconds": 1.934,
+        "tokens_per_second": 14.994,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*391\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "general_syllogism",
+        "category": "general_reasoning",
+        "prompt": "All bonds are securities. Some securities are risky. Can we logically conclude that some bonds are risky? Explain briefly, then end with exactly FINAL: YES or FINAL: NO.",
+        "response": "While all bonds are indeed securities, and some securities carry risk, we cannot definitively conclude that some bonds are risky based solely on these premises. The riskiness of bonds depends on various factors, including the issuer's creditworthiness, market conditions, and the bond's specific characteristics. Therefore, the presence of risk in some securities does not automatically imply the same for all bonds. FINAL: NO.",
+        "input_tokens": 108,
+        "output_tokens": 80,
+        "generation_seconds": 5.139,
+        "tokens_per_second": 15.567,
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": false,
+            "detail": "required regex: FINAL:\\s*NO\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "general_probability",
+        "category": "general_reasoning",
+        "prompt": "A fair coin is flipped twice. What is the probability of at least one head? End with exactly: FINAL: <percentage>",
+        "response": "To find the probability of getting at least one head when flipping a fair coin twice, we calculate the complementary probability of getting no heads (i.e., two tails). The probability of getting a tail in one flip is 1/2. Therefore, the probability of getting two tails in two flips is (1/2) * (1/2) = 1/4. Subtracting this from 1 gives us the probability of at least one head: 1 - 1/4 = 3/4 or 75%.\n\nFINAL: 75%",
+        "input_tokens": 99,
+        "output_tokens": 116,
+        "generation_seconds": 7.714,
+        "tokens_per_second": 15.037,
+        "score": 1.0,
+        "checks": [
+          {
+            "type": "regex",
+            "passed": true,
+            "detail": "required regex: FINAL:\\s*75(?:\\.0+)?%\\s*$"
+          }
+        ]
+      },
+      {
+        "id": "structured_risk_calculation",
+        "category": "structured_output",
+        "prompt": "An account has $10,000, risks 1%, enters at $100, and stops at $95. Return only JSON with exactly these numeric keys: risk_dollars, risk_per_share, shares.",
+        "response": "```json\n{\n  \"risk_dollars\": 100,\n  \"risk_per_share\": 0.01,\n  \"shares\": 100\n}\n```",
+        "input_tokens": 115,
+        "output_tokens": 34,
+        "generation_seconds": 2.262,
+        "tokens_per_second": 15.031,
+        "score": 0.0,
+        "checks": [
+          {
+            "type": "json_exact",
+            "passed": false,
+            "detail": "actual={'risk_dollars': 100, 'risk_per_share': 0.01, 'shares': 100}, expected={'risk_dollars': 100, 'risk_per_share': 5, 'shares': 20}"
+          }
+        ]
+      }
+    ]
+  }
+}

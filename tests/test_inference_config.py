@@ -7,6 +7,7 @@ from finpulse_llm.inference.prompts import FINANCE_SMOKE_PROMPTS
 from finpulse_llm.inference.runner import _MemorySampler
 
 CONFIG_PATH = Path(__file__).parents[1] / "configs" / "models" / "qwen3_4b.toml"
+PHI_CONFIG_PATH = Path(__file__).parents[1] / "configs" / "models" / "phi4_mini.toml"
 
 
 def test_qwen_config_is_memory_safe() -> None:
@@ -17,6 +18,20 @@ def test_qwen_config_is_memory_safe() -> None:
     assert config.max_sequence_length == 2048
     assert config.generation.max_new_tokens <= 256
     assert config.generation.enable_thinking is False
+
+
+def test_stage3_model_configs_use_identical_benchmark_settings() -> None:
+    qwen = load_model_config(CONFIG_PATH)
+    phi = load_model_config(PHI_CONFIG_PATH)
+
+    assert phi.model_id == "unsloth/Phi-4-mini-instruct-bnb-4bit"
+    assert phi.load_in_4bit is True
+    assert phi.trust_remote_code is False
+    assert phi.revision == "cece1fd36f04ff79f55ec861f206ca4e16acea6e"
+    assert phi.max_sequence_length == qwen.max_sequence_length
+    assert phi.seed == qwen.seed
+    assert phi.system_prompt == qwen.system_prompt
+    assert phi.generation == qwen.generation
 
 
 def test_missing_config_has_clear_error() -> None:

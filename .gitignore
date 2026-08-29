@@ -66,5 +66,6 @@ data/eval/*
 results/benchmarks/*
 !results/benchmarks/.gitkeep
 !results/benchmarks/*.json
+!results/benchmarks/*.md
 results/training/*
 !results/training/.gitkeep
