@@ -26,6 +26,7 @@ class PipelineResult:
     accepted: tuple[dict[str, Any], ...]
     train: tuple[dict[str, Any], ...]
     validation: tuple[dict[str, Any], ...]
+    development: tuple[dict[str, Any], ...]
     rejections: tuple[Rejection, ...]
 
 
@@ -48,12 +49,13 @@ def load_jsonl(paths: list[str | Path]) -> list[Any]:
 
 def _split(
     examples: list[dict[str, Any]], config: DataPipelineConfig
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for example in examples:
         groups[example["metadata"]["category"]].append(example)
     train: list[dict[str, Any]] = []
     validation: list[dict[str, Any]] = []
+    development: list[dict[str, Any]] = []
     for _category, group in sorted(groups.items()):
         ranked = sorted(
             group,
@@ -62,12 +64,23 @@ def _split(
             ).hexdigest(),
         )
         validation_count = max(1, round(len(ranked) * config.validation_ratio))
+        development_count = (
+            max(1, round(len(ranked) * config.development_ratio))
+            if config.development_ratio
+            else 0
+        )
         if len(ranked) == 1:
             validation_count = 0
+            development_count = 0
+        if validation_count + development_count >= len(ranked):
+            raise ValueError(f"Not enough examples in category {_category} for requested splits")
         validation.extend(ranked[:validation_count])
-        train.extend(ranked[validation_count:])
-    return sorted(train, key=lambda item: item["id"]), sorted(
-        validation, key=lambda item: item["id"]
+        development.extend(ranked[validation_count : validation_count + development_count])
+        train.extend(ranked[validation_count + development_count :])
+    return (
+        sorted(train, key=lambda item: item["id"]),
+        sorted(validation, key=lambda item: item["id"]),
+        sorted(development, key=lambda item: item["id"]),
     )
 
 
@@ -117,11 +130,12 @@ def run_pipeline(
         seen_conversations.add(conversation_hash)
         near_duplicates.add(example["id"], user)
 
-    train, validation_split = _split(accepted, config)
+    train, validation_split, development = _split(accepted, config)
     return PipelineResult(
         accepted=tuple(accepted),
         train=tuple(train),
         validation=tuple(validation_split),
+        development=tuple(development),
         rejections=tuple(rejections),
     )
 
@@ -141,6 +155,13 @@ def build_quality_report(result: PipelineResult, config: DataPipelineConfig) -> 
     categories = Counter(item["metadata"]["category"] for item in result.accepted)
     difficulties = Counter(item["metadata"]["difficulty"] for item in result.accepted)
     source_types = Counter(item["metadata"]["source"]["type"] for item in result.accepted)
+    task_types = Counter(item["metadata"].get("task_type") for item in result.accepted)
+    response_formats = Counter(
+        item["metadata"].get("response_format") for item in result.accepted
+    )
+    response_lengths = Counter(
+        item["metadata"].get("response_length") for item in result.accepted
+    )
     total = len(result.accepted)
     actual_distribution = {
         category: round(categories.get(category, 0) / total, 4) if total else 0.0
@@ -152,6 +173,27 @@ def build_quality_report(result: PipelineResult, config: DataPipelineConfig) -> 
         )
         for category in config.expected_distribution
     }
+
+    def distribution_report(
+        counts: Counter, expected: dict[str, float]
+    ) -> tuple[dict[str, float], dict[str, float], bool]:
+        actual = {
+            name: round(counts.get(name, 0) / total, 4) if total else 0.0
+            for name in expected
+        }
+        delta = {name: round(actual[name] - expected[name], 4) for name in expected}
+        within = all(abs(value) <= config.distribution_tolerance for value in delta.values())
+        return actual, delta, within
+
+    task_actual, task_delta, task_within = distribution_report(
+        task_types, config.expected_task_type_distribution
+    )
+    format_actual, format_delta, format_within = distribution_report(
+        response_formats, config.expected_response_format_distribution
+    )
+    length_actual, length_delta, length_within = distribution_report(
+        response_lengths, config.expected_response_length_distribution
+    )
     user_lengths = [len(item["messages"][1]["content"]) for item in result.accepted]
     assistant_lengths = [len(item["messages"][2]["content"]) for item in result.accepted]
 
@@ -169,9 +211,22 @@ def build_quality_report(result: PipelineResult, config: DataPipelineConfig) -> 
         "rejected_records": len(result.rejections),
         "train_records": len(result.train),
         "validation_records": len(result.validation),
+        "development_records": len(result.development),
         "category_counts": dict(sorted(categories.items())),
         "difficulty_counts": dict(sorted(difficulties.items())),
         "source_type_counts": dict(sorted(source_types.items())),
+        "task_type_counts": {
+            str(key): task_types[key]
+            for key in sorted(key for key in task_types if key is not None)
+        },
+        "response_format_counts": {
+            str(key): response_formats[key]
+            for key in sorted(key for key in response_formats if key is not None)
+        },
+        "response_length_counts": {
+            str(key): response_lengths[key]
+            for key in sorted(key for key in response_lengths if key is not None)
+        },
         "message_character_stats": {
             "user": length_stats(user_lengths),
             "assistant": length_stats(assistant_lengths),
@@ -183,5 +238,34 @@ def build_quality_report(result: PipelineResult, config: DataPipelineConfig) -> 
             abs(delta) <= config.distribution_tolerance for delta in distribution_delta.values()
         ),
         "distribution_tolerance": config.distribution_tolerance,
+        "task_type_distribution": {
+            "actual": task_actual,
+            "expected": config.expected_task_type_distribution,
+            "delta": task_delta,
+            "within_tolerance": task_within,
+        },
+        "response_format_distribution": {
+            "actual": format_actual,
+            "expected": config.expected_response_format_distribution,
+            "delta": format_delta,
+            "within_tolerance": format_within,
+        },
+        "response_length_distribution": {
+            "actual": length_actual,
+            "expected": config.expected_response_length_distribution,
+            "delta": length_delta,
+            "within_tolerance": length_within,
+        },
+        "all_distributions_within_tolerance": all(
+            (
+                all(
+                    abs(delta) <= config.distribution_tolerance
+                    for delta in distribution_delta.values()
+                ),
+                task_within,
+                format_within,
+                length_within,
+            )
+        ),
         "rejections": [asdict(item) for item in result.rejections],
     }

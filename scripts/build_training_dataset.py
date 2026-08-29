@@ -39,6 +39,11 @@ def _parse_args() -> argparse.Namespace:
         default=PROJECT_ROOT / "data" / "validation" / "finpulse_seed_v1.jsonl",
     )
     parser.add_argument(
+        "--development-output",
+        type=Path,
+        help="Optional independent development holdout output.",
+    )
+    parser.add_argument(
         "--quality-output",
         type=Path,
         default=PROJECT_ROOT / "data" / "processed" / "finpulse_seed_v1.quality.json",
@@ -79,6 +84,8 @@ def main() -> int:
 
     write_jsonl(args.train_output, result.train)
     write_jsonl(args.validation_output, result.validation)
+    if args.development_output is not None:
+        write_jsonl(args.development_output, result.development)
     quality = build_quality_report(result, config)
     _write_json(args.quality_output, quality)
     manifest = {
@@ -96,10 +103,13 @@ def main() -> int:
         "protected_stage4_sha256": stage4_manifest["dataset_sha256"],
         "leakage_policy": "Reject exact or fuzzy matches against Stage 3 and Stage 4 prompts.",
     }
+    if args.development_output is not None:
+        manifest["development_file"] = _portable_path(args.development_output)
+        manifest["development_sha256"] = file_sha256(args.development_output)
     _write_json(args.manifest_output, manifest)
 
     print(json.dumps(quality, indent=2))
-    strict_failure = result.rejections or not quality["distribution_within_tolerance"]
+    strict_failure = result.rejections or not quality["all_distributions_within_tolerance"]
     if strict_failure and config.fail_on_rejection and not args.allow_rejections:
         print("Outputs were written for inspection, but strict quality mode rejects this build.")
         return 1

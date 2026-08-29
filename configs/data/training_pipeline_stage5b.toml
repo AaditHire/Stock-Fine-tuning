@@ -1,0 +1,42 @@
+dataset_id = "finpulse_stage5b_v1"
+seed = 5813
+validation_ratio = 0.10
+development_ratio = 0.10
+# Rule-authored numeric drills intentionally share scaffolding; exact duplicate
+# conversations are still rejected separately.
+near_duplicate_threshold = 0.999
+evaluation_leakage_threshold = 0.82
+distribution_tolerance = 0.001
+min_user_characters = 20
+min_assistant_characters = 1
+max_message_characters = 6000
+fail_on_rejection = true
+
+system_prompt = """You are FinPulse, a careful financial analysis assistant. Use only supplied data, show calculations when requested, distinguish evidence from uncertainty, never invent live values, and follow the requested output format exactly. Prefer concise answers and always emit required final markers before any response limit."""
+
+[expected_distribution]
+technical_analysis = 0.20
+crypto_derivatives = 0.15
+stock_fundamentals = 0.15
+macroeconomics = 0.12
+risk_management = 0.15
+scenario_analysis = 0.13
+terminology_misc = 0.10
+
+[expected_task_type_distribution]
+calculation = 0.30
+multiple_choice = 0.20
+factual = 0.15
+analysis = 0.20
+refusal = 0.05
+instruction_following = 0.10
+
+[expected_response_format_distribution]
+plain = 0.35
+final_marker = 0.50
+json_only = 0.15
+
+[expected_response_length_distribution]
+short = 0.50
+medium = 0.40
+long = 0.10

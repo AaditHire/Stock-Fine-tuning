@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 7 is complete: the Stage 6 adapter scored 84.44% on the frozen benchmark, below the base model's 90.56%, so it is rejected as a release candidate. Hallucination resistance improved to 100%, but calculations, factual finance checks, instruction following, and most domain categories regressed. The result confirms that the 40-example seed validated mechanics but was not sufficient for a successful specialist model.
+Stage 6B corrective training is complete after the rejected Stage 7 adapter. The new rank-16 QLoRA adapter trained for one epoch on 398 Stage 5B examples, validated on 51, and remained within the 6 GB GPU limit at 5,117.4 MiB peak device use. It has not been evaluated for promotion; the earlier Stage 7 adapter remains rejected and Stage 7B has not started.
 
 ## Hardware target
 
@@ -166,6 +166,12 @@ Check the pinned inputs without loading CUDA, then optionally run a one-step smo
 
 The configuration is in `configs/training/qwen3_4b_stage6.toml`. It uses a 4-bit frozen base, rank-16 LoRA adapters across all major attention and MLP projections, 512-token context, micro-batch 1, gradient accumulation 4, Unsloth checkpointing, and one epoch. The measured run trained 33.0 million parameters (0.814%), peaked at 5,114.4 MiB total device VRAM, and saved a 66.1 MB adapter under the Git-ignored `models/adapters/` directory. See `docs/stage6.md` for the measurements, caveats, and concept explanations.
 
+## Stage 5B corrective dataset
+
+After Stage 7 rejected the seed adapter, Stage 5B built a separate 500-example corrective corpus while preserving the original Stage 5 files. The corpus contains 150 verified calculation drills, 100 concise multiple-choice tasks, 75 factual tasks, 100 conditional analyses, 25 live-data refusals, and 50 strict instruction-following tasks. Half of all answers use exact `FINAL:` markers and 75 are JSON-only.
+
+The deterministic split contains 398 training, 51 validation, and 51 development examples. The development holdout is reserved for candidate selection before returning to the unchanged frozen benchmark. Stage 6B trained one corrective adapter using only train and validation data; see `docs/stage5b.md` and `docs/stage6b.md` for the data and measured training run.
+
 ## Stage 7 base-versus-adapter evaluation
 
 Run or resume the adapter on the unchanged 160-case benchmark, then rebuild the comparison:
@@ -216,6 +222,12 @@ Development stops after each stage and resumes only when explicitly requested.
 6. **QLoRA fine-tuning with Unsloth** — run conservative, configurable adapter training within the 6 GB VRAM limit.
 7. **Base vs. fine-tuned evaluation** — compare both models on the frozen benchmark and report improvements and regressions.
 8. **Local export and inference** — export adapters/merged artifacts and investigate GGUF, llama.cpp, and Ollama use.
+
+Corrective iteration after Stage 7:
+
+- **Stage 5B — complete:** expanded behavior-balanced data and an independent development holdout.
+- **Stage 6B — complete:** one conservative QLoRA candidate trained using only the locked Stage 5B train/validation splits.
+- **Stage 7B — not started:** development-screen and frozen-benchmark evaluation of the corrective adapter.
 
 ## Scope and safety principles
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -31,6 +32,13 @@ REFUSAL_MARKERS = (
 SECRET_PATTERN = re.compile(
     r"(?:api[_-]?key|secret|token)\s*[:=]\s*[A-Za-z0-9_\-]{12,}", re.I
 )
+FINAL_MARKER = re.compile(r"FINAL:\s*[^\n]+\s*$")
+EXTENDED_METADATA_KEYS = {"task_type", "response_format", "response_length"}
+RESPONSE_LENGTH_BOUNDS = {
+    "short": (1, 280),
+    "medium": (60, 700),
+    "long": (300, 1400),
+}
 
 
 @dataclass(frozen=True)
@@ -60,6 +68,9 @@ def _normalized_copy(raw: dict[str, Any]) -> dict[str, Any]:
         else []
     )
     metadata["difficulty"] = normalize_text(str(metadata.get("difficulty", "")))
+    for key in EXTENDED_METADATA_KEYS:
+        if key in metadata:
+            metadata[key] = normalize_text(str(metadata[key]))
     source = metadata.get("source", {})
     review = metadata.get("review", {})
     metadata["source"] = dict(source) if isinstance(source, dict) else {}
@@ -84,13 +95,28 @@ def validate_example(raw: Any, config: DataPipelineConfig) -> ValidationResult:
     ):
         errors.append("each message must contain exactly role and content")
     raw_metadata = raw.get("metadata", {})
-    if not isinstance(raw_metadata, dict) or set(raw_metadata) != {
+    base_metadata_keys = {
         "category",
         "subtopics",
         "difficulty",
         "source",
         "review",
-    }:
+    }
+    require_extended_metadata = any(
+        (
+            config.expected_task_type_distribution,
+            config.expected_response_format_distribution,
+            config.expected_response_length_distribution,
+        )
+    )
+    allowed_metadata_keys = base_metadata_keys | EXTENDED_METADATA_KEYS
+    supplied_metadata_keys = set(raw_metadata) if isinstance(raw_metadata, dict) else set()
+    metadata_keys_valid = supplied_metadata_keys == base_metadata_keys or (
+        supplied_metadata_keys == allowed_metadata_keys
+    )
+    if require_extended_metadata:
+        metadata_keys_valid = supplied_metadata_keys == allowed_metadata_keys
+    if not metadata_keys_valid:
         errors.append("metadata keys are invalid")
     elif (
         not isinstance(raw_metadata.get("source"), dict)
@@ -105,6 +131,7 @@ def validate_example(raw: Any, config: DataPipelineConfig) -> ValidationResult:
     if not ID_PATTERN.fullmatch(example["id"]):
         errors.append("id must match fp_<category>_<four digits>")
 
+    metadata = example["metadata"]
     messages = example["messages"]
     if len(messages) != 3:
         errors.append("messages must contain exactly system, user, assistant")
@@ -126,7 +153,39 @@ def validate_example(raw: Any, config: DataPipelineConfig) -> ValidationResult:
         if SECRET_PATTERN.search(user) or SECRET_PATTERN.search(assistant):
             errors.append("possible secret or credential detected")
 
-    metadata = example["metadata"]
+        task_type = metadata.get("task_type")
+        response_format = metadata.get("response_format")
+        response_length = metadata.get("response_length")
+        if config.expected_task_type_distribution and (
+            task_type not in config.expected_task_type_distribution
+        ):
+            errors.append("metadata task_type is not configured")
+        if config.expected_response_format_distribution and (
+            response_format not in config.expected_response_format_distribution
+        ):
+            errors.append("metadata response_format is not configured")
+        if config.expected_response_length_distribution and (
+            response_length not in config.expected_response_length_distribution
+        ):
+            errors.append("metadata response_length is not configured")
+        if response_format == "json_only":
+            try:
+                json.loads(assistant)
+            except json.JSONDecodeError:
+                errors.append("json_only response must be exactly valid JSON")
+            if assistant.startswith("```") or assistant.endswith("```"):
+                errors.append("json_only response must not use Markdown fences")
+        elif response_format == "final_marker":
+            if len(FINAL_MARKER.findall(assistant)) != 1:
+                errors.append("final_marker response must end with exactly one FINAL marker")
+        if response_length in RESPONSE_LENGTH_BOUNDS:
+            minimum, maximum = RESPONSE_LENGTH_BOUNDS[response_length]
+            if not minimum <= len(assistant) <= maximum:
+                errors.append(
+                    f"{response_length} response length must be between "
+                    f"{minimum} and {maximum} characters"
+                )
+
     category = metadata.get("category")
     if category not in config.expected_distribution:
         errors.append("metadata category is not configured")

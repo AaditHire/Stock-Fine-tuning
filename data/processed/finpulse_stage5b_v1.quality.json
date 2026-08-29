@@ -1,0 +1,150 @@
+{
+  "dataset_id": "finpulse_stage5b_v1",
+  "input_records": 500,
+  "accepted_records": 500,
+  "rejected_records": 0,
+  "train_records": 398,
+  "validation_records": 51,
+  "development_records": 51,
+  "category_counts": {
+    "crypto_derivatives": 75,
+    "macroeconomics": 60,
+    "risk_management": 75,
+    "scenario_analysis": 65,
+    "stock_fundamentals": 75,
+    "technical_analysis": 100,
+    "terminology_misc": 50
+  },
+  "difficulty_counts": {
+    "advanced": 50,
+    "beginner": 226,
+    "intermediate": 224
+  },
+  "source_type_counts": {
+    "synthetic": 500
+  },
+  "task_type_counts": {
+    "analysis": 100,
+    "calculation": 150,
+    "factual": 75,
+    "instruction_following": 50,
+    "multiple_choice": 100,
+    "refusal": 25
+  },
+  "response_format_counts": {
+    "final_marker": 250,
+    "json_only": 75,
+    "plain": 175
+  },
+  "response_length_counts": {
+    "long": 50,
+    "medium": 200,
+    "short": 250
+  },
+  "message_character_stats": {
+    "user": {
+      "minimum": 90,
+      "maximum": 333,
+      "average": 185.3
+    },
+    "assistant": {
+      "minimum": 24,
+      "maximum": 787,
+      "average": 207.2
+    }
+  },
+  "actual_distribution": {
+    "technical_analysis": 0.2,
+    "crypto_derivatives": 0.15,
+    "stock_fundamentals": 0.15,
+    "macroeconomics": 0.12,
+    "risk_management": 0.15,
+    "scenario_analysis": 0.13,
+    "terminology_misc": 0.1
+  },
+  "expected_distribution": {
+    "technical_analysis": 0.2,
+    "crypto_derivatives": 0.15,
+    "stock_fundamentals": 0.15,
+    "macroeconomics": 0.12,
+    "risk_management": 0.15,
+    "scenario_analysis": 0.13,
+    "terminology_misc": 0.1
+  },
+  "distribution_delta": {
+    "technical_analysis": 0.0,
+    "crypto_derivatives": 0.0,
+    "stock_fundamentals": 0.0,
+    "macroeconomics": 0.0,
+    "risk_management": 0.0,
+    "scenario_analysis": 0.0,
+    "terminology_misc": 0.0
+  },
+  "distribution_within_tolerance": true,
+  "distribution_tolerance": 0.001,
+  "task_type_distribution": {
+    "actual": {
+      "calculation": 0.3,
+      "multiple_choice": 0.2,
+      "factual": 0.15,
+      "analysis": 0.2,
+      "refusal": 0.05,
+      "instruction_following": 0.1
+    },
+    "expected": {
+      "calculation": 0.3,
+      "multiple_choice": 0.2,
+      "factual": 0.15,
+      "analysis": 0.2,
+      "refusal": 0.05,
+      "instruction_following": 0.1
+    },
+    "delta": {
+      "calculation": 0.0,
+      "multiple_choice": 0.0,
+      "factual": 0.0,
+      "analysis": 0.0,
+      "refusal": 0.0,
+      "instruction_following": 0.0
+    },
+    "within_tolerance": true
+  },
+  "response_format_distribution": {
+    "actual": {
+      "plain": 0.35,
+      "final_marker": 0.5,
+      "json_only": 0.15
+    },
+    "expected": {
+      "plain": 0.35,
+      "final_marker": 0.5,
+      "json_only": 0.15
+    },
+    "delta": {
+      "plain": 0.0,
+      "final_marker": 0.0,
+      "json_only": 0.0
+    },
+    "within_tolerance": true
+  },
+  "response_length_distribution": {
+    "actual": {
+      "short": 0.5,
+      "medium": 0.4,
+      "long": 0.1
+    },
+    "expected": {
+      "short": 0.5,
+      "medium": 0.4,
+      "long": 0.1
+    },
+    "delta": {
+      "short": 0.0,
+      "medium": 0.0,
+      "long": 0.0
+    },
+    "within_tolerance": true
+  },
+  "all_distributions_within_tolerance": true,
+  "rejections": []
+}

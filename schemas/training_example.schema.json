@@ -35,6 +35,11 @@
         },
         "subtopics": {"type": "array", "minItems": 1, "items": {"type": "string"}},
         "difficulty": {"enum": ["beginner", "intermediate", "advanced"]},
+        "task_type": {
+          "enum": ["calculation", "multiple_choice", "factual", "analysis", "refusal", "instruction_following"]
+        },
+        "response_format": {"enum": ["plain", "final_marker", "json_only"]},
+        "response_length": {"enum": ["short", "medium", "long"]},
         "source": {
           "type": "object",
           "additionalProperties": false,

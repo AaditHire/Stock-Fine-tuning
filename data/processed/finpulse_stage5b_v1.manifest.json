@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "dataset_id": "finpulse_stage5b_v1",
+  "seed": 5813,
+  "source_files": {
+    "data/raw/finpulse_stage5b_v1.jsonl": "9f9efe25eaadc0b9b50267191ea00530e908ef312b427c287607755eef854297"
+  },
+  "train_file": "data/train/finpulse_stage5b_v1.jsonl",
+  "train_sha256": "5768c9a2ce95e88b8ef69a46b013e73c5062fe623b19b915a6de1425bb1a3066",
+  "validation_file": "data/validation/finpulse_stage5b_v1.jsonl",
+  "validation_sha256": "e6fe75e4dcc3e1052f1dd9b6dcd8fb3eea872c8de708b2af6b6f2e664208f328",
+  "quality_report": "data/processed/finpulse_stage5b_v1.quality.json",
+  "protected_stage4_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+  "leakage_policy": "Reject exact or fuzzy matches against Stage 3 and Stage 4 prompts.",
+  "development_file": "data/development/finpulse_stage5b_v1.jsonl",
+  "development_sha256": "46936e4b8063c685202fc39a3fd43c4f2507cdf0e667250f4fc38921f1adacf3"
+}

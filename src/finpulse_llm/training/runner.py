@@ -258,7 +258,7 @@ def run_training(config: QLoRATrainingConfig, *, smoke_test: bool = False) -> di
                 response_part="<|im_start|>assistant\n",
             )
 
-        LOGGER.info("Starting %s training run", "one-step smoke" if smoke_test else "full seed")
+        LOGGER.info("Starting %s training run", "one-step smoke" if smoke_test else "full")
         train_result = trainer.train()
         evaluation = {} if smoke_test else trainer.evaluate()
         torch.cuda.synchronize()

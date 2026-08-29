@@ -14,6 +14,7 @@ class DataPipelineConfig:
     dataset_id: str
     seed: int
     validation_ratio: float
+    development_ratio: float
     near_duplicate_threshold: float
     evaluation_leakage_threshold: float
     distribution_tolerance: float
@@ -23,6 +24,9 @@ class DataPipelineConfig:
     fail_on_rejection: bool
     system_prompt: str
     expected_distribution: dict[str, float]
+    expected_task_type_distribution: dict[str, float]
+    expected_response_format_distribution: dict[str, float]
+    expected_response_length_distribution: dict[str, float]
 
 
 def load_data_config(path: str | Path) -> DataPipelineConfig:
@@ -34,6 +38,7 @@ def load_data_config(path: str | Path) -> DataPipelineConfig:
         dataset_id=str(raw["dataset_id"]),
         seed=int(raw["seed"]),
         validation_ratio=float(raw["validation_ratio"]),
+        development_ratio=float(raw.get("development_ratio", 0.0)),
         near_duplicate_threshold=float(raw["near_duplicate_threshold"]),
         evaluation_leakage_threshold=float(raw["evaluation_leakage_threshold"]),
         distribution_tolerance=float(raw["distribution_tolerance"]),
@@ -45,9 +50,25 @@ def load_data_config(path: str | Path) -> DataPipelineConfig:
         expected_distribution={
             str(key): float(value) for key, value in raw["expected_distribution"].items()
         },
+        expected_task_type_distribution={
+            str(key): float(value)
+            for key, value in raw.get("expected_task_type_distribution", {}).items()
+        },
+        expected_response_format_distribution={
+            str(key): float(value)
+            for key, value in raw.get("expected_response_format_distribution", {}).items()
+        },
+        expected_response_length_distribution={
+            str(key): float(value)
+            for key, value in raw.get("expected_response_length_distribution", {}).items()
+        },
     )
     if not 0 < config.validation_ratio < 0.5:
         raise ValueError("validation_ratio must be between 0 and 0.5")
+    if not 0 <= config.development_ratio < 0.5:
+        raise ValueError("development_ratio must be between 0 and 0.5")
+    if config.validation_ratio + config.development_ratio >= 0.5:
+        raise ValueError("validation and development ratios must total less than 0.5")
     for name, value in (
         ("near_duplicate_threshold", config.near_duplicate_threshold),
         ("evaluation_leakage_threshold", config.evaluation_leakage_threshold),
@@ -55,6 +76,13 @@ def load_data_config(path: str | Path) -> DataPipelineConfig:
     ):
         if not 0 < value <= 1:
             raise ValueError(f"{name} must be in (0, 1]")
-    if abs(sum(config.expected_distribution.values()) - 1.0) > 1e-9:
-        raise ValueError("expected_distribution must sum to 1.0")
+    distributions = {
+        "expected_distribution": config.expected_distribution,
+        "expected_task_type_distribution": config.expected_task_type_distribution,
+        "expected_response_format_distribution": config.expected_response_format_distribution,
+        "expected_response_length_distribution": config.expected_response_length_distribution,
+    }
+    for name, distribution in distributions.items():
+        if distribution and abs(sum(distribution.values()) - 1.0) > 1e-9:
+            raise ValueError(f"{name} must sum to 1.0")
     return config
