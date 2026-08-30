@@ -31,6 +31,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Run one optimizer step on two examples before the full experiment.",
     )
+    parser.add_argument(
+        "--preflight-output",
+        type=Path,
+        help="Optionally save the CPU-only preflight result as JSON.",
+    )
     return parser.parse_args()
 
 
@@ -50,6 +55,12 @@ def main() -> int:
         }
     else:
         result = run_training(config, smoke_test=args.smoke_test)
+    if args.preflight_output:
+        if not args.preflight_only:
+            raise ValueError("--preflight-output requires --preflight-only")
+        output_path = args.preflight_output.resolve()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, default=str))
     return 0
 

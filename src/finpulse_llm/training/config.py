@@ -54,6 +54,10 @@ class TrainerConfig:
     eval_strategy: str
     packing: bool
     train_on_responses_only: bool
+    eval_steps: int | None = None
+    save_strategy: str = "no"
+    save_steps: int | None = None
+    save_total_limit: int | None = None
 
     @property
     def effective_batch_size(self) -> int:
@@ -127,6 +131,22 @@ def load_training_config(
         eval_strategy=str(raw["trainer"]["eval_strategy"]),
         packing=bool(raw["trainer"]["packing"]),
         train_on_responses_only=bool(raw["trainer"]["train_on_responses_only"]),
+        eval_steps=(
+            int(raw["trainer"]["eval_steps"])
+            if "eval_steps" in raw["trainer"]
+            else None
+        ),
+        save_strategy=str(raw["trainer"].get("save_strategy", "no")),
+        save_steps=(
+            int(raw["trainer"]["save_steps"])
+            if "save_steps" in raw["trainer"]
+            else None
+        ),
+        save_total_limit=(
+            int(raw["trainer"]["save_total_limit"])
+            if "save_total_limit" in raw["trainer"]
+            else None
+        ),
     )
     output_raw = raw["output"]
     output = TrainingOutputConfig(
@@ -166,5 +186,19 @@ def _validate(config: QLoRATrainingConfig) -> None:
         raise ValueError("learning_rate must be in (0, 0.001]")
     if config.trainer.warmup_steps < 0:
         raise ValueError("warmup_steps must not be negative")
+    if config.trainer.eval_strategy not in {"no", "epoch", "steps"}:
+        raise ValueError("eval_strategy must be no, epoch, or steps")
+    if config.trainer.eval_strategy == "steps" and (
+        config.trainer.eval_steps is None or config.trainer.eval_steps <= 0
+    ):
+        raise ValueError("eval_steps must be positive when eval_strategy is steps")
+    if config.trainer.save_strategy not in {"no", "epoch", "steps"}:
+        raise ValueError("save_strategy must be no, epoch, or steps")
+    if config.trainer.save_strategy == "steps" and (
+        config.trainer.save_steps is None or config.trainer.save_steps <= 0
+    ):
+        raise ValueError("save_steps must be positive when save_strategy is steps")
+    if config.trainer.save_total_limit is not None and config.trainer.save_total_limit <= 0:
+        raise ValueError("save_total_limit must be positive when supplied")
     if config.trainer.precision not in {"bf16", "fp16"}:
         raise ValueError("precision must be bf16 or fp16")

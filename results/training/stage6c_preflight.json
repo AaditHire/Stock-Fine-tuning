@@ -1,0 +1,13 @@
+{
+  "status": "preflight_passed",
+  "run_name": "stage6c-qwen3-4b-stage5d-v1",
+  "effective_batch_size": 16,
+  "input_hashes": {
+    "train_sha256": "b7fc3917f53e230bf7ec704b12afb7a9683703d88380b5e9c789568afa89a6d4",
+    "validation_sha256": "31d17917a44f6ed7f9f321e639d8c492468735c913f0b4f3bc1639a883b913ea",
+    "protected_stage4_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+    "train_examples": 900,
+    "validation_examples": 450,
+    "estimated_optimizer_steps": 57
+  }
+}

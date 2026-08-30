@@ -6,6 +6,7 @@ import gc
 import hashlib
 import json
 import logging
+import math
 import platform
 import threading
 import time
@@ -85,10 +86,18 @@ def verify_training_inputs(config: QLoRATrainingConfig) -> dict[str, Any]:
         raise ValueError("Training split does not match the Stage 5 manifest")
     if manifest.get("validation_sha256") != observed_validation:
         raise ValueError("Validation split does not match the Stage 5 manifest")
+    train_examples = len(_read_jsonl(config.data.train_file))
+    validation_examples = len(_read_jsonl(config.data.validation_file))
+    steps_per_epoch = math.ceil(train_examples / config.trainer.effective_batch_size)
     return {
         "train_sha256": observed_train,
         "validation_sha256": observed_validation,
         "protected_stage4_sha256": manifest.get("protected_stage4_sha256"),
+        "train_examples": train_examples,
+        "validation_examples": validation_examples,
+        "estimated_optimizer_steps": math.ceil(
+            steps_per_epoch * config.trainer.num_train_epochs
+        ),
     }
 
 
@@ -131,6 +140,17 @@ def _adapter_parameter_counts(model: Any) -> tuple[int, int]:
         parameter.numel() for parameter in model.parameters() if parameter.requires_grad
     )
     return trainable, total
+
+
+def _latest_evaluation_metrics(
+    log_history: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    """Return the evaluation already run by an epoch/steps strategy, if present."""
+
+    return next(
+        (dict(entry) for entry in reversed(log_history) if "eval_loss" in entry),
+        None,
+    )
 
 
 def run_training(config: QLoRATrainingConfig, *, smoke_test: bool = False) -> dict[str, Any]:
@@ -234,7 +254,10 @@ def run_training(config: QLoRATrainingConfig, *, smoke_test: bool = False) -> di
             logging_steps=1 if smoke_test else config.trainer.logging_steps,
             logging_first_step=True,
             eval_strategy="no" if smoke_test else config.trainer.eval_strategy,
-            save_strategy="no",
+            eval_steps=config.trainer.eval_steps or 500,
+            save_strategy="no" if smoke_test else config.trainer.save_strategy,
+            save_steps=config.trainer.save_steps or 500,
+            save_total_limit=config.trainer.save_total_limit,
             report_to="none",
             seed=config.seed,
             data_seed=config.seed,
@@ -260,7 +283,12 @@ def run_training(config: QLoRATrainingConfig, *, smoke_test: bool = False) -> di
 
         LOGGER.info("Starting %s training run", "one-step smoke" if smoke_test else "full")
         train_result = trainer.train()
-        evaluation = {} if smoke_test else trainer.evaluate()
+        if smoke_test:
+            evaluation = {}
+        else:
+            evaluation = _latest_evaluation_metrics(trainer.state.log_history)
+            if evaluation is None:
+                evaluation = trainer.evaluate()
         torch.cuda.synchronize()
         sampler.stop()
 

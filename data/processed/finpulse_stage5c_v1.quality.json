@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "dataset_id": "finpulse_stage5c_v1",
+  "status": "complete",
+  "records": 4800,
+  "split_counts": {
+    "train": 3900,
+    "validation": 450,
+    "development": 450
+  },
+  "source_counts": {
+    "cosimo": 3000,
+    "finqa": 1500,
+    "project_behavior": 300
+  },
+  "category_counts": {
+    "crypto_derivatives": 505,
+    "macroeconomics": 451,
+    "risk_management": 649,
+    "scenario_analysis": 622,
+    "stock_fundamentals": 2031,
+    "technical_analysis": 60,
+    "terminology_misc": 482
+  },
+  "task_type_counts": {
+    "analysis": 100,
+    "calculation": 4345,
+    "factual": 75,
+    "instruction_following": 50,
+    "multiple_choice": 205,
+    "refusal": 25
+  },
+  "response_format_counts": {
+    "final_marker": 4550,
+    "json_only": 75,
+    "plain": 175
+  },
+  "response_length_counts": {
+    "long": 50,
+    "medium": 1452,
+    "short": 3298
+  },
+  "source_family_counts": {
+    "train": 1247,
+    "validation": 162,
+    "development": 162
+  },
+  "source_family_overlaps": {
+    "train_validation": [],
+    "train_development": [],
+    "validation_development": []
+  },
+  "token_counts": {
+    "train": {
+      "minimum": 107,
+      "mean": 267.35,
+      "maximum": 511
+    },
+    "validation": {
+      "minimum": 166,
+      "mean": 268.11,
+      "maximum": 496
+    },
+    "development": {
+      "minimum": 165,
+      "mean": 274.72,
+      "maximum": 504
+    }
+  },
+  "candidate_rejections_before_quota_fill": {
+    "cosimo_duplicate_conversation": 2997,
+    "cosimo_family_quota_shortfall_redistributed": 21,
+    "finqa_live-data request lacks an explicit access limitation": 1,
+    "finqa_token length 517 exceeds 512": 1,
+    "finqa_token length 521 exceeds 512": 1,
+    "finqa_token length 526 exceeds 512": 1,
+    "finqa_token length 527 exceeds 512": 2,
+    "finqa_token length 528 exceeds 512": 2,
+    "finqa_token length 536 exceeds 512": 1,
+    "finqa_token length 539 exceeds 512": 1,
+    "finqa_token length 543 exceeds 512": 3,
+    "finqa_token length 544 exceeds 512": 1,
+    "finqa_token length 554 exceeds 512": 1,
+    "finqa_token length 555 exceeds 512": 1,
+    "finqa_token length 558 exceeds 512": 2,
+    "finqa_token length 562 exceeds 512": 1,
+    "finqa_token length 563 exceeds 512": 1,
+    "finqa_token length 564 exceeds 512": 1,
+    "finqa_token length 565 exceeds 512": 1,
+    "finqa_token length 578 exceeds 512": 2,
+    "finqa_token length 588 exceeds 512": 2,
+    "finqa_token length 592 exceeds 512": 1,
+    "finqa_token length 593 exceeds 512": 1,
+    "finqa_token length 595 exceeds 512": 1,
+    "finqa_token length 598 exceeds 512": 1,
+    "finqa_token length 600 exceeds 512": 1,
+    "finqa_token length 616 exceeds 512": 1,
+    "finqa_token length 624 exceeds 512": 2,
+    "finqa_token length 625 exceeds 512": 1,
+    "finqa_token length 626 exceeds 512": 1,
+    "finqa_token length 643 exceeds 512": 1,
+    "finqa_token length 646 exceeds 512": 1,
+    "finqa_token length 659 exceeds 512": 1,
+    "finqa_token length 664 exceeds 512": 1,
+    "finqa_token length 670 exceeds 512": 1,
+    "finqa_token length 676 exceeds 512": 2,
+    "finqa_token length 679 exceeds 512": 1,
+    "finqa_token length 733 exceeds 512": 2,
+    "finqa_token length 758 exceeds 512": 1,
+    "finqa_token length 768 exceeds 512": 1
+  },
+  "audited_exclusions": {
+    "finance_alpaca": {
+      "repo_id": "gbharti/finance-alpaca",
+      "revision": "c88d3d5e7e2c7cab9f11a56f27bd5ba3ed68f075",
+      "license": "MIT",
+      "reason": "Sampled answers are frequently verbose, opinionated, and not consistently aligned with exact financial reasoning or the project's response contracts."
+    }
+  },
+  "limitations": [
+    "Cosimo answers are code-verified but originate from 71 synthetic templates.",
+    "FinQA examples are transformed to use only annotated gold evidence that fits the local context window.",
+    "Project behavior examples are training-only; the external holdouts screen transfer rather than every custom output contract."
+  ]
+}

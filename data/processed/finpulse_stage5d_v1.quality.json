@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "dataset_id": "finpulse_stage5d_v1",
+  "status": "complete",
+  "records": 900,
+  "source_counts": {
+    "cosimo": 400,
+    "finqa": 200,
+    "project_behavior": 300
+  },
+  "task_type_counts": {
+    "analysis": 100,
+    "calculation": 525,
+    "factual": 75,
+    "instruction_following": 50,
+    "multiple_choice": 125,
+    "refusal": 25
+  },
+  "category_counts": {
+    "crypto_derivatives": 93,
+    "macroeconomics": 101,
+    "risk_management": 179,
+    "scenario_analysis": 104,
+    "stock_fundamentals": 287,
+    "technical_analysis": 60,
+    "terminology_misc": 76
+  },
+  "response_format_counts": {
+    "final_marker": 650,
+    "json_only": 75,
+    "plain": 175
+  },
+  "response_length_counts": {
+    "long": 50,
+    "medium": 317,
+    "short": 533
+  },
+  "calculation_share": 0.5833,
+  "policy": "Retain every scarce project-behavior example; cap and category-balance external calculations; retain 100 external multiple-choice examples.",
+  "holdouts": {
+    "validation": "data/validation/finpulse_stage5c_v1.jsonl",
+    "development": "data/development/finpulse_stage5c_v1.jsonl",
+    "unchanged": true
+  }
+}

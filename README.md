@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 7B is complete. Although the Stage 6B corrective adapter passed its development gate at 91.13%, it regressed to 70.92% (278/392 checks) on the unchanged frozen benchmark versus the base model's 90.56%. The adapter is rejected, must not be exported, and Stage 8 has not started.
+Stage 6C training is complete after Stage 7B rejected the corrective adapter. The balanced 900-row Stage 5D view trained a rank-8 LoRA adapter for 57 updates at `5e-5`, reaching mean training loss 1.6623 and validation loss 0.8718. Peak total device VRAM was 5,273.9 MiB. The adapter remains an unevaluated candidate: Stage 7C and Stage 8 have not started.
 
 ## Hardware target
 
@@ -194,6 +194,24 @@ at 2/3. The development split's shared template families made it an unreliable p
 out-of-template transfer. See `docs/stage7b.md` and
 `results/benchmarks/stage7b_comparison.md` for the full audit.
 
+## Stage 5C pinned external-data collection
+
+Stage 5C collected 3,000 code-verified Cosimo finance examples, 1,500 FinQA financial-report reasoning examples, and 300 project-authored behavior examples. The deterministic result contains 3,900 train, 450 validation, and 450 development records. Whole external template/document families are isolated between splits, every rendered record fits 512 tokens, and the frozen benchmark hash remains unchanged.
+
+The collection rejected 2,997 duplicate Cosimo conversations, demonstrating why the external sources must be curated rather than ingested blindly. The resulting corpus is still 90.5% calculation tasks; Stage 5D therefore creates a smaller balanced training view instead of training on the pool directly. See `docs/stage5c.md` for source revisions, licenses, limitations, and reproduction.
+
+## Stage 5D balanced training view
+
+Stage 5D deterministically selects 900 unique Stage 5C training rows: all 300 project-behavior examples, 400 Cosimo examples, and 200 FinQA examples. The resulting view contains 525 calculations, 125 multiple-choice tasks, 100 analyses, 75 factual tasks, 50 instruction-following tasks, and 25 live-data refusals. It retains all 75 JSON-only examples and uses the unchanged Stage 5C validation/development holdouts. See `docs/stage5d.md` for the sampling contract and measured distribution.
+
+## Stage 6C gentle configuration preflight
+
+Stage 6C halves LoRA rank from 16 to 8, lowers learning rate from `1e-4` to `5e-5`, and raises gradient accumulation from 4 to 16. All 900 training rows are exposed once in approximately 57 optimizer updates. The CPU-only preflight verified dataset and frozen-benchmark hashes without loading model weights or CUDA. Checkpoints are configured every 15 steps with a four-checkpoint limit. See `docs/stage6c.md` for the rationale and remaining GPU-memory risk.
+
+The subsequent one-step GPU smoke test completed in the native Windows environment, trained 16.5 million adapter parameters, peaked at 4,085.5 MiB total device VRAM, and saved a structurally valid 504-tensor rank-8 adapter. Its zero warmup learning rate means it was a mechanics and memory test, not a quality result.
+
+The authorized full run then completed all 57 updates, saved four checkpoints, and produced a 33.1 MB bfloat16 adapter. Logged loss declined from 3.275 to 1.103 near the end; validation loss was 0.8718. These are training-mechanics results only. The adapter must pass a Stage 7C development comparison before at most one candidate returns to the frozen benchmark. See `docs/stage6c.md` and `results/training/stage6c_qwen3_4b_stage5d_v1.json`.
+
 ## Environment diagnostic
 
 Run the human-readable report from the repository root:
@@ -238,6 +256,9 @@ Corrective iteration after Stage 7:
 - **Stage 5B — complete:** expanded behavior-balanced data and an independent development holdout.
 - **Stage 6B — complete:** one conservative QLoRA candidate trained using only the locked Stage 5B train/validation splits.
 - **Stage 7B — complete, adapter rejected:** the development gate passed, but the frozen score regressed from 90.56% to 70.92%; stop before Stage 8.
+- **Stage 5C — complete:** collected and locked a pinned 4,800-example external/project candidate corpus; no training was run.
+- **Stage 5D — complete:** produced a locked 900-row balanced training view and preserved the Stage 5C holdouts; no training was run.
+- **Stage 6C — complete:** the rank-8 adapter trained for 57 updates within 5,273.9 MiB VRAM; it remains unevaluated and must pass Stage 7C before promotion.
 
 ## Scope and safety principles
 

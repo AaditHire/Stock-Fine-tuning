@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "dataset_id": "finpulse_stage5c_v1",
+  "seed": 7301,
+  "source_config": "configs/data/stage5c_sources.toml",
+  "source_config_sha256": "fa418e13d8e8c55d2251281039199b1cca04be0da7208aaff174c718df36af2c",
+  "sources": {
+    "cosimo": {
+      "repo_id": "btech-software/cosimo-cfa-frm-71k",
+      "revision": "42244d29c6b9912683213a08d1a9c5b0373b381b",
+      "config": "default",
+      "license": "MIT",
+      "train": 2400,
+      "validation": 300,
+      "development": 300
+    },
+    "finqa": {
+      "repo_id": "bevaya/FinQA",
+      "revision": "3d6a736bc67e06bc15fbf3618d88204a57c5b25e",
+      "config": "default",
+      "license": "MIT; underlying FinTabNet data CDLA-Permissive-1.0",
+      "train": 1200,
+      "validation": 150,
+      "development": 150
+    },
+    "project_behavior": {
+      "path": "data/raw/finpulse_stage5b_v1.jsonl",
+      "license": "project-original",
+      "train": 300,
+      "validation": 0,
+      "development": 0
+    }
+  },
+  "audited_exclusions": {
+    "finance_alpaca": {
+      "repo_id": "gbharti/finance-alpaca",
+      "revision": "c88d3d5e7e2c7cab9f11a56f27bd5ba3ed68f075",
+      "license": "MIT",
+      "reason": "Sampled answers are frequently verbose, opinionated, and not consistently aligned with exact financial reasoning or the project's response contracts."
+    }
+  },
+  "selected_source_id_sha256": {
+    "train": "c45b7341073bfb596bd41589b2cc1baf3ee4d1780ebf09cc0ffc9e932ab3a86a",
+    "validation": "2b23e6f0994824d12327fd6307f8910c975dcb45db4a2f00d6f8a88089ceacc9",
+    "development": "dd2cee6804a3d7d990a8d2f1268712c03cba89ecff596dbf98b70144342fc340"
+  },
+  "raw_file": "data/raw/finpulse_stage5c_v1.jsonl",
+  "raw_sha256": "3900efb56bd9f5f5649f4527fc94a34ec63c20a2b393fdf8ed72cd25692c88c5",
+  "train_file": "data/train/finpulse_stage5c_v1.jsonl",
+  "train_sha256": "f75faf88ba31ec12ad3d1c1065aa791f3b58296c480256952f2a328841d8fca1",
+  "validation_file": "data/validation/finpulse_stage5c_v1.jsonl",
+  "validation_sha256": "31d17917a44f6ed7f9f321e639d8c492468735c913f0b4f3bc1639a883b913ea",
+  "development_file": "data/development/finpulse_stage5c_v1.jsonl",
+  "development_sha256": "ea941ca169b3b2003c773620dbee33e9f98fc7f585b9d536ebf6abe4b86d8b17",
+  "quality_report": "data/processed/finpulse_stage5c_v1.quality.json",
+  "protected_stage4_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+  "leakage_policy": "Reject exact or fuzzy matches against Stage 3 and frozen Stage 4 prompts before selection.",
+  "split_policy": "Cosimo generator families and FinQA report documents are disjoint across splits; project behavior examples are train-only."
+}

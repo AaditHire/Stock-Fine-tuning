@@ -122,6 +122,41 @@ def test_live_refusal_followed_by_fabricated_value_is_rejected(config) -> None:
     assert "live-data response contains an unsupported exact value" in validation.errors
 
 
+def test_established_current_finance_terms_are_not_live_requests(config) -> None:
+    example = copy.deepcopy(load_jsonl([SEED_PATH])[0])
+    example["messages"][1]["content"] = (
+        "Calculate the bond's current yield from the supplied coupon and price."
+    )
+    example["messages"][2]["content"] = "Current yield equals coupon divided by price."
+
+    validation = validate_example(example, config)
+
+    assert "live-data request lacks an explicit access limitation" not in validation.errors
+
+
+def test_supplied_current_portfolio_weight_is_not_a_live_request(config) -> None:
+    example = copy.deepcopy(load_jsonl([SEED_PATH])[0])
+    example["messages"][1]["content"] = (
+        "The target weight is 40% and the current actual weight is 43.8%. "
+        "Should the portfolio be rebalanced?"
+    )
+    example["messages"][2]["content"] = "Yes. The 3.8 percentage-point gap exceeds 3%."
+
+    validation = validate_example(example, config)
+
+    assert "live-data request lacks an explicit access limitation" not in validation.errors
+    assert "live-data response contains an unsupported exact value" not in validation.errors
+
+
+def test_exact_current_market_price_remains_a_live_request(config) -> None:
+    example = copy.deepcopy(load_jsonl([SEED_PATH])[0])
+    example["messages"][1]["content"] = "What is BTC's exact current spot price?"
+
+    validation = validate_example(example, config)
+
+    assert "live-data request lacks an explicit access limitation" in validation.errors
+
+
 def test_unreviewed_or_extra_metadata_is_rejected(config) -> None:
     example = copy.deepcopy(load_jsonl([SEED_PATH])[0])
     example["metadata"]["review"]["status"] = "needs_review"

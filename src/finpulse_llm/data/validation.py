@@ -14,7 +14,13 @@ ID_PATTERN = re.compile(r"^fp_[a-z]{2,4}_\d{4}$")
 EXPECTED_ROLES = ("system", "user", "assistant")
 DIFFICULTIES = {"beginner", "intermediate", "advanced"}
 SOURCE_TYPES = {"original", "synthetic", "licensed"}
-LIVE_REQUEST = re.compile(r"\b(current|right now|today|latest|live|real[- ]time)\b", re.I)
+LIVE_REQUEST = re.compile(
+    r"\b(?:right now|today|latest|live|real[- ]time|most recent)\b"
+    r"|\b(?:exact\s+current|current\s+exact)\b"
+    r"|\bcurrent\s+(?:spot\s+)?(?:price|quote|funding\s+rate|trailing\s+p/e|"
+    r"forward\s+p/e|target\s+range|open\s+interest|market\s+value|index\s+level)\b",
+    re.I,
+)
 UNSUPPORTED_LIVE_VALUE = re.compile(
     r"(?:\$\s*\d+(?:\.\d+)?|[-+]?\d+(?:\.\d+)?\s*%|\b\d+(?:\.\d+)?\s*:\s*\d+(?:\.\d+)?\b)"
 )

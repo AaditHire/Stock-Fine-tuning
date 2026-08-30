@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "dataset_id": "finpulse_stage5d_v1",
+  "seed": 8419,
+  "sampling_config": "configs/data/stage5d_sampling.toml",
+  "sampling_config_sha256": "5ce433997c77d9da9b67be7f7df88d9c6374095fcf3069c5e021240c092bf59e",
+  "parent_manifest": "data/processed/finpulse_stage5c_v1.manifest.json",
+  "parent_manifest_sha256": "4ea56a4beb1d87d17c9ff45100f28bfdabd54ec74c8cdaa57e652fbd6588e07a",
+  "train_file": "data/train/finpulse_stage5d_v1.jsonl",
+  "train_sha256": "b7fc3917f53e230bf7ec704b12afb7a9683703d88380b5e9c789568afa89a6d4",
+  "validation_file": "data/validation/finpulse_stage5c_v1.jsonl",
+  "validation_sha256": "31d17917a44f6ed7f9f321e639d8c492468735c913f0b4f3bc1639a883b913ea",
+  "development_file": "data/development/finpulse_stage5c_v1.jsonl",
+  "development_sha256": "ea941ca169b3b2003c773620dbee33e9f98fc7f585b9d536ebf6abe4b86d8b17",
+  "quality_report": "data/processed/finpulse_stage5d_v1.quality.json",
+  "protected_stage4_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+  "training_approval": "not_granted"
+}

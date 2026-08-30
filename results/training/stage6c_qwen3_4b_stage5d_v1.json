@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "stage": 6,
+  "run_name": "stage6c-qwen3-4b-stage5d-v1",
+  "smoke_test": false,
+  "completed_at_utc": "2026-08-30T05:13:00.632169+00:00",
+  "status": "completed",
+  "base_model": {
+    "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+    "quantization": "bitsandbytes 4-bit"
+  },
+  "dataset": {
+    "train_sha256": "b7fc3917f53e230bf7ec704b12afb7a9683703d88380b5e9c789568afa89a6d4",
+    "validation_sha256": "31d17917a44f6ed7f9f321e639d8c492468735c913f0b4f3bc1639a883b913ea",
+    "protected_stage4_sha256": "bfd1b847d2042f6a59f8a8a5f0dfe0826729dc68a0d390a356c2f1fd3b1781fa",
+    "train_examples": 900,
+    "validation_examples": 450,
+    "estimated_optimizer_steps": 57,
+    "train_token_min": 107,
+    "train_token_mean": 248.05,
+    "train_token_max": 494,
+    "validation_token_max": 496
+  },
+  "lora": {
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.0,
+    "bias": "none",
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "use_gradient_checkpointing": "unsloth",
+    "use_rslora": false
+  },
+  "trainer": {
+    "num_train_epochs": 1.0,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.01,
+    "warmup_steps": 5,
+    "lr_scheduler_type": "linear",
+    "optimizer": "adamw_8bit",
+    "precision": "bf16",
+    "max_grad_norm": 1.0,
+    "logging_steps": 5,
+    "eval_strategy": "epoch",
+    "packing": false,
+    "train_on_responses_only": true,
+    "eval_steps": null,
+    "save_strategy": "steps",
+    "save_steps": 15,
+    "save_total_limit": 4,
+    "effective_batch_size": 16,
+    "max_sequence_length": 512
+  },
+  "parameters": {
+    "trainable": 16515072,
+    "total": 4038983168,
+    "trainable_percent": 0.408892
+  },
+  "metrics": {
+    "train": {
+      "train_runtime": 1519.7406,
+      "train_samples_per_second": 0.592,
+      "train_steps_per_second": 0.038,
+      "total_flos": 4889145476729856.0,
+      "train_loss": 1.6622722358034367,
+      "epoch": 1.0
+    },
+    "evaluation": {
+      "eval_loss": 0.8718236088752747,
+      "eval_runtime": 270.9627,
+      "eval_samples_per_second": 1.661,
+      "eval_steps_per_second": 1.661,
+      "epoch": 1.0
+    },
+    "log_history": [
+      {
+        "loss": 3.2747931480407715,
+        "grad_norm": 5.543254375457764,
+        "learning_rate": 0.0,
+        "epoch": 0.017777777777777778,
+        "step": 1
+      },
+      {
+        "loss": 3.458167791366577,
+        "grad_norm": 5.649449348449707,
+        "learning_rate": 4e-05,
+        "epoch": 0.08888888888888889,
+        "step": 5
+      },
+      {
+        "loss": 2.7934291839599608,
+        "grad_norm": 3.1646389961242676,
+        "learning_rate": 4.615384615384616e-05,
+        "epoch": 0.17777777777777778,
+        "step": 10
+      },
+      {
+        "loss": 1.8044645309448242,
+        "grad_norm": 1.717238187789917,
+        "learning_rate": 4.134615384615385e-05,
+        "epoch": 0.26666666666666666,
+        "step": 15
+      },
+      {
+        "loss": 1.6897548675537108,
+        "grad_norm": 0.7658900618553162,
+        "learning_rate": 3.653846153846154e-05,
+        "epoch": 0.35555555555555557,
+        "step": 20
+      },
+      {
+        "loss": 1.6098142623901368,
+        "grad_norm": 0.8247270584106445,
+        "learning_rate": 3.1730769230769234e-05,
+        "epoch": 0.4444444444444444,
+        "step": 25
+      },
+      {
+        "loss": 1.2661717414855957,
+        "grad_norm": 0.539176344871521,
+        "learning_rate": 2.6923076923076923e-05,
+        "epoch": 0.5333333333333333,
+        "step": 30
+      },
+      {
+        "loss": 1.2381776809692382,
+        "grad_norm": 0.6307142972946167,
+        "learning_rate": 2.2115384615384616e-05,
+        "epoch": 0.6222222222222222,
+        "step": 35
+      },
+      {
+        "loss": 1.1473390579223632,
+        "grad_norm": 0.6046726107597351,
+        "learning_rate": 1.730769230769231e-05,
+        "epoch": 0.7111111111111111,
+        "step": 40
+      },
+      {
+        "loss": 1.2621894836425782,
+        "grad_norm": 0.7366456389427185,
+        "learning_rate": 1.25e-05,
+        "epoch": 0.8,
+        "step": 45
+      },
+      {
+        "loss": 1.1040284156799316,
+        "grad_norm": 0.7667380571365356,
+        "learning_rate": 7.692307692307694e-06,
+        "epoch": 0.8888888888888888,
+        "step": 50
+      },
+      {
+        "loss": 1.1028928756713867,
+        "grad_norm": 0.6894348859786987,
+        "learning_rate": 2.884615384615385e-06,
+        "epoch": 0.9777777777777777,
+        "step": 55
+      },
+      {
+        "eval_loss": 0.8718234300613403,
+        "eval_runtime": 263.4205,
+        "eval_samples_per_second": 1.708,
+        "eval_steps_per_second": 1.708,
+        "epoch": 1.0,
+        "step": 57
+      },
+      {
+        "train_runtime": 1519.7406,
+        "train_samples_per_second": 0.592,
+        "train_steps_per_second": 0.038,
+        "total_flos": 4889145476729856.0,
+        "train_loss": 1.6622722358034367,
+        "epoch": 1.0,
+        "step": 57
+      },
+      {
+        "eval_loss": 0.8718236088752747,
+        "eval_runtime": 270.9627,
+        "eval_samples_per_second": 1.661,
+        "eval_steps_per_second": 1.661,
+        "epoch": 1.0,
+        "step": 57
+      }
+    ],
+    "duration_seconds_wall": 1803.22,
+    "peak_process_ram_mib": 3791.7,
+    "peak_system_ram_used_mib": 11428.0,
+    "peak_gpu_device_used_mib": 5273.9,
+    "peak_gpu_allocated_mib": 3340.5,
+    "peak_gpu_reserved_mib": 3920.0
+  },
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.0",
+    "torch": "2.11.0+cu130",
+    "torch_cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "gpu_vram_mib": 6143.5
+  },
+  "adapter": {
+    "directory": "models\\adapters\\finpulse-qwen3-4b-stage5d-v1",
+    "weights_file": "adapter_model.safetensors",
+    "weights_size_bytes": 33096960,
+    "weights_sha256": "8ada68682d359273a1090f47c14acd4138156cf6b8116ab3251956b43ee6f97f"
+  }
+}

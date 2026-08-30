@@ -1,0 +1,22 @@
+dataset_id = "finpulse_stage5d_v1"
+seed = 8419
+parent_manifest = "data/processed/finpulse_stage5c_v1.manifest.json"
+parent_manifest_sha256 = "4ea56a4beb1d87d17c9ff45100f28bfdabd54ec74c8cdaa57e652fbd6588e07a"
+
+[selection]
+project_behavior_total = 300
+cosimo_multiple_choice = 100
+
+[selection.cosimo_calculation]
+crypto_derivatives = 50
+macroeconomics = 50
+risk_management = 50
+scenario_analysis = 50
+stock_fundamentals = 50
+terminology_misc = 50
+
+[selection.finqa_calculation]
+macroeconomics = 18
+risk_management = 32
+scenario_analysis = 10
+stock_fundamentals = 140

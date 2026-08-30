@@ -1,0 +1,39 @@
+dataset_id = "finpulse_stage5c_v1"
+seed = 7301
+max_sequence_length = 512
+system_prompt = """You are FinPulse, a careful financial analysis assistant. Use only supplied data, show calculations when requested, distinguish evidence from uncertainty, never invent live values, and follow the requested output format exactly. Prefer concise answers and always emit required final markers before any response limit."""
+
+[model]
+tokenizer_id = "unsloth/Qwen3-4B-bnb-4bit"
+revision = "cad0bedfdd862093a12af478cb974ab2addd0e0a"
+
+[sources.cosimo]
+repo_id = "btech-software/cosimo-cfa-frm-71k"
+revision = "42244d29c6b9912683213a08d1a9c5b0373b381b"
+config = "default"
+license = "MIT"
+train = 2400
+validation = 300
+development = 300
+
+[sources.finqa]
+repo_id = "bevaya/FinQA"
+revision = "3d6a736bc67e06bc15fbf3618d88204a57c5b25e"
+config = "default"
+license = "MIT; underlying FinTabNet data CDLA-Permissive-1.0"
+train = 1200
+validation = 150
+development = 150
+
+[sources.project_behavior]
+path = "data/raw/finpulse_stage5b_v1.jsonl"
+license = "project-original"
+train = 300
+validation = 0
+development = 0
+
+[audited_exclusions.finance_alpaca]
+repo_id = "gbharti/finance-alpaca"
+revision = "c88d3d5e7e2c7cab9f11a56f27bd5ba3ed68f075"
+license = "MIT"
+reason = "Sampled answers are frequently verbose, opinionated, and not consistently aligned with exact financial reasoning or the project's response contracts."
