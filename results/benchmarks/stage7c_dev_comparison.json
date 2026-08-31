@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "stage": "7C",
+  "dataset_sha256": "ea941ca169b3b2003c773620dbee33e9f98fc7f585b9d536ebf6abe4b86d8b17",
+  "case_count": 450,
+  "selection_policy": {
+    "primary_metric": "answer_accuracy",
+    "tie_breakers": [
+      "format_accuracy",
+      "earlier_checkpoint"
+    ],
+    "eligibility": "Strictly improve overall answer accuracy and regress no task type, source family, or format compliance versus base."
+  },
+  "base": {
+    "answer_accuracy": 0.0978,
+    "format_accuracy": 0.4933,
+    "task_type_scores": {
+      "calculation": 0.0907,
+      "multiple_choice": 0.1509
+    },
+    "source_scores": {
+      "cosimo": 0.1,
+      "finqa": 0.0933
+    }
+  },
+  "candidates": [
+    {
+      "candidate": "checkpoint-15",
+      "adapter": {
+        "directory": "models\\checkpoints\\stage6c-qwen3-4b-stage5d-v1\\checkpoint-15",
+        "weights_sha256": "55b86368d2d7efdbf6e7004884dd7ff87bb7584e97040a728c717f40447a4108",
+        "weights_size_bytes": 66126768,
+        "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+        "base_model_revision": null,
+        "rank": 8,
+        "alpha": 16,
+        "target_modules": [
+          "down_proj",
+          "gate_proj",
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "up_proj",
+          "v_proj"
+        ]
+      },
+      "answer_accuracy": 0.0356,
+      "answer_delta": -0.0622,
+      "format_accuracy": 0.34,
+      "task_type_scores": {
+        "calculation": 0.0327,
+        "multiple_choice": 0.0566
+      },
+      "source_scores": {
+        "cosimo": 0.01,
+        "finqa": 0.0867
+      },
+      "gate_checks": {
+        "strictly_improves_answer_accuracy": false,
+        "format_not_worse": false,
+        "calculation_not_worse": false,
+        "multiple_choice_not_worse": false,
+        "cosimo_not_worse": false,
+        "finqa_not_worse": false
+      },
+      "gate_passed": false
+    },
+    {
+      "candidate": "checkpoint-30",
+      "adapter": {
+        "directory": "models\\checkpoints\\stage6c-qwen3-4b-stage5d-v1\\checkpoint-30",
+        "weights_sha256": "4e26f978d10f3d34e94f8b8aa0d328924d8ad2244bbbdbc2da92b44d21aacbc3",
+        "weights_size_bytes": 66126768,
+        "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+        "base_model_revision": null,
+        "rank": 8,
+        "alpha": 16,
+        "target_modules": [
+          "down_proj",
+          "gate_proj",
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "up_proj",
+          "v_proj"
+        ]
+      },
+      "answer_accuracy": 0.1867,
+      "answer_delta": 0.0889,
+      "format_accuracy": 0.6889,
+      "task_type_scores": {
+        "calculation": 0.1889,
+        "multiple_choice": 0.1698
+      },
+      "source_scores": {
+        "cosimo": 0.23,
+        "finqa": 0.1
+      },
+      "gate_checks": {
+        "strictly_improves_answer_accuracy": true,
+        "format_not_worse": true,
+        "calculation_not_worse": true,
+        "multiple_choice_not_worse": true,
+        "cosimo_not_worse": true,
+        "finqa_not_worse": true
+      },
+      "gate_passed": true
+    },
+    {
+      "candidate": "checkpoint-45",
+      "adapter": {
+        "directory": "models\\checkpoints\\stage6c-qwen3-4b-stage5d-v1\\checkpoint-45",
+        "weights_sha256": "31fbf5729e3be391eb118ddce47bfebacf0665af7175fc234977ff69748d3a58",
+        "weights_size_bytes": 66126768,
+        "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+        "base_model_revision": null,
+        "rank": 8,
+        "alpha": 16,
+        "target_modules": [
+          "down_proj",
+          "gate_proj",
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "up_proj",
+          "v_proj"
+        ]
+      },
+      "answer_accuracy": 0.1844,
+      "answer_delta": 0.0866,
+      "format_accuracy": 0.7689,
+      "task_type_scores": {
+        "calculation": 0.1788,
+        "multiple_choice": 0.2264
+      },
+      "source_scores": {
+        "cosimo": 0.2233,
+        "finqa": 0.1067
+      },
+      "gate_checks": {
+        "strictly_improves_answer_accuracy": true,
+        "format_not_worse": true,
+        "calculation_not_worse": true,
+        "multiple_choice_not_worse": true,
+        "cosimo_not_worse": true,
+        "finqa_not_worse": true
+      },
+      "gate_passed": true
+    },
+    {
+      "candidate": "final",
+      "adapter": {
+        "directory": "models\\adapters\\finpulse-qwen3-4b-stage5d-v1",
+        "weights_sha256": "8ada68682d359273a1090f47c14acd4138156cf6b8116ab3251956b43ee6f97f",
+        "weights_size_bytes": 33096960,
+        "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+        "base_model_revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+        "rank": 8,
+        "alpha": 16,
+        "target_modules": [
+          "down_proj",
+          "gate_proj",
+          "k_proj",
+          "o_proj",
+          "q_proj",
+          "up_proj",
+          "v_proj"
+        ]
+      },
+      "answer_accuracy": 0.1467,
+      "answer_delta": 0.0489,
+      "format_accuracy": 0.8156,
+      "task_type_scores": {
+        "calculation": 0.136,
+        "multiple_choice": 0.2264
+      },
+      "source_scores": {
+        "cosimo": 0.1633,
+        "finqa": 0.1133
+      },
+      "gate_checks": {
+        "strictly_improves_answer_accuracy": true,
+        "format_not_worse": true,
+        "calculation_not_worse": true,
+        "multiple_choice_not_worse": true,
+        "cosimo_not_worse": true,
+        "finqa_not_worse": true
+      },
+      "gate_passed": true
+    }
+  ],
+  "selected_candidate": "checkpoint-30",
+  "selected_adapter": {
+    "directory": "models\\checkpoints\\stage6c-qwen3-4b-stage5d-v1\\checkpoint-30",
+    "weights_sha256": "4e26f978d10f3d34e94f8b8aa0d328924d8ad2244bbbdbc2da92b44d21aacbc3",
+    "weights_size_bytes": 66126768,
+    "base_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+    "base_model_revision": null,
+    "rank": 8,
+    "alpha": 16,
+    "target_modules": [
+      "down_proj",
+      "gate_proj",
+      "k_proj",
+      "o_proj",
+      "q_proj",
+      "up_proj",
+      "v_proj"
+    ]
+  },
+  "next_action": "stop_before_frozen_benchmark"
+}

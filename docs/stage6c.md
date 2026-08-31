@@ -111,4 +111,4 @@ Reproduce the CPU-only preflight:
 
 ## Remaining risk and next boundary
 
-The full Stage 6C run passed its memory and training-mechanics gates. The next explicit stage is Stage 7C development evaluation. It should compare the base model, intermediate checkpoints, and final adapter on the untouched Stage 5C development split before selecting at most one candidate for the expensive frozen benchmark. No candidate should be exported or promoted based on training/validation loss alone.
+The full Stage 6C run passed its memory and training-mechanics gates. Stage 7C subsequently compared the base model, intermediate checkpoints, and final adapter on the untouched Stage 5C development split and selected checkpoint 30. The frozen benchmark remains a separate explicit stage; no candidate was exported or promoted. See `docs/stage7c.md`.

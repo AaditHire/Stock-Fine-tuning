@@ -111,11 +111,14 @@ def run_inference(
     config: ModelConfig,
     prompts: Sequence[str],
     on_result: Callable[[GenerationResult], None] | None = None,
+    batch_size: int = 1,
 ) -> RunMetrics:
     """Load one 4-bit model, answer every prompt, and return measured results."""
 
     if not prompts:
         raise ValueError("At least one prompt is required")
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
 
     # Heavy imports stay inside the execution path so config/tests remain lightweight.
     import torch
@@ -149,25 +152,36 @@ def run_inference(
         torch.cuda.synchronize()
         load_seconds = time.perf_counter() - load_started
 
-        for index, prompt in enumerate(prompts, start=1):
-            LOGGER.info("Generating response %d/%d", index, len(prompts))
-            messages = [
-                {"role": "system", "content": config.system_prompt},
-                {"role": "user", "content": prompt},
-            ]
-            rendered = tokenizer.apply_chat_template(
-                messages,
-                tokenize=False,
-                add_generation_prompt=True,
-                enable_thinking=config.generation.enable_thinking,
+        for start in range(0, len(prompts), batch_size):
+            batch_prompts = prompts[start : start + batch_size]
+            LOGGER.info(
+                "Generating responses %d-%d/%d",
+                start + 1,
+                start + len(batch_prompts),
+                len(prompts),
             )
+            rendered = [
+                tokenizer.apply_chat_template(
+                    [
+                        {"role": "system", "content": config.system_prompt},
+                        {"role": "user", "content": prompt},
+                    ],
+                    tokenize=False,
+                    add_generation_prompt=True,
+                    enable_thinking=config.generation.enable_thinking,
+                )
+                for prompt in batch_prompts
+            ]
+            tokenizer.padding_side = "left"
             inputs = tokenizer(
-                [rendered],
+                rendered,
                 return_tensors="pt",
+                padding=True,
                 truncation=True,
                 max_length=config.max_sequence_length - config.generation.max_new_tokens,
             ).to(model.device)
-            input_tokens = int(inputs["input_ids"].shape[-1])
+            padded_input_tokens = int(inputs["input_ids"].shape[-1])
+            input_token_counts = [int(value) for value in inputs["attention_mask"].sum(dim=1)]
 
             torch.cuda.synchronize()
             generation_started = time.perf_counter()
@@ -176,21 +190,34 @@ def run_inference(
             torch.cuda.synchronize()
             generation_seconds = time.perf_counter() - generation_started
 
-            output_ids = output[0, input_tokens:]
-            output_tokens = int(output_ids.shape[-1])
-            response = tokenizer.decode(output_ids, skip_special_tokens=True).strip()
-            generated.append(
-                GenerationResult(
-                    prompt=prompt,
-                    response=response,
-                    input_tokens=input_tokens,
-                    output_tokens=output_tokens,
-                    generation_seconds=round(generation_seconds, 3),
-                    tokens_per_second=round(output_tokens / generation_seconds, 3),
+            continuation_ids = output[:, padded_input_tokens:]
+            responses = tokenizer.batch_decode(continuation_ids, skip_special_tokens=True)
+            seconds_per_response = generation_seconds / len(batch_prompts)
+            pad_token_id = tokenizer.pad_token_id
+            for prompt, response, input_tokens, output_ids in zip(
+                batch_prompts,
+                responses,
+                input_token_counts,
+                continuation_ids,
+                strict=True,
+            ):
+                output_tokens = sum(
+                    int(token_id) != pad_token_id for token_id in output_ids.tolist()
                 )
-            )
-            if on_result is not None:
-                on_result(generated[-1])
+                generated.append(
+                    GenerationResult(
+                        prompt=prompt,
+                        response=response.strip(),
+                        input_tokens=input_tokens,
+                        output_tokens=output_tokens,
+                        generation_seconds=round(seconds_per_response, 3),
+                        tokens_per_second=round(
+                            output_tokens / seconds_per_response, 3
+                        ),
+                    )
+                )
+                if on_result is not None:
+                    on_result(generated[-1])
 
         sampler.stop()
         return RunMetrics(

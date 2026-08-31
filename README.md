@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 6C training is complete after Stage 7B rejected the corrective adapter. The balanced 900-row Stage 5D view trained a rank-8 LoRA adapter for 57 updates at `5e-5`, reaching mean training loss 1.6623 and validation loss 0.8718. Peak total device VRAM was 5,273.9 MiB. The adapter remains an unevaluated candidate: Stage 7C and Stage 8 have not started.
+Stage 7C development evaluation is complete. On the untouched 450-case Stage 5C development split, checkpoint 30 scored 18.67% exact terminal-answer accuracy versus 9.78% for base and passed every no-regression gate. It was selected over checkpoints 15/45 and the final adapter. The frozen benchmark has not been run, no adapter has been promoted or exported, and Stage 8 has not started.
 
 ## Hardware target
 
@@ -210,7 +210,13 @@ Stage 6C halves LoRA rank from 16 to 8, lowers learning rate from `1e-4` to `5e-
 
 The subsequent one-step GPU smoke test completed in the native Windows environment, trained 16.5 million adapter parameters, peaked at 4,085.5 MiB total device VRAM, and saved a structurally valid 504-tensor rank-8 adapter. Its zero warmup learning rate means it was a mechanics and memory test, not a quality result.
 
-The authorized full run then completed all 57 updates, saved four checkpoints, and produced a 33.1 MB bfloat16 adapter. Logged loss declined from 3.275 to 1.103 near the end; validation loss was 0.8718. These are training-mechanics results only. The adapter must pass a Stage 7C development comparison before at most one candidate returns to the frozen benchmark. See `docs/stage6c.md` and `results/training/stage6c_qwen3_4b_stage5d_v1.json`.
+The authorized full run then completed all 57 updates, saved four checkpoints, and produced a 33.1 MB bfloat16 adapter. Logged loss declined from 3.275 to 1.103 near the end; validation loss was 0.8718. These are training-mechanics results only. Stage 7C subsequently selected checkpoint 30 on development; the frozen benchmark remains a separate explicit decision. See `docs/stage6c.md` and `results/training/stage6c_qwen3_4b_stage5d_v1.json`.
+
+## Stage 7C development checkpoint selection
+
+Stage 7C compared base Qwen3-4B, checkpoints 15/30/45, and the final Stage 6C adapter on all 450 locked Stage 5C development cases. Deterministic scoring required exact normalized terminal `FINAL:` values and measured format compliance separately. A candidate had to improve overall accuracy without regressing either task type, either source family, or format compliance.
+
+Checkpoint 30 ranked first at 18.67% exact answer accuracy, compared with 9.78% for base, 3.56% for checkpoint 15, 18.44% for checkpoint 45, and 14.67% for the final adapter. Checkpoint 30 is the sole selected candidate for a possible later frozen evaluation; it has not been copied, promoted, merged, or exported. See `docs/stage7c.md` and `results/benchmarks/stage7c_dev_comparison.md`.
 
 ## Environment diagnostic
 
@@ -258,7 +264,8 @@ Corrective iteration after Stage 7:
 - **Stage 7B — complete, adapter rejected:** the development gate passed, but the frozen score regressed from 90.56% to 70.92%; stop before Stage 8.
 - **Stage 5C — complete:** collected and locked a pinned 4,800-example external/project candidate corpus; no training was run.
 - **Stage 5D — complete:** produced a locked 900-row balanced training view and preserved the Stage 5C holdouts; no training was run.
-- **Stage 6C — complete:** the rank-8 adapter trained for 57 updates within 5,273.9 MiB VRAM; it remains unevaluated and must pass Stage 7C before promotion.
+- **Stage 6C — complete:** the rank-8 adapter trained for 57 updates within 5,273.9 MiB VRAM.
+- **Stage 7C — complete:** checkpoint 30 won the locked 450-case development gate at 18.67% exact answer accuracy; stop before evaluating it on the frozen benchmark.
 
 ## Scope and safety principles
 
