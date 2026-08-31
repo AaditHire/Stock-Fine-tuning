@@ -6,7 +6,7 @@ This repository is deliberately independent of the existing FinPulse project. It
 
 ## Current status
 
-Stage 7C development evaluation is complete. On the untouched 450-case Stage 5C development split, checkpoint 30 scored 18.67% exact terminal-answer accuracy versus 9.78% for base and passed every no-regression gate. It was selected over checkpoints 15/45 and the final adapter. The frozen benchmark has not been run, no adapter has been promoted or exported, and Stage 8 has not started.
+Stage 7D frozen evaluation is complete. Stage 7C selected checkpoint 30 on the untouched development split, but it regressed on the unchanged frozen benchmark to 84.44% (331/392) versus 90.56% (355/392) for the saved base. The checkpoint is rejected, no adapter has been promoted or exported, and Stage 8 has not started.
 
 ## Hardware target
 
@@ -216,7 +216,11 @@ The authorized full run then completed all 57 updates, saved four checkpoints, a
 
 Stage 7C compared base Qwen3-4B, checkpoints 15/30/45, and the final Stage 6C adapter on all 450 locked Stage 5C development cases. Deterministic scoring required exact normalized terminal `FINAL:` values and measured format compliance separately. A candidate had to improve overall accuracy without regressing either task type, either source family, or format compliance.
 
-Checkpoint 30 ranked first at 18.67% exact answer accuracy, compared with 9.78% for base, 3.56% for checkpoint 15, 18.44% for checkpoint 45, and 14.67% for the final adapter. Checkpoint 30 is the sole selected candidate for a possible later frozen evaluation; it has not been copied, promoted, merged, or exported. See `docs/stage7c.md` and `results/benchmarks/stage7c_dev_comparison.md`.
+Checkpoint 30 ranked first at 18.67% exact answer accuracy, compared with 9.78% for base, 3.56% for checkpoint 15, 18.44% for checkpoint 45, and 14.67% for the final adapter. It was the sole candidate advanced to Stage 7D, where the frozen benchmark rejected it. See `docs/stage7c.md` and `results/benchmarks/stage7c_dev_comparison.md`.
+
+## Stage 7D selected-checkpoint frozen evaluation
+
+Checkpoint 30 scored 84.44% (331/392 checks) on the unchanged frozen benchmark, a 6.12-point regression from the saved base result. Hallucination resistance improved to 100% and structured output rose to 93.75%, but technical analysis fell to 65.62%, crypto derivatives to 68.75%, and financial calculations to 62.50%. Twenty-four of 32 regressed cases reached the shared response ceiling, often after repetitive output. The checkpoint is rejected and must not be exported. See `docs/stage7d.md` and `results/benchmarks/stage7d_comparison.md`.
 
 ## Environment diagnostic
 
@@ -265,7 +269,8 @@ Corrective iteration after Stage 7:
 - **Stage 5C — complete:** collected and locked a pinned 4,800-example external/project candidate corpus; no training was run.
 - **Stage 5D — complete:** produced a locked 900-row balanced training view and preserved the Stage 5C holdouts; no training was run.
 - **Stage 6C — complete:** the rank-8 adapter trained for 57 updates within 5,273.9 MiB VRAM.
-- **Stage 7C — complete:** checkpoint 30 won the locked 450-case development gate at 18.67% exact answer accuracy; stop before evaluating it on the frozen benchmark.
+- **Stage 7C — complete:** checkpoint 30 won the locked 450-case development gate at 18.67% exact answer accuracy and advanced alone to Stage 7D.
+- **Stage 7D — complete, checkpoint rejected:** checkpoint 30 regressed to 84.44% on the frozen benchmark versus 90.56% for base; stop before export.
 
 ## Scope and safety principles
 

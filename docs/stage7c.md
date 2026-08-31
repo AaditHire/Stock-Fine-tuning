@@ -83,6 +83,6 @@ Rebuild only the comparison from saved reports, without loading a model:
 
 ## Next boundary
 
-Stop before the frozen benchmark. Checkpoint 30 is the only Stage 7C-selected candidate, but it
-is not promoted or approved for export. A later explicitly authorized stage may evaluate this
-single checkpoint on the unchanged frozen benchmark, reusing the saved Stage 4 base report.
+Stage 7D subsequently evaluated checkpoint 30 on the unchanged frozen benchmark, reusing the
+saved Stage 4 base report. It regressed to 84.44% versus 90.56% for base and was rejected. See
+`docs/stage7d.md`; no candidate was promoted or approved for export.

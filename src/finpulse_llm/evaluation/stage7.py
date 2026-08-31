@@ -258,8 +258,18 @@ def compare_reports(
         "limitations": [
             f"The adapter was trained on {training_examples} examples and validated on "
             f"{validation_examples} examples.",
-            "The frozen benchmark is financial. A separate three-case development sentinel "
-            "is used for general reasoning and is too small for a broad capability claim.",
+            *(
+                [
+                    "The frozen benchmark is financial. A separate three-case development "
+                    "sentinel is used for general reasoning and is too small for a broad "
+                    "capability claim."
+                ]
+                if general_regression is not None
+                else [
+                    "The frozen benchmark is financial; this comparison did not run a "
+                    "separate general-capability sentinel."
+                ]
+            ),
             "Deterministic keyword and regex rubrics are reproducible but do not replace "
             "human review.",
         ],

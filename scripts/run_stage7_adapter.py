@@ -35,6 +35,10 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--model-config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--adapter-dir", type=Path, default=DEFAULT_ADAPTER)
+    parser.add_argument(
+        "--expected-adapter-sha256",
+        help="Required identity lock when a trainer checkpoint omits base revision metadata",
+    )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--limit", type=int, help="Run only the first N cases for a smoke test")
     parser.add_argument("--resume", action="store_true")
@@ -97,7 +101,19 @@ def main() -> int:
     cases = all_cases[: args.limit] if args.limit else all_cases
     base_config = load_model_config(args.model_config)
     adapter = inspect_adapter(args.adapter_dir.resolve(), base_config.model_id)
-    if adapter["base_model_revision"] != base_config.revision:
+    if (
+        args.expected_adapter_sha256 is not None
+        and adapter["weights_sha256"] != args.expected_adapter_sha256.casefold()
+    ):
+        raise ValueError("Adapter SHA-256 does not match the explicitly selected candidate")
+    if adapter["base_model_revision"] is None and args.expected_adapter_sha256 is None:
+        raise ValueError(
+            "Adapter omits base revision metadata; provide --expected-adapter-sha256"
+        )
+    if (
+        adapter["base_model_revision"] is not None
+        and adapter["base_model_revision"] != base_config.revision
+    ):
         raise ValueError("Adapter and evaluation configuration pin different base revisions")
     adapter_identity = f"{base_config.model_id}+lora@{adapter['weights_sha256']}"
     case_ids = [case.id for case in cases]
@@ -143,6 +159,7 @@ def main() -> int:
         "benchmark_id": manifest["benchmark_id"],
         "benchmark_sha256": manifest["dataset_sha256"],
         "case_count": len(cases),
+        "model_id": adapter_identity,
         "model": metrics_dict,
         "adapter": adapter,
         "generation_config": str(args.model_config.relative_to(PROJECT_ROOT)),
@@ -167,4 +184,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
